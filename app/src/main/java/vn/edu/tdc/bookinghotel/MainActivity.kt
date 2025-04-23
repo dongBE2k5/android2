@@ -26,7 +26,10 @@ class MainActivity : AppCompatActivity() {
     val hotels = arrayListOf(
         Hotel("Khách sạn A", "Còn phòng", "Gần trung tâm, tiện nghi đầy đủ", R.drawable.baseline_co_present_24),
         Hotel("Khách sạn B", "Hết phòng", "View biển, có hồ bơi", R.drawable.baseline_co_present_24),
-        Hotel("Khách sạn C", "Còn phòng", "Phòng đôi, wifi miễn phí", R.drawable.baseline_co_present_24)
+        Hotel("Khách sạn C", "Còn phòng", "Phòng đôi, wifi miễn phí", R.drawable.baseline_co_present_24),
+        Hotel("Khách sạn A", "Còn phòng", "Gần trung tâm, tiện nghi đầy đủ", R.drawable.baseline_co_present_24),
+        Hotel("Khách sạn B", "Hết phòng", "View biển, có hồ bơi", R.drawable.baseline_co_present_24),
+        Hotel("Khách sạn C", "Còn phòng", "Phòng đôi, wifi miễn phí", R.drawable.baseline_co_present_24),
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         binding=HomePageLayoutBinding.inflate(layoutInflater)
