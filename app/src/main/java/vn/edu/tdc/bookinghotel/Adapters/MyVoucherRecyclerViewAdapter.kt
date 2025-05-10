@@ -1,4 +1,3 @@
-// MyHotelRecyclerViewAdapter.kt
 package vn.edu.tdc.bookinghotel.Adapters
 
 import android.content.Context
@@ -6,18 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import vn.edu.tdc.bookinghotel.Model.Hotel
+import vn.edu.tdc.bookinghotel.Model.Voucher
 import vn.edu.tdc.bookinghotel.R
-import vn.edu.tdc.bookinghotel.databinding.CardRecyclerListHotelBinding
-import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
 
+import vn.edu.tdc.bookinghotel.databinding.CardRecyclerListVoucherBinding
 
-class MyHotelRecyclerViewAdapter(
+class MyVoucherRecyclerViewAdapter(
     private val context: Context,
-    private val list: ArrayList<Hotel>
-) : RecyclerView.Adapter<MyHotelRecyclerViewAdapter.MyViewHolder>() {
+    private val list: ArrayList<Voucher>
+) : RecyclerView.Adapter<MyVoucherRecyclerViewAdapter.MyViewHolderVoucher>()  {
+
 
     private var selectedPosition = -1
     private var onItemClick: OnRecyclerViewItemClickListener? = null
@@ -31,7 +30,7 @@ class MyHotelRecyclerViewAdapter(
         fun onMyItemClickListener(item: View?, position: Int)
     }
 
-    inner class MyViewHolder(val binding: View, var itemPosition: Int = 0) : RecyclerView.ViewHolder(binding) {
+    inner class MyViewHolderVoucher(val binding: View, var itemPosition: Int = 0) : RecyclerView.ViewHolder(binding) {
         init {
             binding.setOnClickListener {
                 if (adapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
@@ -45,14 +44,6 @@ class MyHotelRecyclerViewAdapter(
                 notifyDataSetChanged()
                 onItemClick?.onMyItemClickListener(binding, itemPosition)
             }
-
-            val imageView = binding.findViewById<ImageView?>(R.id.imageThumb)
-            imageView?.setOnClickListener {
-                itemPosition = adapterPosition
-                selectedPosition = itemPosition
-                notifyDataSetChanged()
-                onItemClick?.onImageClickListener(binding, itemPosition)
-            }
         }
     }
 
@@ -60,23 +51,20 @@ class MyHotelRecyclerViewAdapter(
         return if (position == selectedPosition) 1 else 0
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = CardRecyclerListHotelBinding.inflate(LayoutInflater.from(context), parent, false)
-        return MyViewHolder(binding.root)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolderVoucher {
+        val binding = CardRecyclerListVoucherBinding.inflate(LayoutInflater.from(context), parent, false)
+        return MyViewHolderVoucher(binding.root)
     }
     override fun getItemCount(): Int = list.size
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val hotel = list[position]
+    override fun onBindViewHolder(holder: MyViewHolderVoucher, position: Int) {
+        val voucher = list[position]
         holder.itemPosition = position
 
-        val binding = CardRecyclerListHotelBinding.bind(holder.binding)
-        binding.nameHotel.text = hotel.name
-        binding.statusHotel.text = hotel.status
-        binding.feedback.text = hotel.feedback
-        binding.descriptionHotel.text = hotel.description
-        binding.imageThumb.setImageResource(hotel.image)
-
+        val binding = CardRecyclerListVoucherBinding.bind(holder.binding)
+        binding.tvTitleVoucher.text = voucher.title
+        binding.tvDetailVoucher.text = voucher.detail
+        binding.tvCodeVoucher.text = voucher.code
     }
 
 

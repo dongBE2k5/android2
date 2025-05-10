@@ -1,0 +1,109 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="8dp"
+    android:background="@android:color/white"
+    card_view:cardBackgroundColor="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Ảnh khách sạn lớn -->
+        <ImageView
+            android:id="@+id/imageRoom"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="Hotel Image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baseline_co_present_24" />
+
+        <!-- Tên khách sạn -->
+        <TextView
+            android:id="@+id/tvRoomName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Phòng Deluxe"
+            android:textColor="#1E1E1E"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <!-- Trạng thái -->
+        <TextView
+            android:id="@+id/tvRoomStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Còn phòng"
+            android:textColor="#4CAF50"
+            android:textSize="16sp" />
+
+        <!-- Mô tả ngắn -->
+        <TextView
+            android:id="@+id/tvShortDescriptionRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Có view biển, 2 giường lớn"
+            android:textColor="#757575"
+            android:textSize="16sp" />
+
+        <!-- Mô tả chi tiết -->
+        <TextView
+            android:id="@+id/tvLongDescriptionRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Phòng rộng rãi, có ban công nhìn ra biển, phòng tắm riêng, điều hòa, minibar, wifi miễn phí..."
+            android:textColor="#424242"
+            android:textSize="16sp" />
+
+        <!-- Tiện nghi -->
+        <TextView
+            android:id="@+id/tvTienNghi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Tiện nghi:"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvChiTiet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="• Wifi miễn phí\n• Hồ bơi\n• Nhà hàng\n• Bãi đỗ xe\n• Dịch vụ đưa đón sân bay"
+            android:textSize="16sp" />
+
+        <!-- Giá -->
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Giá: 1.200.000 VNĐ / đêm"
+            android:textColor="#D32F2F"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Nút đặt phòng -->
+        <Button
+            android:id="@+id/btnBookNow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#FF5722"
+            android:padding="12dp"
+            android:text="Đặt ngay"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
