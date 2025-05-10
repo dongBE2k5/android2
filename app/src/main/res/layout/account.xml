@@ -18,20 +18,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="20dp">
          <LinearLayout
              android:layout_width="wrap_content"
              android:layout_height="wrap_content">
 
              <ImageView
                  android:id="@+id/btnBack"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
                  android:layout_gravity="left"
                  android:layout_marginLeft="5dp"
                  android:src="@drawable/back"
-                 android:textSize="20sp"
-                 android:textStyle="bold"
                  android:tint="@color/white" />
          </LinearLayout>
             <LinearLayout
@@ -139,165 +137,6 @@
 
         </TextView>
         <LinearLayout
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_white_bg"
-            android:padding="5dp"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_marginTop="10dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/document"
-                android:tint="#D3D3D3" /> <!-- Đổi màu icon hoặc ảnh -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_marginLeft="5dp"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:text="Thông tin hành khách"
-                    android:layout_height="wrap_content">
-
-                </TextView>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_marginLeft="5dp"
-                    android:text="Quản lý thông tin hành khách đã lưu và địa chỉ đã lưu của bạn"
-                    android:textColor="#808080">
-
-                </TextView>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_white_bg"
-            android:padding="5dp"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_marginTop="10dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/document"
-                android:tint="#D3D3D3" /> <!-- Đổi màu icon hoặc ảnh -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_marginLeft="5dp"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:text="Thông tin hành khách"
-                    android:layout_height="wrap_content">
-
-                </TextView>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_marginLeft="5dp"
-                    android:text="Quản lý thông tin hành khách đã lưu và địa chỉ đã lưu của bạn"
-                    android:textColor="#808080">
-
-                </TextView>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_white_bg"
-            android:padding="5dp"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_marginTop="10dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/document"
-                android:tint="#D3D3D3" /> <!-- Đổi màu icon hoặc ảnh -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_marginLeft="5dp"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:text="Thông tin hành khách"
-                    android:layout_height="wrap_content">
-
-                </TextView>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_marginLeft="5dp"
-                    android:text="Quản lý thông tin hành khách đã lưu và địa chỉ đã lưu của bạn"
-                    android:textColor="#808080">
-
-                </TextView>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_white_bg"
-            android:padding="5dp"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_marginTop="10dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/document"
-                android:tint="#D3D3D3" /> <!-- Đổi màu icon hoặc ảnh -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_marginLeft="5dp"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:text="Thông tin hành khách"
-                    android:layout_height="wrap_content">
-
-                </TextView>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_marginLeft="5dp"
-                    android:text="Quản lý thông tin hành khách đã lưu và địa chỉ đã lưu của bạn"
-                    android:textColor="#808080">
-
-                </TextView>
-            </LinearLayout>
-        </LinearLayout>        <LinearLayout
         android:layout_marginTop="5dp"
         android:layout_gravity="center"
         android:background="@drawable/rounded_white_bg"
@@ -338,28 +177,11 @@
     </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <!-- Bottom Navigation View nằm ngoài hệ thống weight -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <!-- Nội dung chính -->
-        <FrameLayout
-            android:id="@+id/main_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottom_nav"
-            android:textColor="#FFFFFF"
-            />
-
-        <!-- Bottom Navigation View -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="2dp"
-            android:background="@color/white"
-            app:menu="@menu/bottom_nav_menu" />
-    </RelativeLayout>
-
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:menu="@menu/bottom_nav_menu" />
 </LinearLayout>

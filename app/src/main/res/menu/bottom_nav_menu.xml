@@ -10,6 +10,10 @@
         android:id="@+id/nav_search"
         android:icon="@drawable/ic_search"
         android:title="Tìm kiếm" />
+    <item
+        android:id="@+id/nav_store"
+        android:icon="@drawable/store"
+        android:title="Đặt chỗ của tôi" />
 
     <item
         android:id="@+id/nav_profile"

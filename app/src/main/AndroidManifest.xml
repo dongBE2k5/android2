@@ -16,6 +16,9 @@
             android:name=".RoomActivity"
             android:exported="false" />
         <activity
+            android:name=".StoreActivity"
+            android:exported="false" />
+        <activity
             android:name=".Login"
             android:exported="false" />
         <activity
@@ -23,6 +26,9 @@
             android:exported="false" />
         <activity
             android:name=".AcountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfile"
             android:exported="false" />
         <activity
             android:name=".AcountActive"
