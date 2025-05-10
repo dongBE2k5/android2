@@ -21,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:gravity="center">
 
             <TextView
@@ -66,46 +66,46 @@
                 android:src="@drawable/ic_user"
                 android:tint="@android:color/white" />
 
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:orientation="vertical"
-               android:layout_height="wrap_content">
-               <TextView
-                   android:id="@+id/textView3"
-                   android:layout_marginBottom="5dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textColor="@color/white"
-                   android:textStyle="bold"
-                   android:layout_marginLeft="10dp"
-                   android:textSize="15sp"
-                   android:text="TravelokaTDC User" />
-               <LinearLayout
-                   android:background="@drawable/rounded_white_bg"
-                   android:layout_marginLeft="10dp"
-                   android:layout_width="wrap_content"
-                   android:orientation="horizontal"
-                   android:layout_height="wrap_content"
-                   android:padding="8dp"> <!-- Thêm padding nếu cần -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp"
+                    android:text="TravelokaTDC User" />
+                <LinearLayout
+                    android:background="@drawable/rounded_white_bg"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"> <!-- Thêm padding nếu cần -->
 
-                   <ImageView
-                       android:layout_width="15dp"
-                       android:layout_height="15dp"
-                       android:contentDescription="Logo"
-                       android:src="@drawable/baseline_visibility_24" />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:contentDescription="Logo"
+                        android:src="@drawable/baseline_visibility_24" />
 
-                   <TextView
-                       android:id="@+id/textView5"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_weight="1"
-                       android:textStyle="bold"
-                       android:layout_marginLeft="2dp"
-                       android:textSize="10sp"
-                       android:text="717 Points" />
-               </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="2dp"
+                        android:textSize="10sp"
+                        android:text="717 Points" />
+                </LinearLayout>
 
-           </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -117,112 +117,110 @@
         android:orientation="vertical"
         android:layout_weight="2">
 
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
-          <ImageView
-              android:id="@+id/imageView3"
-              android:layout_marginTop="5dp"
-              android:layout_marginLeft="5dp"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:tint="@android:color/white"
-              android:src="@drawable/gift"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="@android:color/white"
+                android:src="@drawable/gift"/>
 
-          <TextView
-              android:id="@+id/textView6"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="5dp"
-              android:layout_marginTop="5dp"
-              android:text="Quà tặng bạn mới"
-              android:textColor="@color/white"
-              android:textSize="15sp"
-              android:textStyle="bold" />
-      </LinearLayout>
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="Quà tặng bạn mới"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
-           <LinearLayout
-               android:padding="10dp"
-               android:layout_width="match_parent"
-               android:background="@drawable/wheat_bg"
-               android:orientation="vertical"
-               android:layout_height="wrap_content">
-             <LinearLayout
-                 android:paddingRight="1dp"
-                 android:paddingLeft="5dp"
-                 android:paddingBottom="5dp"
-
-
-                 android:layout_width="match_parent"
-                 android:background="@drawable/rounded_white_bg"
-                 android:orientation="vertical"
-                 android:layout_height="wrap_content">
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:background="@drawable/wheat_bg"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
                 <LinearLayout
+                    android:paddingRight="1dp"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <LinearLayout
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_marginTop="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:textStyle="bold"
-                            android:textSize="10sp"
-                            android:text="Coupon giảm đến 20%." />
-                    </LinearLayout>
+                    android:background="@drawable/rounded_white_bg"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:gravity="right"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_marginTop="1dp"
-                            android:paddingRight="10dp"
-                            android:paddingLeft="20dp"
-                            android:background="@drawable/red_bg"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:text="Còn 20 ngày" />
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textStyle="bold"
+                                android:textSize="10sp"
+                                android:text="Coupon giảm đến 20%." />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:gravity="right"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_marginTop="1dp"
+                                android:paddingRight="10dp"
+                                android:paddingLeft="20dp"
+                                android:background="@drawable/red_bg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:text="Còn 20 ngày" />
 
+                        </LinearLayout>
                     </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="Tiết kiệm đến 690.000 VND" />
                 </LinearLayout>
-                 <TextView
-                     android:id="@+id/textView7"
-                     android:layout_width="wrap_content"
-                     android:textStyle="bold"
-                     android:layout_height="wrap_content"
-                     android:textSize="10sp"
-                     android:text="Tiết kiệm đến 690.000 VND" />
-             </LinearLayout>
 
-             <LinearLayout
-                 android:layout_width="match_parent"
-                 android:padding="5dp"
-                 android:gravity="center"
-                 android:background="@drawable/rounded_white_bg"
-                 android:layout_height="30dp">
-                 <TextView
-                     android:gravity="center"
-                     android:background="@drawable/blue_bg"
-                     android:layout_width="match_parent"
-                     android:layout_height="match_parent"
-                     android:textColor="#4285F4"
-                     android:textStyle="bold"
-                     android:paddingBottom="2dp"
-                     android:textSize="12sp"
-                     android:text="Nhận ngay">
-                 </TextView>
-             </LinearLayout>
-           </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:background="@drawable/rounded_white_bg"
+                    android:layout_height="30dp">
+                    <TextView
+                        android:gravity="center"
+                        android:background="@drawable/blue_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="#4285F4"
+                        android:textStyle="bold"
+                        android:paddingBottom="2dp"
+                        android:textSize="12sp"
+                        android:text="Nhận ngay">
+                    </TextView>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
 
@@ -294,26 +292,42 @@
         android:layout_weight="4"
         android:orientation="vertical">
 
-       <LinearLayout
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content">
-           <ImageView
-               android:id="@+id/imageView2"
-               android:layout_marginLeft="5dp"
-               android:layout_width="20dp"
-               android:layout_height="20dp"
-               android:src="@drawable/logo_hotel" />
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:textStyle="bold"
-               android:textSize="15sp"
-               android:layout_marginBottom="2dp"
-               android:layout_marginLeft="5dp"
-               android:text="Khách sạn giảm đến 50%">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_marginLeft="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/logo_hotel" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="5dp"
+                android:text="Khách sạn giảm đến 50%">
 
-           </TextView>
-       </LinearLayout>
+            </TextView>
+           <LinearLayout
+               android:gravity="right"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+               <Spinner
+
+                   android:id="@+id/citySpinner"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginRight="5dp"
+                   android:textSize="15sp"
+                   android:textStyle="bold" />
+
+           </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -345,32 +359,17 @@
             </TextView>
         </LinearLayout>
     </LinearLayout>
-    <!-- Nội dung chính -->
-    <!-- layout/activity_main.xml -->
 
-    <RelativeLayout
+
+
+
+    <!-- Bottom Navigation View nằm ngoài hệ thống weight -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <!-- Nội dung chính -->
-        <FrameLayout
-            android:id="@+id/main_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottom_nav"
-            android:textColor="#FFFFFF"
-            />
-
-        <!-- Bottom Navigation View -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="2dp"
-            android:background="@color/white"
-            app:menu="@menu/bottom_nav_menu" />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:menu="@menu/bottom_nav_menu" />
 
 
 

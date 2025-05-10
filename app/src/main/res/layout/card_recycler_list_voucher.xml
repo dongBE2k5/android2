@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="100dp"
-    android:layout_margin="10dp">
+    android:layout_height="100dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -13,12 +12,12 @@
         <LinearLayout
 
             android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/bogoc_voucher_khs"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="5dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -27,8 +26,8 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:src="@drawable/logo_hotel" />
 
                 <TextView
@@ -37,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="Giảm đến 1 triệu tất cả Khách Sạn"
-                    android:textSize="10sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
             </LinearLayout>
             <LinearLayout
@@ -52,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:text="Đặt khách sạn từ 2.5 triệu"
                     android:textColor="	#BDBDBD"
-                    android:textSize="8sp"
+                    android:textSize="9sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
@@ -66,7 +65,7 @@
             android:layout_marginLeft="5dp"
             android:background="@drawable/bogoc_voucher_khs3"
             android:orientation="horizontal"
-            android:layout_height="30dp">
+            android:layout_height="35dp">
 
 
 
@@ -93,7 +92,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="VNEPICTHANKYOU"
                     android:textColor="#BDBDDF"
-                    android:textSize="8sp"
+                    android:textSize="9sp"
                     android:textStyle="bold" />
             </LinearLayout>
             <LinearLayout
@@ -106,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textStyle="bold"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text="COPY">
                 </TextView>
             </LinearLayout>

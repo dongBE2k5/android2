@@ -71,6 +71,7 @@ class MyHotelRecyclerViewAdapter(
         holder.itemPosition = position
 
         val binding = CardRecyclerListHotelBinding.bind(holder.binding)
+        binding.tvThanhPho.text = hotel.thanhpho
         binding.nameHotel.text = hotel.name
         binding.statusHotel.text = hotel.status
         binding.feedback.text = hotel.feedback
@@ -78,6 +79,14 @@ class MyHotelRecyclerViewAdapter(
         binding.imageThumb.setImageResource(hotel.image)
 
     }
+    fun updateData(newList: List<Hotel>) {
+        list.clear()
+        list.addAll(newList)
+        notifyDataSetChanged()
+    }
+
+    fun getItem(position: Int): Hotel = list[position]
+
 
 
 }

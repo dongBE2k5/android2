@@ -14,15 +14,43 @@
         android:orientation="vertical"
         android:background="@android:color/white">
 
-        <ImageView
-            android:id="@+id/imageThumb"
-            android:layout_width="150dp"
-            android:layout_height="75dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/khachsan"
-            android:clipToOutline="true"
-            android:background="@drawable/rounded_top_right_corner" />
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+          <ImageView
+              android:id="@+id/imageThumb"
+              android:layout_width="150dp"
+              android:layout_height="75dp"
+              android:scaleType="centerCrop"
+              android:src="@drawable/khachsan"
+              android:clipToOutline="true"
+              android:background="@drawable/rounded_top_right_corner" />
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:padding="1dp"
+            android:layout_width="100dp"
+            android:background="@drawable/bogocthanhpho"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:tint="@android:color/white"
 
+                android:layout_marginTop="2dp"
+                android:layout_width="15dp"
+                android:src="@drawable/diadiem"
+                android:layout_height="15dp"></ImageView>
+
+            <TextView
+                android:id="@+id/tvThanhPho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:text="TP HCM"
+                android:textColor="@color/white">
+
+            </TextView>
+        </LinearLayout>
+
+      </FrameLayout>
         <LinearLayout
             android:layout_width="150dp"
             android:layout_height="match_parent"

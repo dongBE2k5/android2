@@ -11,29 +11,36 @@
 
 
     <!-- Danh sách phòng -->
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:background="@drawable/khachsan"
+        android:layout_weight="1"
+        android:background="@drawable/bgks"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:gravity="left">
+            android:gravity="center">
 
-
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="travelokaTDC"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
                 android:contentDescription="Logo"
-                android:src="@drawable/back"
+                android:src="@drawable/logokhachsan"
                 android:tint="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -42,37 +49,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tvTenKhachSan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:padding="5dp"
-                android:text="La batise hotel"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold">
-
-            </TextView>
-        </LinearLayout>
-
     </LinearLayout>
 
+
+
     <LinearLayout
-     android:layout_width="match_parent"
-     android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
-     android:layout_weight="9">
+        android:layout_weight="9">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewListDetail"
+            android:id="@+id/recyclerViewBookings"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
     </LinearLayout>
 
 

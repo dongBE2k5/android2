@@ -16,13 +16,25 @@
             android:name=".RoomActivity"
             android:exported="false" />
         <activity
+            android:name=".StoreActivity"
+            android:exported="false" />
+        <activity
             android:name=".Login"
+            android:exported="false" />
+        <activity
+            android:name=".ChiTietKhachSan"
+            android:exported="false" />
+        <activity
+            android:name=".Hotel_BookingActivity"
             android:exported="false" />
         <activity
             android:name=".Register"
             android:exported="false" />
         <activity
             android:name=".AcountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfile"
             android:exported="false" />
         <activity
             android:name=".AcountActive"
