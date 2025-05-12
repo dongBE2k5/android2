@@ -118,7 +118,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:orientation="vertical">
@@ -146,6 +146,26 @@
                             </TextView>
 
                         </LinearLayout>
+                        <LinearLayout
+                            android:gravity="right"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+
+                                android:id="@+id/btnDangXuat"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:background="@drawable/red_bg"
+                                android:padding="5dp"
+                                android:text="Đăng xuất"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"
+                                android:textStyle="bold"></TextView>
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 
@@ -175,18 +195,22 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <!-- Bottom Navigation View nằm ngoài hệ thống weight -->
+
     <LinearLayout
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
-            android:background="@drawable/rounded_white_bg"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_white_bg"
+            android:orientation="vertical">
+
             <TextView
 
                 android:layout_width="match_parent"
@@ -196,35 +220,38 @@
                 android:padding="5dp"
                 android:text="Thông tin cá nhân"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:padding="5dp"
-                android:text="Họ và tên :"
-                android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-
-                android:text="Nguyễn Phan Huy Thuận"
-                android:textSize="12sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
+                    android:text="Họ và tên :"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+
+                    android:text="Nguyễn Phan Huy Thuận"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -234,7 +261,8 @@
                     android:padding="5dp"
                     android:text="Ngày sinh :"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -243,11 +271,13 @@
 
                     android:text="01-10-2005"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -257,7 +287,8 @@
                     android:padding="5dp"
                     android:text="Giới tính :"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -266,11 +297,13 @@
 
                     android:text="Nam"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -280,7 +313,8 @@
                     android:padding="5dp"
                     android:text="Địa chỉ :"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -288,16 +322,17 @@
                     android:layout_marginTop="5dp"
                     android:text="Thành phố Thủ Đức"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_white_bg"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
+
             <TextView
 
                 android:layout_width="match_parent"
@@ -307,33 +342,38 @@
                 android:padding="5dp"
                 android:text="Địa chỉ email"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <ImageView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/mail"/>
+                    android:src="@drawable/mail" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
                     android:text="thuan@gmail.com"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_white_bg"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
+
             <TextView
 
                 android:layout_width="match_parent"
@@ -343,33 +383,34 @@
                 android:padding="5dp"
                 android:text="Số điện thoại"
                 android:textSize="15sp"
-                android:textStyle="bold">
-            </TextView>
+                android:textStyle="bold"></TextView>
+
             <LinearLayout
-                android:padding="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
                 <ImageView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/phone"/>
+                    android:src="@drawable/phone" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
                     android:text="0951182312412"
                     android:textSize="12sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
-
-    <!-- Bottom Navigation View nằm ngoài hệ thống weight -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"

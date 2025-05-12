@@ -11,6 +11,7 @@
 
 
     <!-- Danh sách phòng -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -50,42 +51,45 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp">
+
             <ImageView
                 android:id="@+id/imgUser"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:contentDescription="Logo"
+                android:src="@drawable/ic_user"
+                android:tint="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.53"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_user"
-                android:tint="@android:color/white" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginBottom="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:text="TravelokaTDC User"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="10dp"
                     android:textSize="15sp"
-                    android:text="TravelokaTDC User" />
+                    android:textStyle="bold" />
+
                 <LinearLayout
-                    android:background="@drawable/rounded_white_bg"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/rounded_white_bg"
+                    android:orientation="horizontal"
                     android:padding="8dp"> <!-- Thêm padding nếu cần -->
 
                     <ImageView
@@ -98,11 +102,11 @@
                         android:id="@+id/textView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
                         android:layout_marginLeft="2dp"
+                        android:layout_weight="1"
+                        android:text="717 Points"
                         android:textSize="10sp"
-                        android:text="717 Points" />
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

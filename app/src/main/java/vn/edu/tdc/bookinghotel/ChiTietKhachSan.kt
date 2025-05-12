@@ -111,6 +111,7 @@ class ChiTietKhachSan : AppCompatActivity(), ChiTietPhongRecyclerViewAdapter.OnI
     override fun onDatClick(position: Int) {
         // Xử lý sự kiện click vào "Đặt" tại vị trí item
         val intent = Intent(this@ChiTietKhachSan, Hotel_BookingActivity::class.java)
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
         startActivity(intent)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }

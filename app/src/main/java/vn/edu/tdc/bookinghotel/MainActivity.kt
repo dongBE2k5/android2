@@ -99,7 +99,6 @@ class MainActivity : AppCompatActivity() {
             if (item.itemId != selectedItem) {
                 val intent = when (item.itemId) {
                     R.id.nav_home -> Intent(this, MainActivity::class.java)
-                    R.id.nav_search -> Intent(this, Hotel_BookingActivity::class.java)
                     R.id.nav_store -> Intent(this, StoreActivity::class.java)
                     R.id.nav_profile -> Intent(this, AcountActivity::class.java)
                     else -> null
