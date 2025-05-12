@@ -88,14 +88,7 @@ class RegisterActivity : AppCompatActivity() {
                         finish()
                         true
                     }
-                    R.id.nav_search -> {
-                        val intent = Intent(this, AcountActivity::class.java)
-                        intent.putExtra("selected_nav", R.id.nav_search)
-                        startActivity(intent)
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                        finish()
-                        true
-                    }
+
                     R.id.nav_store -> {
                         val intent = Intent(this, AcountActivity::class.java)
                         intent.putExtra("selected_nav", R.id.nav_store)

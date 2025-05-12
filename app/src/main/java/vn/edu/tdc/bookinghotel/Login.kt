@@ -49,7 +49,7 @@ class Login : AppCompatActivity() {
         }
 
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile)
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
         binding.bottomNav.selectedItemId = selectedItem
         binding.bottomNav.setOnItemSelectedListener { item ->
             if (item.itemId != selectedItem) {

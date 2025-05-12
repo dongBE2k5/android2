@@ -68,7 +68,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-
         // Spinner: thành phố
         var locations = ArrayList<Location>()
         locationName = ArrayList<String>()
@@ -141,28 +140,28 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Click vào item Hotel
-        adapter.setOnItemClick(object : MyHotelRecyclerViewAdapter.OnRecyclerViewItemClickListener {
-            override fun onImageClickListener(item: View?, position: Int) {
-                val hotel = adapter.getItem(position)
-                Toast.makeText(this@MainActivity, "Ảnh: ${hotel.name}", Toast.LENGTH_SHORT).show()
-                // Chuyển đến ChiTietKhachSan
-                Intent(this@MainActivity, ChiTietKhachSan::class.java)
-                startActivity(intent)
-            }
-
-            override fun onMyItemClickListener(item: View?, position: Int) {
-                val hotel = adapter.getItem(position)
-
-                // Chuyển đến ChiTietKhachSan
-                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
-
-                // Optional: Nếu cần truyền thêm dữ liệu (ví dụ: thông tin hotel)
-                intent.putExtra("hotel_name", hotel.name)  // Bạn có thể thay "hotel_name" bằng bất kỳ key nào bạn muốn
-                startActivity(intent)
-
-                Toast.makeText(this@MainActivity, "Item: ${hotel.name}", Toast.LENGTH_SHORT).show()
-            }
-        })
+//        adapter.setOnItemClick(object : MyHotelRecyclerViewAdapter.OnRecyclerViewItemClickListener {
+//            override fun onImageClickListener(item: View?, position: Int) {
+//                val hotel = adapter.getItem(position)
+//                Toast.makeText(this@MainActivity, "Ảnh: ${hotel.name}", Toast.LENGTH_SHORT).show()
+//                // Chuyển đến ChiTietKhachSan
+//                Intent(this@MainActivity, ChiTietKhachSan::class.java)
+//                startActivity(intent)
+//            }
+//
+//            override fun onMyItemClickListener(item: View?, position: Int) {
+//                val hotel = adapter.getItem(position)
+//
+//                // Chuyển đến ChiTietKhachSan
+//                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
+//
+//                // Optional: Nếu cần truyền thêm dữ liệu (ví dụ: thông tin hotel)
+//                intent.putExtra("hotel_name", hotel.name)  // Bạn có thể thay "hotel_name" bằng bất kỳ key nào bạn muốn
+//                startActivity(intent)
+//
+//                Toast.makeText(this@MainActivity, "Item: ${hotel.name}", Toast.LENGTH_SHORT).show()
+//            }
+//        })
 
 
         // Click Voucher Item

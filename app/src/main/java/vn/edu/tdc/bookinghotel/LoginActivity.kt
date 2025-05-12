@@ -82,14 +82,7 @@ class LoginActivity : AppCompatActivity() {
                         finish()
                         true
                     }
-                    R.id.nav_search -> {
-                        val intent = Intent(this, AcountActivity::class.java)
-                        intent.putExtra("selected_nav", R.id.nav_search)
-                        startActivity(intent)
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                        finish()
-                        true
-                    }
+
                     R.id.nav_store -> {
                         val intent = Intent(this, AcountActivity::class.java)
                         intent.putExtra("selected_nav", R.id.nav_store)
@@ -146,7 +139,7 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                 }else {
-                    Toast.makeText(this@LoginActivity, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Sai Username hoặc Password", Toast.LENGTH_SHORT).show()
 
                 }
             }

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#E0E0E0">
+    android:background="#E0E0E0"
+    android:orientation="vertical">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +49,7 @@
                     android:layout_height="25dp"
                     android:contentDescription="Logo"
                     android:src="@drawable/logokhachsan"
-                    android:tint="@android:color/white"
+                    app:tint="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.53"
@@ -58,14 +58,12 @@
             </LinearLayout>
 
 
-
-
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,9 +71,9 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,9 +107,9 @@
                             android:layout_height="wrap_content">
 
                             <ImageView
-                                android:background="@drawable/rounded_white_bg"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:background="@drawable/rounded_white_bg"
                                 android:src="@drawable/ic_user">
 
                             </ImageView>
@@ -124,32 +122,33 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:textColor="#808080"
                                 android:id="@+id/userNameAccount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:text="thuan nguyen"
+                                android:textColor="#808080"
                                 android:textStyle="bold">
 
                             </TextView>
 
                             <TextView
-                                android:textColor="#808080"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:text="đã đăng nhập"
+                                android:textColor="#808080"
                                 android:textSize="10sp"
                                 android:textStyle="bold">
 
                             </TextView>
 
                         </LinearLayout>
+
                         <LinearLayout
-                            android:gravity="right"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:gravity="right">
 
                             <TextView
 
@@ -226,13 +225,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                android:text="Nguyễn Phan Huy Thuận"
-                android:textSize="12sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -244,14 +236,7 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:padding="5dp"
-                    android:text="Ngày sinh :"
-                    android:textSize="12sp"
-                    android:textStyle="bold"/>
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -278,14 +263,6 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:padding="5dp"
-                    android:text="Giới tính :"
-                    android:textSize="12sp"
-                    android:textStyle="bold"/>
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -408,36 +385,34 @@
                 android:textSize="15sp"
                 android:textStyle="bold"></TextView>
 
-                android:layout_width="match_parent"
+
+
+            <ImageView
+
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp">
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/phone" />
 
-                <ImageView
+            <TextView
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/phone" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:text="0951182312412"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="0951182312412"
+                android:textSize="12sp"
+                android:textStyle="bold" />
         </LinearLayout>
-
     </LinearLayout>
-
+    <!-- Bottom Navigation View nằm ngoài hệ thống weight -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:menu="@menu/bottom_nav_menu" />
+
 </LinearLayout>
+
+
