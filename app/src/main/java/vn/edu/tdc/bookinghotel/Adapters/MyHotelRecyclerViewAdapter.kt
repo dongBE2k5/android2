@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.CardRecyclerListHotelBinding
@@ -77,7 +78,12 @@ class MyHotelRecyclerViewAdapter(
         binding.statusHotel.text = if (hotel.status == "CON_PHONG") "Còn phòng" else "Hết phòng"
         binding.feedback.text = hotel.name
         binding.descriptionHotel.text = hotel.address
-        binding.imageThumb.setImageResource(R.drawable.khachsan)
+        Glide.with(holder.itemView.context)
+            .load(hotel.image)
+            .placeholder(R.drawable.khachsan)
+            .error(R.drawable.ic_launcher_background)
+            .into(binding.imageThumb)
+//        binding.imageThumb.setImageResource(R.drawable.khachsan)
 
     }
     fun updateData(newList: List<Hotel>) {

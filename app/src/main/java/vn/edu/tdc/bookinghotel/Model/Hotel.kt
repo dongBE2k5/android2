@@ -5,6 +5,7 @@ class Hotel {
     val name: String
     val address: String
     val phone: String
+    val image: String
     val email: String
     val status: String
 
@@ -13,6 +14,7 @@ class Hotel {
         name: String,
         address: String,
         phone: String,
+        image: String,
         email: String,
         status: String
     ) {
@@ -20,6 +22,7 @@ class Hotel {
         this.name = name
         this.address = address
         this.phone = phone
+        this.image = image
         this.email = email
         this.status = status
     }
