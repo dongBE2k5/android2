@@ -5,12 +5,14 @@
         android:id="@+id/nav_home"
         android:icon="@drawable/logoks"
         android:title="Trang chủ" />
-
     <item
         android:id="@+id/nav_store"
         android:icon="@drawable/store"
         android:title="Đặt chỗ của tôi" />
-
+    <item
+        android:id="@+id/nav_admin"
+        android:icon="@drawable/ic_user"
+        android:title="Admin" />
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_user"

@@ -49,7 +49,9 @@ class Login : AppCompatActivity() {
         }
 
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile
+
+        )
         binding.bottomNav.selectedItemId = selectedItem
         binding.bottomNav.setOnItemSelectedListener { item ->
             if (item.itemId != selectedItem) {
@@ -57,6 +59,7 @@ class Login : AppCompatActivity() {
                     R.id.nav_home -> Intent(this, MainActivity::class.java)
                     R.id.nav_store -> Intent(this, StoreActivity::class.java)
                     R.id.nav_profile -> Intent(this, AcountActivity::class.java)
+                    R.id.nav_admin -> Intent(this, AdminActivity::class.java)
                     else -> null
                 }
                 intent?.let {

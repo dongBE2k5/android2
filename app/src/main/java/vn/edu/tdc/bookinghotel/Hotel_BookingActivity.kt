@@ -45,6 +45,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
                     R.id.nav_home -> Intent(this, MainActivity::class.java)
                     R.id.nav_store -> Intent(this, StoreActivity::class.java)
                     R.id.nav_profile -> Intent(this, AcountActivity::class.java)
+                    R.id.nav_admin -> Intent(this, AdminActivity::class.java)
                     else -> null
                 }
                 intent?.let {
