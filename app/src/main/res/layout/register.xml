@@ -81,6 +81,7 @@
             </TextView>
 
             <EditText
+                android:id="@+id/edtUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -117,11 +118,12 @@
             </TextView>
 
             <EditText
+                android:id="@+id/edtEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:background="@null"
-                android:hint="Nhập mật khẩu"
+                android:hint="Nhập email"
                 android:padding="8dp"
                 android:textSize="14sp" />
 
@@ -154,6 +156,7 @@
             </TextView>
 
             <EditText
+                android:id="@+id/edtPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"

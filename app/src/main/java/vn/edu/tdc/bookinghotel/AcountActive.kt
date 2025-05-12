@@ -52,7 +52,7 @@ class AcountActive : AppCompatActivity() {
                         true
                     }
                     R.id.nav_store -> {
-                        val intent = Intent(this, StoreActivity::class.java)
+                        val intent = Intent(this, AcountActivity::class.java)
                         intent.putExtra("selected_nav", R.id.nav_store)
                         startActivity(intent)
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

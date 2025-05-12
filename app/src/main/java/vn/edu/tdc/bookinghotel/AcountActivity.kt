@@ -5,12 +5,8 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import vn.edu.tdc.bookinghotel.databinding.AccountBinding
-import vn.edu.tdc.bookinghotel.databinding.AcountActiveBinding
-import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
 
 class AcountActivity :AppCompatActivity(){
     private lateinit var binding: AccountBinding
@@ -38,14 +34,14 @@ class AcountActivity :AppCompatActivity(){
 
         //gọi nút login
         binding.login.setOnClickListener {
-            val intent =Intent(this,Login::class.java)
+            val intent =Intent(this,LoginActivity::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         //gọi nút register
         binding.register.setOnClickListener {
-            val intent =Intent(this,Register::class.java)
+            val intent =Intent(this,RegisterActivity::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
@@ -75,7 +71,7 @@ class AcountActivity :AppCompatActivity(){
                         true
                     }
                     R.id.nav_store -> {
-                        val intent = Intent(this, StoreActivity::class.java)
+                        val intent = Intent(this, AcountActivity::class.java)
                         intent.putExtra("selected_nav", R.id.nav_store)
                         startActivity(intent)
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
