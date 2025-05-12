@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="8dp"
+    card_view:cardBackgroundColor="@android:color/white">
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgRoom"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background" />
+        <TextView
+            android:id="@+id/tvUserDatHang"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username: "
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/black" />
+        <TextView
+            android:id="@+id/tvRoomName"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên phòng"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tvBookingId"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Booking ID:" />
+
+        <TextView
+            android:id="@+id/tvCustomerId"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Customer ID:" />
+
+        <TextView
+            android:id="@+id/tvRoomId"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Room ID:" />
+
+        <TextView
+            android:id="@+id/tvCheckInDate"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Check-In:" />
+
+        <TextView
+            android:id="@+id/tvCheckOutDate"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Check-Out:" />
+        <TextView
+            android:id="@+id/tvTongTien"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price:" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status:" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

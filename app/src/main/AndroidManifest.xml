@@ -18,6 +18,9 @@
             android:name=".StoreActivity"
             android:exported="false" />
         <activity
+            android:name=".AdminQLDatKS"
+            android:exported="false" />
+        <activity
             android:name=".AdminActivity"
             android:exported="false" />
 <!--        <activity-->

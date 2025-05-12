@@ -6,19 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import vn.edu.tdc.bookinghotel.Model.ChiTietDatHangAdmin
 import vn.edu.tdc.bookinghotel.Model.UserDatHang
+import vn.edu.tdc.bookinghotel.R
 
 
 import vn.edu.tdc.bookinghotel.databinding.CardRecyclerListVoucherBinding
 import vn.edu.tdc.bookinghotel.databinding.CardRecycleviewQuanLyNguoiDungBinding
+import vn.edu.tdc.bookinghotel.databinding.ChiTietKhachSanDaDatRecyleviewBinding
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Locale
 
-class AdminRecycleViewAdapter(
+class ChiTietDatHangAdminRecyclerViewAdapter(
     private val context: Context,
-    private val list: ArrayList<UserDatHang>
-) : RecyclerView.Adapter<AdminRecycleViewAdapter.MyViewHolderUserDatHang>()  {
+        private val list: ArrayList<ChiTietDatHangAdmin>
+) : RecyclerView.Adapter<ChiTietDatHangAdminRecyclerViewAdapter.MyViewHolderUserDatHang>()  {
 
 
     private var selectedPosition = -1
@@ -55,7 +58,7 @@ class AdminRecycleViewAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolderUserDatHang {
-        val binding = CardRecycleviewQuanLyNguoiDungBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding = ChiTietKhachSanDaDatRecyleviewBinding.inflate(LayoutInflater.from(context), parent, false)
         return MyViewHolderUserDatHang(binding.root)
     }
     override fun getItemCount(): Int = list.size
@@ -64,15 +67,17 @@ class AdminRecycleViewAdapter(
         val datHang = list[position]
         holder.itemPosition = position
 
-        val binding = CardRecycleviewQuanLyNguoiDungBinding.bind(holder.binding)
-        binding.userDatHang.text = datHang.nameUser
-        binding.nameKSDatHang.text = datHang.nameKS
-        binding.tongGiaTienDatHang.text = "Tổng: ${formatCurrency(datHang.tongTien)}"
+        val binding = ChiTietKhachSanDaDatRecyleviewBinding.bind(holder.binding)
+        binding.tvBookingId.text = "Booking ID: ${datHang.bookingId}"
+        binding.tvTongTien.text = "Customer ID: ${datHang.tongTien}"
+        binding.tvRoomId.text = "Room ID: ${datHang.roomId}"
+        binding.tvCheckInDate.text = "Check-In: ${datHang.checkInDate}"
+        binding.tvCheckOutDate.text = "Check-Out: ${datHang.checkOutDate}"
+        binding.tvStatus.text = "Status: ${datHang.status}"
+        binding.tvRoomName.text = datHang.roomName
+        binding.imgRoom.setImageResource(R.drawable.khachsan)
+        binding.tvUserDatHang.text="Username: ${datHang.userName}"
 
-        // 👉 Bắt sự kiện click nút Chi tiết
-        binding.btnChiTietDatHang.setOnClickListener {
-            onItemClick?.onMyItemClickListener(it, position)
-        }
     }
 
     fun formatCurrency(amount: Int): String {
