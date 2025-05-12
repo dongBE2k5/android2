@@ -5,15 +5,23 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import vn.edu.tdc.bookinghotel.databinding.AcountActiveBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import vn.edu.tdc.bookinghotel.Adapters.HotelDaDatAdapter
+import vn.edu.tdc.bookinghotel.Adapters.Hotel_BookingViewAdapter
+import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
+import vn.edu.tdc.bookinghotel.databinding.StoreBinding
+import vn.edu.tdc.bookinghotel.fragment.ChiTietPhong
 
-class AcountActive : AppCompatActivity() {
+class StoreActivity : AppCompatActivity() {
 
-    private lateinit var binding: AcountActiveBinding
+    private lateinit var binding: StoreBinding
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: HotelDaDatAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = AcountActiveBinding.inflate(layoutInflater)
+        binding = StoreBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         //full màn hiình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -27,9 +35,8 @@ class AcountActive : AppCompatActivity() {
                 )
         setContentView(binding.root)
 
-
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile)
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
         binding.bottomNav.selectedItemId = selectedItem
         binding.bottomNav.setOnItemSelectedListener { item ->
             if (item.itemId != selectedItem) {
@@ -51,17 +58,35 @@ class AcountActive : AppCompatActivity() {
             }
         }
 
-        //dang xuat chuyen den trang accountactivity
-        binding.btnDangXuat.setOnClickListener {
-            val intent =Intent(this,AcountActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        }
-        //gọi đến chỉnh  sửa profile
-        binding.btnXemHoSo.setOnClickListener {
-            val intent =Intent(this,EditProfile::class.java)
-            startActivity(intent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        }
+
+        recyclerView = binding.recycleKsDaDat
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+
+        val dummyData = generateDummyBookings()
+        adapter = HotelDaDatAdapter(dummyData)
+        recyclerView.adapter = adapter
+    }
+
+    private fun generateDummyBookings(): List<Hotel_Booking> {
+        return listOf(
+            Hotel_Booking(
+                bookingId = 1,
+                customerId = 1001,
+                roomId = 201,
+                checkInDate = "2025-05-01",
+                checkOutDate = "2025-05-05",
+                status = "Đã đặt",
+                roomName = "Phòng Deluxe Hướng Biển",
+                imageUrl = R.drawable.khachsan,
+                contactInfo = "user1@example.com",
+                voucherCode = "SUMMER2025",
+                paymentMethods = "Tiền mặt,Chuyển khoản",
+                totalAmount = "5,000,000 VNĐ",
+                isInsuranceSelected = true,
+                insurancePrice = "43,500 VNĐ"
+            )
+        )
     }
 }
+

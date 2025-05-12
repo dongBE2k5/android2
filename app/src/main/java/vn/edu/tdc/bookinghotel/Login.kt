@@ -7,13 +7,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import vn.edu.tdc.bookinghotel.databinding.AcountActiveBinding
+import vn.edu.tdc.bookinghotel.databinding.LoginBinding
 
-class AcountActive : AppCompatActivity() {
-
-    private lateinit var binding: AcountActiveBinding
+class Login : AppCompatActivity() {
+    private lateinit var binding: LoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = AcountActiveBinding.inflate(layoutInflater)
+        binding = LoginBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         //full màn hiình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -27,6 +26,27 @@ class AcountActive : AppCompatActivity() {
                 )
         setContentView(binding.root)
 
+
+        //gọi trang account active
+        binding.btnDangNhap.setOnClickListener {
+            val intent =Intent(this,AcountActive::class.java)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+
+        //goi lai trang account activity
+        binding.btnBack.setOnClickListener {
+            val intent =Intent(this,AcountActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+
+        //gọi trang dang ky
+        binding.tvDangKy.setOnClickListener {
+            val intent =Intent(this,Register::class.java)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
 
         // Bottom Navigation xử lý chuyển activity
         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile)
@@ -49,19 +69,6 @@ class AcountActive : AppCompatActivity() {
             } else {
                 true
             }
-        }
-
-        //dang xuat chuyen den trang accountactivity
-        binding.btnDangXuat.setOnClickListener {
-            val intent =Intent(this,AcountActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        }
-        //gọi đến chỉnh  sửa profile
-        binding.btnXemHoSo.setOnClickListener {
-            val intent =Intent(this,EditProfile::class.java)
-            startActivity(intent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
     }
 }

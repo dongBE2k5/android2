@@ -17,7 +17,7 @@ import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
 class MyHotelRecyclerViewAdapter(
     private val context: Context,
     private val list: ArrayList<Hotel>,
-    private val locatioName: String
+    private val locationName: String
 ) : RecyclerView.Adapter<MyHotelRecyclerViewAdapter.MyViewHolder>() {
 
     private var selectedPosition = -1
@@ -72,7 +72,7 @@ class MyHotelRecyclerViewAdapter(
         holder.itemPosition = position
 
         val binding = CardRecyclerListHotelBinding.bind(holder.binding)
-        binding.tvThanhPho.text = locatioName
+        binding.tvThanhPho.text = locationName
         binding.nameHotel.text = hotel.name
         binding.statusHotel.text = if (hotel.status == "CON_PHONG") "Còn phòng" else "Hết phòng"
         binding.feedback.text = hotel.name
