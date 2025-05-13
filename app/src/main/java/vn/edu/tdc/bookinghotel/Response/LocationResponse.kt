@@ -1,4 +1,4 @@
-package vn.edu.tdc.bookinghotel.Model.Response
+package vn.edu.tdc.bookinghotel.Response
 
 import vn.edu.tdc.bookinghotel.Model.Location
 

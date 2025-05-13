@@ -22,7 +22,7 @@ import vn.edu.tdc.bookinghotel.Adapters.MyVoucherRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.CallAPI.LocationAPI
 import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.Model.Location
-import vn.edu.tdc.bookinghotel.Model.Repository.LocationRepository
+import vn.edu.tdc.bookinghotel.Repository.LocationRepository
 import vn.edu.tdc.bookinghotel.Model.Voucher
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding

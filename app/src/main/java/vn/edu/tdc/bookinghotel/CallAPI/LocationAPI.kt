@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import vn.edu.tdc.bookinghotel.Model.Location
 import vn.edu.tdc.bookinghotel.Model.LoginResponse
-import vn.edu.tdc.bookinghotel.Model.Response.LocationResponse
+import vn.edu.tdc.bookinghotel.Response.LocationResponse
 import vn.edu.tdc.bookinghotel.Model.UserLogin
 
 interface LocationAPI {

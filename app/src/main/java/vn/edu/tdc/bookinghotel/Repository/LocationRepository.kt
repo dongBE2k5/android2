@@ -1,4 +1,4 @@
-package vn.edu.tdc.bookinghotel.Model.Repository
+package vn.edu.tdc.bookinghotel.Repository
 
 
 import android.util.Log
@@ -6,7 +6,7 @@ import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import vn.edu.tdc.bookinghotel.CallAPI.LocationAPI
 import vn.edu.tdc.bookinghotel.Model.Location
-import vn.edu.tdc.bookinghotel.Model.Response.LocationResponse
+import vn.edu.tdc.bookinghotel.Response.LocationResponse
 
 
 class LocationRepository {
