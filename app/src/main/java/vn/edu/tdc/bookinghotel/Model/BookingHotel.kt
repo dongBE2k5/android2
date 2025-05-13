@@ -1,13 +1,10 @@
-package vn.edu.tdc.bookinghotel
+package vn.edu.tdc.bookinghotel.Model
 
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import vn.edu.tdc.bookinghotel.Adapters.Hotel_BookingViewAdapter
 import vn.edu.tdc.bookinghotel.databinding.BookingHotelBinding
-import vn.edu.tdc.bookinghotel.databinding.EditProfileAccountBinding
 
 class BookingHotel: AppCompatActivity() {
     private lateinit var binding: BookingHotelBinding

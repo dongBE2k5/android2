@@ -7,12 +7,15 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import vn.edu.tdc.bookinghotel.Activity.AcountActive
+import vn.edu.tdc.bookinghotel.Activity.AcountActivity
+import vn.edu.tdc.bookinghotel.Activity.AdminActivity
+import vn.edu.tdc.bookinghotel.Activity.MainActivity
+import vn.edu.tdc.bookinghotel.Activity.StoreActivity
 import vn.edu.tdc.bookinghotel.databinding.EditProfileAccountBinding
 import java.util.Calendar
 
@@ -79,7 +82,7 @@ class EditProfile: AppCompatActivity() {
 
         //goi lai trang account active
         binding.btnBack.setOnClickListener {
-            val intent =Intent(this,AcountActive::class.java)
+            val intent =Intent(this, AcountActive::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }

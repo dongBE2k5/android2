@@ -1,4 +1,4 @@
-package vn.edu.tdc.bookinghotel
+package vn.edu.tdc.bookinghotel.Activity
 
 import android.content.Intent
 import android.graphics.Color
@@ -8,22 +8,21 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import vn.edu.tdc.bookinghotel.Adapters.HotelDaDatAdapter
 import vn.edu.tdc.bookinghotel.Adapters.Hotel_BookingViewAdapter
 import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
-import vn.edu.tdc.bookinghotel.databinding.StoreBinding
-import vn.edu.tdc.bookinghotel.fragment.ChiTietPhong
+import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.databinding.ActivityHotelBookkingBinding
 
-class StoreActivity : AppCompatActivity() {
-
-    private lateinit var binding: StoreBinding
+class Hotel_BookingActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityHotelBookkingBinding
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: HotelDaDatAdapter
+    private lateinit var adapter: Hotel_BookingViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = StoreBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        //full màn hiình
+        binding = ActivityHotelBookkingBinding.inflate(layoutInflater)
+
+        // full màn hình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.navigationBarColor = Color.TRANSPARENT
             window.statusBarColor = Color.TRANSPARENT
@@ -36,7 +35,7 @@ class StoreActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
         binding.bottomNav.selectedItemId = selectedItem
         binding.bottomNav.setOnItemSelectedListener { item ->
             if (item.itemId != selectedItem) {
@@ -44,6 +43,7 @@ class StoreActivity : AppCompatActivity() {
                     R.id.nav_home -> Intent(this, MainActivity::class.java)
                     R.id.nav_store -> Intent(this, StoreActivity::class.java)
                     R.id.nav_profile -> Intent(this, AcountActivity::class.java)
+                    R.id.nav_admin -> Intent(this, AdminActivity::class.java)
                     else -> null
                 }
                 intent?.let {
@@ -59,12 +59,11 @@ class StoreActivity : AppCompatActivity() {
         }
 
 
-        recyclerView = binding.recycleKsDaDat
+        recyclerView = binding.recyclerViewBookings
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-
         val dummyData = generateDummyBookings()
-        adapter = HotelDaDatAdapter(dummyData)
+        adapter = Hotel_BookingViewAdapter(dummyData)
         recyclerView.adapter = adapter
     }
 
@@ -89,4 +88,3 @@ class StoreActivity : AppCompatActivity() {
         )
     }
 }
-

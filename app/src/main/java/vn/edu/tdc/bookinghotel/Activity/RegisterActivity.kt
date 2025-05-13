@@ -1,4 +1,4 @@
-package vn.edu.tdc.bookinghotel
+package vn.edu.tdc.bookinghotel.Activity
 
 import android.content.Intent
 import android.graphics.Color
@@ -12,18 +12,20 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import vn.edu.tdc.bookinghotel.CallAPI.LoginAPI
-import vn.edu.tdc.bookinghotel.Model.LoginResponse
-import vn.edu.tdc.bookinghotel.Model.UserLogin
-import vn.edu.tdc.bookinghotel.databinding.LoginBinding
+import vn.edu.tdc.bookinghotel.CallAPI.RegisterAPI
+import vn.edu.tdc.bookinghotel.Model.RegisterResponse
+import vn.edu.tdc.bookinghotel.Model.UserRegister
+import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.databinding.RegisterBinding
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: LoginBinding
-    private lateinit var loginAPI: LoginAPI
+class RegisterActivity : AppCompatActivity() {
+    private lateinit var binding: RegisterBinding
+    private lateinit var registerAPI: RegisterAPI
     private lateinit var username: String
     private lateinit var password: String
+    private lateinit var email: String
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = LoginBinding.inflate(layoutInflater)
+        binding = RegisterBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         //full màn hiình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -38,34 +40,39 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        //gọi trang account active
-        binding.btnDangNhap.setOnClickListener {
-            username = binding.edtUsername.text.toString()
-            password = binding.edtPassword.text.toString()
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập tên đăng nhập và mật khẩu", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-            val loginRequest = UserLogin(username, password)
-            login(loginRequest)
-            }
-            
-
-        }
-
         //goi lai trang account activity
         binding.btnBack.setOnClickListener {
-            val intent =Intent(this,AcountActivity::class.java)
+            val intent =Intent(this, AcountActivity::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
-        //gọi trang dang ky
-        binding.tvDangKy.setOnClickListener {
-            val intent =Intent(this,RegisterActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        //ấn đăng ký chuyển đến trang đăng nhập
+        binding.btnDangKy.setOnClickListener {
+            if (binding.btnDangKy.isEnabled) {
+                username = binding.edtUsername.text.toString()
+                password = binding.edtPassword.text.toString()
+                email = binding.edtEmail.text.toString()
+                if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
+                    Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show()
+              
+                } else {
+                    val registerRequest = UserRegister(username, password, email)
+                    register(registerRequest)
+                }
+            }
         }
+
+        // tick choọn đồng ý mới cho phép đăng ky
+        binding.btnDangKy.isEnabled = false  // Ban đầu không cho nhấn
+        binding.btnDangKy.alpha = 0.5f       // Làm mờ nút khi bị khóa
+
+        binding.checkAgree.setOnCheckedChangeListener { _, isChecked ->
+            binding.btnDangKy.isEnabled = isChecked
+            //làm mo nut dang ky
+            binding.btnDangKy.alpha = if (isChecked) 1f else 0.5f
+        }
+
 
         //lang nghe nguoi dung chon nav, hien tai la tai khoan
         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile)
@@ -94,8 +101,8 @@ class LoginActivity : AppCompatActivity() {
                     R.id.nav_profile -> {
                         val intent = Intent(this, AcountActivity::class.java)
                         intent.putExtra("selected_nav", R.id.nav_profile)
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                         startActivity(intent)
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                         finish()
                         true
                     }
@@ -106,46 +113,33 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun login(loginRequest: UserLogin) {
+    private fun register(registerRequest: UserRegister) {
 
         //B2. Dinh nghia doi tuong Retrofit
         val retrofit = Retrofit.Builder()
-            .baseUrl(LoginAPI.BASE_URL)
+            .baseUrl(RegisterAPI.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         //B3. Dinh nghia doi tuong LoginAPI
-            loginAPI = retrofit.create(LoginAPI::class.java)
+            registerAPI = retrofit.create(RegisterAPI::class.java)
         //B4. Goi ham doc du lieu tu Webservice
-        val call = loginAPI.login(loginRequest)
+        val call = registerAPI.register(registerRequest)
         //B5. Xu li bat dong bo va doc du lieu ve ListView
-        call.enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, result: Response<LoginResponse>) {
+        call.enqueue(object : Callback<RegisterResponse> {
+            override fun onResponse(call: Call<RegisterResponse>, result: Response<RegisterResponse>) {
                 // Xu li du lieu doc ve tu Webservice
                 // Neu co du lieu moi xu li
                 if(result.isSuccessful) {
-                    val loginResponse = result.body()
-                    // Xu li nullable
-                    loginResponse?.let {
-                        // Luu token vao SharedPreferences
-                        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
-                        val editor = sharedPreferences.edit()
-                        editor.putString("token", loginResponse.token)
-                        editor.apply()
-                        // Chuyen huong den MainActivity
-                        val intent =Intent(this@LoginActivity,AcountActive::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                    }
-
+                    val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 }else {
-                    Toast.makeText(this@LoginActivity, "Sai Username hoặc Password", Toast.LENGTH_SHORT).show()
-
+                    Toast.makeText(this@RegisterActivity, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
                 }
+
             }
 
-            override fun onFailure(call: Call<LoginResponse>, error: Throwable) {
-                Toast.makeText(this@LoginActivity, "Lỗi: ${error.message}", Toast.LENGTH_LONG).show()
+            override fun onFailure(p0: Call<RegisterResponse>, p1: Throwable) {
 
             }
 

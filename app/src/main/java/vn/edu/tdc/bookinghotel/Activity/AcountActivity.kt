@@ -1,4 +1,4 @@
-package vn.edu.tdc.bookinghotel
+package vn.edu.tdc.bookinghotel.Activity
 
 import android.content.Intent
 import android.graphics.Color
@@ -6,38 +6,13 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import vn.edu.tdc.bookinghotel.Activity.AcountActivity
-import vn.edu.tdc.bookinghotel.Activity.AdminActivity
-import vn.edu.tdc.bookinghotel.Activity.MainActivity
-import vn.edu.tdc.bookinghotel.Activity.StoreActivity
-import vn.edu.tdc.bookinghotel.Adapters.ChiTietDatHangAdminRecyclerViewAdapter
-import vn.edu.tdc.bookinghotel.Model.ChiTietDatHangAdmin
-import vn.edu.tdc.bookinghotel.databinding.AdminChiTietDatHangBinding
+import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.databinding.AccountBinding
 
-class AdminQLDatKS: AppCompatActivity() {
-
-    private lateinit var binding: AdminChiTietDatHangBinding
-    private lateinit var adapter: ChiTietDatHangAdminRecyclerViewAdapter
-
-    private val chiTietDatKS = arrayListOf(
-        ChiTietDatHangAdmin(
-            bookingId = 1,
-            userName = "Nguyen Van A",
-            roomId = 101,
-            tongTien = 1500000,
-            checkInDate = "2025-06-01",
-            checkOutDate = "2025-06-05",
-            status = "Đã xác nhận",
-            roomName = "Phòng Deluxe",
-            imageUrl = R.drawable.khachsan
-        )
-    )
-
-
+class AcountActivity :AppCompatActivity(){
+    private lateinit var binding: AccountBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = AdminChiTietDatHangBinding.inflate(layoutInflater)
+        binding= AccountBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         //full màn hiình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -51,15 +26,30 @@ class AdminQLDatKS: AppCompatActivity() {
                 )
         setContentView(binding.root)
 
+        //gọi nút back trở về home
+        binding.btnBack.setOnClickListener {
+            val intent =Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
 
-        // RecyclerViews: nguoi dung dat hang
-        val recyclerViewChiTietKSDaDat = findViewById<RecyclerView>(R.id.recycleChiTietKsDaDat)
-        recyclerViewChiTietKSDaDat.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        adapter = ChiTietDatHangAdminRecyclerViewAdapter(this, chiTietDatKS)
-        recyclerViewChiTietKSDaDat.adapter = adapter
+        //gọi nút login
+        binding.login.setOnClickListener {
+            val intent =Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+
+        //gọi nút register
+        binding.register.setOnClickListener {
+            val intent =Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+
 
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_admin)
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile)
         binding.bottomNav.selectedItemId = selectedItem
         binding.bottomNav.setOnItemSelectedListener { item ->
             if (item.itemId != selectedItem) {
@@ -68,7 +58,6 @@ class AdminQLDatKS: AppCompatActivity() {
                     R.id.nav_store -> Intent(this, StoreActivity::class.java)
                     R.id.nav_profile -> Intent(this, AcountActivity::class.java)
                     R.id.nav_admin -> Intent(this, AdminActivity::class.java)
-
                     else -> null
                 }
                 intent?.let {
@@ -82,6 +71,5 @@ class AdminQLDatKS: AppCompatActivity() {
                 true
             }
         }
-
     }
 }

@@ -8,11 +8,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import vn.edu.tdc.bookinghotel.Activity.Hotel_BookingActivity
 import vn.edu.tdc.bookinghotel.Adapters.ChiTietPhongRecyclerViewAdapter
-import vn.edu.tdc.bookinghotel.Adapters.Hotel_BookingViewAdapter
 import vn.edu.tdc.bookinghotel.Adapters.ListDetailRecyclerViewAdapter
-import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
-import vn.edu.tdc.bookinghotel.databinding.ActivityHotelBookkingBinding
 import vn.edu.tdc.bookinghotel.databinding.DetailRoomBinding
 import vn.edu.tdc.bookinghotel.fragment.ChiTietPhong
 import vn.edu.tdc.bookinghotel.fragment.ListDetail

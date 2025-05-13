@@ -5,8 +5,12 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import vn.edu.tdc.bookinghotel.Activity.AcountActive
+import vn.edu.tdc.bookinghotel.Activity.AcountActivity
+import vn.edu.tdc.bookinghotel.Activity.AdminActivity
+import vn.edu.tdc.bookinghotel.Activity.MainActivity
+import vn.edu.tdc.bookinghotel.Activity.StoreActivity
 import vn.edu.tdc.bookinghotel.databinding.LoginBinding
 
 class Login : AppCompatActivity() {
@@ -29,14 +33,14 @@ class Login : AppCompatActivity() {
 
         //gọi trang account active
         binding.btnDangNhap.setOnClickListener {
-            val intent =Intent(this,AcountActive::class.java)
+            val intent =Intent(this, AcountActive::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         //goi lai trang account activity
         binding.btnBack.setOnClickListener {
-            val intent =Intent(this,AcountActivity::class.java)
+            val intent =Intent(this, AcountActivity::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }

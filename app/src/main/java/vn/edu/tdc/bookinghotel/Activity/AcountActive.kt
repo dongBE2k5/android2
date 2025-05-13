@@ -1,12 +1,13 @@
-package vn.edu.tdc.bookinghotel
+package vn.edu.tdc.bookinghotel.Activity
 
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import vn.edu.tdc.bookinghotel.EditProfile
+import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.AcountActiveBinding
 
 class AcountActive : AppCompatActivity() {
@@ -54,13 +55,13 @@ class AcountActive : AppCompatActivity() {
 
         //dang xuat chuyen den trang accountactivity
         binding.btnDangXuat.setOnClickListener {
-            val intent =Intent(this,AcountActivity::class.java)
+            val intent =Intent(this, AcountActivity::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         //gọi đến chỉnh  sửa profile
         binding.btnXemHoSo.setOnClickListener {
-            val intent =Intent(this,EditProfile::class.java)
+            val intent =Intent(this, EditProfile::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }

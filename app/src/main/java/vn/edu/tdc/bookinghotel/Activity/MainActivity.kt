@@ -1,4 +1,4 @@
-package vn.edu.tdc.bookinghotel
+package vn.edu.tdc.bookinghotel.Activity
 
 import android.content.Intent
 import android.graphics.Color
@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +22,9 @@ import vn.edu.tdc.bookinghotel.Adapters.MyVoucherRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.CallAPI.LocationAPI
 import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.Model.Location
+import vn.edu.tdc.bookinghotel.Model.Repository.LocationRepository
 import vn.edu.tdc.bookinghotel.Model.Voucher
+import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
 
 class MainActivity : AppCompatActivity() {
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 )
         setContentView(binding.root)
 
-
+        val repository = LocationRepository()
         // Spinner: thành phố
         var locations = ArrayList<Location>()
         locationName = ArrayList<String>()
@@ -79,8 +80,23 @@ class MainActivity : AppCompatActivity() {
         citySpinner.adapter = adapterSpinner
         citySpinner.setSelection(0)
 
+// Gọi API
+        repository.fetchLocations(
+            onSuccess = { locationList ->
+                locations.clear()
+                locations.addAll(locationList)
+
+                locationName.clear()
+                locationName.addAll(locationList.map { it.name })
+                adapterSpinner.notifyDataSetChanged()
+            },
+            onError = { error ->
+                Log.e("API Error", "Error: ${error.message}")
+            }
+        )
+
         // Gọi hàm lấy dữ lệu location va thay doi spinner
-        getLocations(locations, adapterSpinner)
+//        getLocations(locations, adapterSpinner)
 
         // Khởi tạo danh sách hotels hiện tại
         // val hotels = ArrayList(originalHotels)
@@ -100,21 +116,21 @@ class MainActivity : AppCompatActivity() {
         recyclerViewVoucher.adapter = adapterVoucher
 
         // Spinner selection handling
-        citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedLocation = locations[position]
-                hotels.clear()
-                selectedLocation.hotels.let {
-                    hotels.addAll(it)
-                    // RecyclerView: Hotels
-                    binding.recycleListHotel.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
-                    adapter = MyHotelRecyclerViewAdapter(this@MainActivity, hotels, selectedLocation.name)
-                    binding.recycleListHotel.adapter = adapter
-                    }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
+//        citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                val selectedLocation = locations[position]
+//                hotels.clear()
+//                selectedLocation.hotels.let {
+//                    hotels.addAll(it)
+//                    // RecyclerView: Hotels
+//                    binding.recycleListHotel.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+//                    adapter = MyHotelRecyclerViewAdapter(this@MainActivity, hotels, selectedLocation.name)
+//                    binding.recycleListHotel.adapter = adapter
+//                    }
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {}
+//        }
 
         // Bottom Navigation xử lý chuyển activity
         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
@@ -177,73 +193,73 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-    private fun getLocations(locations:ArrayList<Location>, adapter: ArrayAdapter<String> ) {
-        locations.clear()
-        //B2. Dinh nghia doi tuong Retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl(LocationAPI.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        //B3. Dinh nghia doi tuong weatherAPI
-            locationAPI = retrofit.create(LocationAPI::class.java)
-        //B4. Goi ham doc du lieu tu Webservice
-        val call = locationAPI.getLocations()
-
-        //B5. Xu li bat dong bo va doc du lieu ve ListView
-        call.enqueue(object : Callback<List<Location>> {
-            override fun onResponse(call: Call<List<Location>>, result: Response<List<Location>>) {
-                // Xu li du lieu doc ve tu Webservice
-                // Neu co du lieu moi xu li
-                if(result.isSuccessful) {
-                    val locationList = result.body()
-                    Log.d("LocationList", locationList.toString())
-                    // Xu li nullable
-                    locationList?.let { 
-                        locations.addAll(it.map { location -> location })
-                        locationName.addAll(it.map { location -> location.name })
-                        adapter.notifyDataSetChanged()
-                    }
-                }
-            }
-
-            override fun onFailure(p0: Call<List<Location>>, p1: Throwable) {
-                Log.e("LocationError", "Lỗi: ${p1.message}")
-            }
-
-        })
-    }
-
-    private fun getHotelByLocation(locations:ArrayList<String>, hotels:ArrayList<Hotel>) {
-        locations.clear()
-        //B2. Dinh nghia doi tuong Retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl(LocationAPI.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        //B3. Dinh nghia doi tuong weatherAPI
-            locationAPI = retrofit.create(LocationAPI::class.java)
-        //B4. Goi ham doc du lieu tu Webservice
-        val call = locationAPI.getLocations()
-
-        //B5. Xu li bat dong bo va doc du lieu ve ListView
-        call.enqueue(object : Callback<List<Location>> {
-            override fun onResponse(call: Call<List<Location>>, result: Response<List<Location>>) {
-                // Xu li du lieu doc ve tu Webservice
-                // Neu co du lieu moi xu li
-                if(result.isSuccessful) {
-                    val locationList = result.body()
-                    Log.d("LocationList", locationList.toString())
-                    // Xu li nullable
-                    locationList?.let { locations.addAll(it.map { location -> location.name })
-                        adapter.notifyDataSetChanged()
-                    }
-                }
-            }
-
-            override fun onFailure(p0: Call<List<Location>>, p1: Throwable) {
-                Log.e("LocationError", "Lỗi: ${p1.message}")
-            }
-
-        })
-    }
+//    private fun getLocations(locations:ArrayList<Location>, adapter: ArrayAdapter<String> ) {
+//        locations.clear()
+//        //B2. Dinh nghia doi tuong Retrofit
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(LocationAPI.BASE_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//        //B3. Dinh nghia doi tuong weatherAPI
+//            locationAPI = retrofit.create(LocationAPI::class.java)
+//        //B4. Goi ham doc du lieu tu Webservice
+//        val call = locationAPI.getLocations()
+//
+//        //B5. Xu li bat dong bo va doc du lieu ve ListView
+//        call.enqueue(object : Callback<List<Location>> {
+//            override fun onResponse(call: Call<List<Location>>, result: Response<List<Location>>) {
+//                // Xu li du lieu doc ve tu Webservice
+//                // Neu co du lieu moi xu li
+//                if(result.isSuccessful) {
+//                    val locationList = result.body()
+//                    Log.d("LocationList", locationList.toString())
+//                    // Xu li nullable
+//                    locationList?.let {
+//                        locations.addAll(it.map { location -> location })
+//                        locationName.addAll(it.map { location -> location.name })
+//                        adapter.notifyDataSetChanged()
+//                    }
+//                }
+//            }
+//
+//            override fun onFailure(p0: Call<List<Location>>, p1: Throwable) {
+//                Log.e("LocationError", "Lỗi: ${p1.message}")
+//            }
+//
+//        })
+//    }
+//
+//    private fun getHotelByLocation(locations:ArrayList<String>, hotels:ArrayList<Hotel>) {
+//        locations.clear()
+//        //B2. Dinh nghia doi tuong Retrofit
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(LocationAPI.BASE_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//        //B3. Dinh nghia doi tuong weatherAPI
+//            locationAPI = retrofit.create(LocationAPI::class.java)
+//        //B4. Goi ham doc du lieu tu Webservice
+//        val call = locationAPI.getLocations()
+//
+//        //B5. Xu li bat dong bo va doc du lieu ve ListView
+//        call.enqueue(object : Callback<List<Location>> {
+//            override fun onResponse(call: Call<List<Location>>, result: Response<List<Location>>) {
+//                // Xu li du lieu doc ve tu Webservice
+//                // Neu co du lieu moi xu li
+//                if(result.isSuccessful) {
+//                    val locationList = result.body()
+//                    Log.d("LocationList", locationList.toString())
+//                    // Xu li nullable
+//                    locationList?.let { locations.addAll(it.map { location -> location.name })
+//                        adapter.notifyDataSetChanged()
+//                    }
+//                }
+//            }
+//
+//            override fun onFailure(p0: Call<List<Location>>, p1: Throwable) {
+//                Log.e("LocationError", "Lỗi: ${p1.message}")
+//            }
+//
+//        })
+//    }
 }
