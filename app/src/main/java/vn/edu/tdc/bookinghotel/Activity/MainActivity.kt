@@ -20,11 +20,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import vn.edu.tdc.bookinghotel.Adapters.MyHotelRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.Adapters.MyVoucherRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.CallAPI.LocationAPI
+import vn.edu.tdc.bookinghotel.ChiTietKhachSan
 import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.Model.Location
 import vn.edu.tdc.bookinghotel.Repository.LocationRepository
 import vn.edu.tdc.bookinghotel.Model.Voucher
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.HotelRepository
 import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
 
 class MainActivity : AppCompatActivity() {
@@ -56,6 +58,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = HomePageLayoutBinding.inflate(layoutInflater)
 
+        setContentView(binding.root)
+
         // full màn hình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.navigationBarColor = Color.TRANSPARENT
@@ -66,9 +70,17 @@ class MainActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 )
-        setContentView(binding.root)
 
-        val repository = LocationRepository()
+
+        window.setDecorFitsSystemWindows(false)
+
+        window.insetsController?.let { controller ->
+            controller.hide(
+                android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars()
+            )
+            controller.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+        val repositoryLocation = LocationRepository()
         // Spinner: thành phố
         var locations = ArrayList<Location>()
         locationName = ArrayList<String>()
@@ -81,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         citySpinner.setSelection(0)
 
 // Gọi API
-        repository.fetchLocations(
+        repositoryLocation.fetchLocations(
             onSuccess = { locationList ->
                 locations.clear()
                 locations.addAll(locationList)
@@ -98,9 +110,10 @@ class MainActivity : AppCompatActivity() {
         // Gọi hàm lấy dữ lệu location va thay doi spinner
 //        getLocations(locations, adapterSpinner)
 
+
         // Khởi tạo danh sách hotels hiện tại
         // val hotels = ArrayList(originalHotels)
-        var hotels = ArrayList<Hotel>()
+
 
 
 //        getHotelByLocation(locations, hotels)
@@ -115,22 +128,41 @@ class MainActivity : AppCompatActivity() {
         adapterVoucher = MyVoucherRecyclerViewAdapter(this, vouchers)
         recyclerViewVoucher.adapter = adapterVoucher
 
+
+
+        val repositoryHotel= HotelRepository()
+        var hotels = ArrayList<Hotel>()
+
         // Spinner selection handling
-//        citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//                val selectedLocation = locations[position]
-//                hotels.clear()
-//                selectedLocation.hotels.let {
-//                    hotels.addAll(it)
-//                    // RecyclerView: Hotels
-//                    binding.recycleListHotel.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
-//                    adapter = MyHotelRecyclerViewAdapter(this@MainActivity, hotels, selectedLocation.name)
-//                    binding.recycleListHotel.adapter = adapter
-//                    }
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {}
-//        }
+        citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedLocation = locations[position]
+                hotels.clear()
+
+                repositoryHotel.fetchHotelByLocation(
+                    locationId = selectedLocation.id,  // <-- truyền ID vào
+                    onSuccess = { hotelsList ->
+                        hotels.addAll(hotelsList)
+
+                        // Cập nhật RecyclerView sau khi có dữ liệu
+                        binding.recycleListHotel.layoutManager = LinearLayoutManager(
+                            this@MainActivity,
+                            LinearLayoutManager.HORIZONTAL,
+                            false
+                        )
+                        adapter = MyHotelRecyclerViewAdapter(this@MainActivity, hotels, selectedLocation.name)
+                        binding.recycleListHotel.adapter = adapter
+                    },
+                    onError = { error ->
+                        Log.e("API Hotel error", "Error: ${error.message}")
+                    }
+                )
+            }
+
+
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
 
         // Bottom Navigation xử lý chuyển activity
         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
@@ -158,28 +190,28 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Click vào item Hotel
-//        adapter.setOnItemClick(object : MyHotelRecyclerViewAdapter.OnRecyclerViewItemClickListener {
-//            override fun onImageClickListener(item: View?, position: Int) {
-//                val hotel = adapter.getItem(position)
-//                Toast.makeText(this@MainActivity, "Ảnh: ${hotel.name}", Toast.LENGTH_SHORT).show()
-//                // Chuyển đến ChiTietKhachSan
-//                Intent(this@MainActivity, ChiTietKhachSan::class.java)
-//                startActivity(intent)
-//            }
-//
-//            override fun onMyItemClickListener(item: View?, position: Int) {
-//                val hotel = adapter.getItem(position)
-//
-//                // Chuyển đến ChiTietKhachSan
-//                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
-//
-//                // Optional: Nếu cần truyền thêm dữ liệu (ví dụ: thông tin hotel)
-//                intent.putExtra("hotel_name", hotel.name)  // Bạn có thể thay "hotel_name" bằng bất kỳ key nào bạn muốn
-//                startActivity(intent)
-//
-//                Toast.makeText(this@MainActivity, "Item: ${hotel.name}", Toast.LENGTH_SHORT).show()
-//            }
-//        })
+        adapter.setOnItemClick(object : MyHotelRecyclerViewAdapter.OnRecyclerViewItemClickListener {
+            override fun onImageClickListener(item: View?, position: Int) {
+                val hotel = adapter.getItem(position)
+                Toast.makeText(this@MainActivity, "Ảnh: ${hotel.name}", Toast.LENGTH_SHORT).show()
+                // Chuyển đến ChiTietKhachSan
+                Intent(this@MainActivity, ChiTietKhachSan::class.java)
+                startActivity(intent)
+            }
+
+            override fun onMyItemClickListener(item: View?, position: Int) {
+                val hotel = adapter.getItem(position)
+
+                // Chuyển đến ChiTietKhachSan
+                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
+
+                // Optional: Nếu cần truyền thêm dữ liệu (ví dụ: thông tin hotel)
+                intent.putExtra("hotel_name", hotel.name)  // Bạn có thể thay "hotel_name" bằng bất kỳ key nào bạn muốn
+                startActivity(intent)
+
+                Toast.makeText(this@MainActivity, "Item: ${hotel.name}", Toast.LENGTH_SHORT).show()
+            }
+        })
 
 
         // Click Voucher Item
@@ -193,6 +225,11 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    override fun onResume() {
+
+        super.onResume()
+    }E
 //    private fun getLocations(locations:ArrayList<Location>, adapter: ArrayAdapter<String> ) {
 //        locations.clear()
 //        //B2. Dinh nghia doi tuong Retrofit
@@ -263,3 +300,5 @@ class MainActivity : AppCompatActivity() {
 //        })
 //    }
 }
+
+
