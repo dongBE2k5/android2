@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.CardRecyclerListHotelBinding
@@ -16,7 +17,8 @@ import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
 
 class MyHotelRecyclerViewAdapter(
     private val context: Context,
-    private val list: ArrayList<Hotel>
+    private val list: ArrayList<Hotel>,
+    private val locationName: String
 ) : RecyclerView.Adapter<MyHotelRecyclerViewAdapter.MyViewHolder>() {
 
     private var selectedPosition = -1
@@ -71,10 +73,27 @@ class MyHotelRecyclerViewAdapter(
         holder.itemPosition = position
 
         val binding = CardRecyclerListHotelBinding.bind(holder.binding)
+        binding.tvThanhPho.text = locationName
         binding.nameHotel.text = hotel.name
-        binding.statusHotel.text = hotel.status
-        binding.descriptionHotel.text = hotel.description
-        binding.imageThumb.setImageResource(hotel.image)
+        binding.statusHotel.text = if (hotel.status == "CON_PHONG") "Còn phòng" else "Hết phòng"
+        binding.feedback.text = hotel.name
+        binding.descriptionHotel.text = hotel.address
+        Glide.with(holder.itemView.context)
+            .load(hotel.image)
+            .placeholder(R.drawable.khachsan)
+            .error(R.drawable.ic_launcher_background)
+            .into(binding.imageThumb)
+//        binding.imageThumb.setImageResource(R.drawable.khachsan)
+
     }
+    fun updateData(newList: List<Hotel>) {
+        list.clear()
+        list.addAll(newList)
+        notifyDataSetChanged()
+    }
+
+    fun getItem(position: Int): Hotel = list[position]
+
+
 
 }

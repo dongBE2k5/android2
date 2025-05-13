@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="100dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+
+            android:layout_width="200dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bogoc_voucher_khs"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/logo_hotel" />
+
+                <TextView
+                    android:id="@+id/tvTitleVoucher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Giảm đến 1 triệu tất cả Khách Sạn"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tvDetailVoucher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Đặt khách sạn từ 2.5 triệu"
+                    android:textColor="	#BDBDBD"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_marginLeft="12dp"
+            android:layout_width="185dp"
+            android:layout_height="2dp"
+            android:background="@drawable/dashed_underline" />
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bogoc_voucher_khs3"
+            android:orientation="horizontal"
+            android:layout_height="35dp">
+
+
+
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:padding="2dp"
+                android:background="@drawable/mauxam"
+                android:layout_width="120dp"
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_marginLeft="2dp"
+                    android:id="@+id/imageView4"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/copy_logo" />
+
+                <TextView
+                    android:id="@+id/tvCodeVoucher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="VNEPICTHANKYOU"
+                    android:textColor="#BDBDDF"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:gravity="center"
+                    android:background="@drawable/blue_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:text="COPY">
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

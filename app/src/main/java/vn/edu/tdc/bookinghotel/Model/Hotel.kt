@@ -1,18 +1,29 @@
 package vn.edu.tdc.bookinghotel.Model
 
 class Hotel {
-    var name:String=""
-    var status :String=""
-    var description:String = ""
-    var image:Int = 0
+    val id: Long
+    val name: String
+    val address: String
+    val phone: String
+    val image: String
+    val email: String
+    val status: String
 
-    constructor(name: String, status: String, description: String,image:Int) {
+    constructor(
+        id: Long,
+        name: String,
+        address: String,
+        phone: String,
+        image: String,
+        email: String,
+        status: String
+    ) {
+        this.id = id
         this.name = name
+        this.address = address
+        this.phone = phone
+        this.image = image
+        this.email = email
         this.status = status
-        this.description = description
-        this.image=image
-    }
-    override fun toString(): String {
-        return "$name:$status:$description:$image"
     }
 }

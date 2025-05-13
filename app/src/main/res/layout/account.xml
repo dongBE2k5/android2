@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E0E0E0">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bgks"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+
+             <ImageView
+                 android:id="@+id/btnBack"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:layout_gravity="left"
+                 android:layout_marginLeft="5dp"
+                 android:src="@drawable/back"
+                 android:tint="@color/white" />
+         </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="travelokaTDC"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="16dp" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:contentDescription="Logo"
+                    android:src="@drawable/logokhachsan"
+                    android:tint="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.53"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đăng ký thành viên, hưởng nhiều ưu đãi">
+
+            </TextView>
+
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+             <TextView
+                 android:id="@+id/login"
+                 android:layout_width="100dp"
+                 android:gravity="center"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="10dp"
+                 android:background="@drawable/bogoctrangdangnhap"
+                 android:padding="10dp"
+                 android:text="Đăng nhập"
+                 android:textColor="@color/white"
+                 android:textSize="15sp"
+                 android:textStyle="bold">
+
+             </TextView>
+             <TextView
+                 android:layout_marginLeft="5dp"
+                 android:gravity="center"
+                 android:id="@+id/register"
+                 android:layout_width="100dp"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="10dp"
+                 android:background="@drawable/bogoctrangdangnhap"
+                 android:padding="10dp"
+                 android:text="Đăng ký"
+                 android:textColor="@color/white"
+                 android:textSize="15sp"
+                 android:textStyle="bold">
+
+             </TextView>
+         </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="4">
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="Tính năng dành cho thành viên"
+            android:textSize="15sp"
+            android:textStyle="bold">
+
+        </TextView>
+        <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_white_bg"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/document"
+            android:tint="#D3D3D3" /> <!-- Đổi màu icon hoặc ảnh -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:text="Thông tin hành khách"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginLeft="5dp"
+                android:text="Quản lý thông tin hành khách đã lưu và địa chỉ đã lưu của bạn"
+                android:textColor="#808080">
+
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+
+    <!-- Bottom Navigation View nằm ngoài hệ thống weight -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:menu="@menu/bottom_nav_menu" />
+</LinearLayout>
