@@ -26,4 +26,8 @@ class Hotel {
         this.email = email
         this.status = status
     }
+
+    override fun toString(): String {
+        return "${id} - ${name} - ${address} - ${phone} - ${image} - ${status} - ${email}"
+    }
 }

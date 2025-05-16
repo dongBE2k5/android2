@@ -1,4 +1,4 @@
-package vn.edu.tdc.bookinghotel
+package vn.edu.tdc.bookinghotel.Activity
 
 import android.content.Intent
 import android.graphics.Color
@@ -8,9 +8,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import vn.edu.tdc.bookinghotel.Activity.Hotel_BookingActivity
 import vn.edu.tdc.bookinghotel.Adapters.ChiTietPhongRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.Adapters.ListDetailRecyclerViewAdapter
+import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.DetailRoomBinding
 import vn.edu.tdc.bookinghotel.fragment.ChiTietPhong
 import vn.edu.tdc.bookinghotel.fragment.ListDetail
@@ -96,6 +96,7 @@ class ChiTietKhachSan : AppCompatActivity(), ChiTietPhongRecyclerViewAdapter.OnI
 
         // Dữ liệu list trung gian
         val detailPhong = arrayListOf(ListDetail("Phòng có sẵn", danhSachPhong))
+
 
         // Gán adapter cho RecyclerView và truyền listener
         val recyclerViewListDetail = findViewById<RecyclerView>(R.id.recyclerViewListDetail)

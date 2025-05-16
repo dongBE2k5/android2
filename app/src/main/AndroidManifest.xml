@@ -20,7 +20,7 @@
             android:name=".Activity.StoreActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminQLDatKS"
+            android:name=".Activity.AdminQLDatKS"
             android:exported="false" />
         <activity
             android:name=".Activity.AdminActivity"
@@ -32,7 +32,7 @@
             android:name=".Activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ChiTietKhachSan"
+            android:name=".Activity.ChiTietKhachSan"
             android:exported="false" />
         <activity
             android:name=".Activity.Hotel_BookingActivity"
@@ -44,7 +44,7 @@
             android:name=".Activity.AcountActivity"
             android:exported="false" />
         <activity
-            android:name=".EditProfile"
+            android:name=".Activity.EditProfile"
             android:exported="false" />
         <activity
             android:name=".Activity.AcountActive"

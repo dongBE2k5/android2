@@ -11,7 +11,7 @@ interface HotelAPI {
     // Dinh nghia API de Retrofit lay du lieu ve tu Webservice
     companion object {
         //        const val BASE_URL = "https://hotel-manager-production-b051.up.railway.app/api/"
-        const val BASE_URL = "http://192.168.1.9:8080/api/"
+        const val BASE_URL = "http://192.168.1.4:8080/api/"
     }
 
     @GET("hotels")
