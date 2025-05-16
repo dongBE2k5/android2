@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.edu.tdc.bookinghotel.Adapters.AdminRecycleViewAdapter
-import vn.edu.tdc.bookinghotel.AdminQLDatKS
 import vn.edu.tdc.bookinghotel.Model.UserDatHang
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.AdminLayoutBinding

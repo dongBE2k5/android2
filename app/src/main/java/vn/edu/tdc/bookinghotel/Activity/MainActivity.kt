@@ -12,15 +12,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import vn.edu.tdc.bookinghotel.Adapters.MyHotelRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.Adapters.MyVoucherRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.CallAPI.LocationAPI
-import vn.edu.tdc.bookinghotel.ChiTietKhachSan
 import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.Model.Location
 import vn.edu.tdc.bookinghotel.Repository.LocationRepository
@@ -143,7 +137,7 @@ class MainActivity : AppCompatActivity() {
                     locationId = selectedLocation.id,  // <-- truyền ID vào
                     onSuccess = { hotelsList ->
                         hotels.addAll(hotelsList)
-
+                        Log.d("hotels",hotels.toString() )
                         // Cập nhật RecyclerView sau khi có dữ liệu
                         binding.recycleListHotel.layoutManager = LinearLayoutManager(
                             this@MainActivity,
@@ -152,6 +146,24 @@ class MainActivity : AppCompatActivity() {
                         )
                         adapter = MyHotelRecyclerViewAdapter(this@MainActivity, hotels, selectedLocation.name)
                         binding.recycleListHotel.adapter = adapter
+                        adapter.setOnItemClick(object : MyHotelRecyclerViewAdapter.OnRecyclerViewItemClickListener {
+                            override fun onImageClickListener(item: View?, position: Int) {
+                                val hotel = adapter.getItem(position)
+                                // Tạo Intent mới rồi mới startActivity
+                                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
+                                intent.putExtra("hotel_name", hotel.name) // nếu cần truyền dữ liệu
+                                startActivity(intent)
+                            }
+
+                            override fun onMyItemClickListener(item: View?, position: Int) {
+                                val hotel = adapter.getItem(position)
+
+                                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
+                                intent.putExtra("hotel_name", hotel.name)
+                                startActivity(intent)
+                            }
+                        })
+
                     },
                     onError = { error ->
                         Log.e("API Hotel error", "Error: ${error.message}")
@@ -190,28 +202,29 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Click vào item Hotel
-        adapter.setOnItemClick(object : MyHotelRecyclerViewAdapter.OnRecyclerViewItemClickListener {
-            override fun onImageClickListener(item: View?, position: Int) {
-                val hotel = adapter.getItem(position)
-                Toast.makeText(this@MainActivity, "Ảnh: ${hotel.name}", Toast.LENGTH_SHORT).show()
-                // Chuyển đến ChiTietKhachSan
-                Intent(this@MainActivity, ChiTietKhachSan::class.java)
-                startActivity(intent)
-            }
-
-            override fun onMyItemClickListener(item: View?, position: Int) {
-                val hotel = adapter.getItem(position)
-
-                // Chuyển đến ChiTietKhachSan
-                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
-
-                // Optional: Nếu cần truyền thêm dữ liệu (ví dụ: thông tin hotel)
-                intent.putExtra("hotel_name", hotel.name)  // Bạn có thể thay "hotel_name" bằng bất kỳ key nào bạn muốn
-                startActivity(intent)
-
-                Toast.makeText(this@MainActivity, "Item: ${hotel.name}", Toast.LENGTH_SHORT).show()
-            }
-        })
+//
+//        adapter.setOnItemClick(object : MyHotelRecyclerViewAdapter.OnRecyclerViewItemClickListener {
+//            override fun onImageClickListener(item: View?, position: Int) {
+//                val hotel = adapter.getItem(position)
+////                Toast.makeText(this@MainActivity, "Ảnh: ${hotel.name}", Toast.LENGTH_SHORT).show()
+//                // Chuyển đến ChiTietKhachSan
+//                Intent(this@MainActivity, ChiTietKhachSan::class.java)
+//                startActivity(intent)
+//            }
+//
+//            override fun onMyItemClickListener(item: View?, position: Int) {
+//                val hotel = adapter.getItem(position)
+//
+//                // Chuyển đến ChiTietKhachSan
+//                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
+//
+//                // Optional: Nếu cần truyền thêm dữ liệu (ví dụ: thông tin hotel)
+//                intent.putExtra("hotel_name", hotel.name)  // Bạn có thể thay "hotel_name" bằng bất kỳ key nào bạn muốn
+//                startActivity(intent)
+//
+////                Toast.makeText(this@MainActivity, "Item: ${hotel.name}", Toast.LENGTH_SHORT).show()
+//            }
+//        })
 
 
         // Click Voucher Item
@@ -229,7 +242,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
 
         super.onResume()
-    }E
+    }
 //    private fun getLocations(locations:ArrayList<Location>, adapter: ArrayAdapter<String> ) {
 //        locations.clear()
 //        //B2. Dinh nghia doi tuong Retrofit

@@ -38,11 +38,12 @@ data class RegisterResponse(
     val username: String,
     @SerializedName("password")
     val password: String,
-    @SerializedName("fullname")
-    val fullname: String,
-    @SerializedName("email")
-    val email: String,
-    @SerializedName("phone")
-    val phone: String,
-    val cccd: String,
+
+//    @SerializedName("fullname")
+//    val fullname: String,
+//    @SerializedName("email")
+//    val email: String,
+//    @SerializedName("phone")
+//    val phone: String,
+//    val cccd: String,
 )

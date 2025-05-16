@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import vn.edu.tdc.bookinghotel.EditProfile
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.AcountActiveBinding
 

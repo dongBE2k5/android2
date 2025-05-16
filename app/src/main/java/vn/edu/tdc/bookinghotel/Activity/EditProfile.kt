@@ -1,4 +1,4 @@
-package vn.edu.tdc.bookinghotel
+package vn.edu.tdc.bookinghotel.Activity
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -11,11 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import vn.edu.tdc.bookinghotel.Activity.AcountActive
-import vn.edu.tdc.bookinghotel.Activity.AcountActivity
-import vn.edu.tdc.bookinghotel.Activity.AdminActivity
-import vn.edu.tdc.bookinghotel.Activity.MainActivity
-import vn.edu.tdc.bookinghotel.Activity.StoreActivity
+import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.EditProfileAccountBinding
 import java.util.Calendar
 
