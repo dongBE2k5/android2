@@ -1,33 +1,30 @@
 package vn.edu.tdc.bookinghotel.Model
 
-class Hotel {
-    val id: Long
-    val name: String
-    val address: String
-    val phone: String
-    val image: String
-    val email: String
-    val status: String
+import com.google.gson.annotations.SerializedName
 
-    constructor(
-        id: Long,
-        name: String,
-        address: String,
-        phone: String,
-        image: String,
-        email: String,
-        status: String
-    ) {
-        this.id = id
-        this.name = name
-        this.address = address
-        this.phone = phone
-        this.image = image
-        this.email = email
-        this.status = status
-    }
+class Hotel
+    (  @SerializedName("hotelId")
+       val id: Long,
 
+       @SerializedName("name")
+       val name: String,
+
+       @SerializedName("address")
+       val address: String,
+
+       @SerializedName("status")
+       val status: String,
+
+       @SerializedName("image")
+       val image: String?,
+
+       @SerializedName("location")
+       val locations: Location,
+
+//       @SerializedName("hotelierId")
+//       val hotelier: Hotelier
+            ){
     override fun toString(): String {
-        return "${id} - ${name} - ${address} - ${phone} - ${image} - ${status} - ${email}"
+        return "${id} - ${name} - ${address} - ${image} - ${status}"
     }
 }

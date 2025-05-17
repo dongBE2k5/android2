@@ -3,7 +3,6 @@ package vn.edu.tdc.bookinghotel.Adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import vn.edu.tdc.bookinghotel.fragment.ChiTietPhong
 
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import vn.edu.tdc.bookinghotel.R
 
-import vn.edu.tdc.bookinghotel.fragment.ListDetail
+import vn.edu.tdc.bookinghotel.Model.ListDetail
 class ListDetailRecyclerViewAdapter(
     private val listDetail: List<ListDetail>,
     private val listener: ChiTietPhongRecyclerViewAdapter.OnItemClickListener // Thêm listener

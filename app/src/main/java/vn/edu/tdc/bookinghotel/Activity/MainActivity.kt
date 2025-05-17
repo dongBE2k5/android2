@@ -152,6 +152,7 @@ class MainActivity : AppCompatActivity() {
                                 // Tạo Intent mới rồi mới startActivity
                                 val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
                                 intent.putExtra("hotel_name", hotel.name) // nếu cần truyền dữ liệu
+                                intent.putExtra("hotel_id", hotel.id)
                                 startActivity(intent)
                             }
 
@@ -160,6 +161,7 @@ class MainActivity : AppCompatActivity() {
 
                                 val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
                                 intent.putExtra("hotel_name", hotel.name)
+                                intent.putExtra("hotel_id", hotel.id)
                                 startActivity(intent)
                             }
                         })
