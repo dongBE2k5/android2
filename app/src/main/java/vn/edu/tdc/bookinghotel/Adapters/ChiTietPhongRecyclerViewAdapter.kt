@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Model.Room
+import java.math.BigDecimal
 import java.text.DecimalFormat
 
 class ChiTietPhongRecyclerViewAdapter(
@@ -43,7 +44,7 @@ class ChiTietPhongRecyclerViewAdapter(
         val phongs = listRoom[position]
 
         // Liên kết dữ liệu cho các trường cũ
-        holder.nameDichVu.text = phongs.roomType.name
+        holder.nameDichVu.text = phongs.roomType!!.name
         holder.thongTin1.text = phongs.description
 //        holder.thongTin2.text = phongs.thongTin2
         holder.hotelDeals.text = phongs.status
@@ -66,7 +67,7 @@ class ChiTietPhongRecyclerViewAdapter(
         return listRoom.size
     }
 
-    fun formatCurrency(amount: Int): String {
+    fun formatCurrency(amount: Double): String {
         val format = DecimalFormat("#,###")
         return format.format(amount)
     }

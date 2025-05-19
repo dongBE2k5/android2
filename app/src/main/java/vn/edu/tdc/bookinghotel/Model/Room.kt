@@ -1,38 +1,40 @@
 package vn.edu.tdc.bookinghotel.Model
 
 import com.google.gson.annotations.SerializedName
+import java.math.BigDecimal
 
 data class Room (
     @SerializedName("roomId")
-    val id: String,
+    val id: Long,
 
     @SerializedName("capacity")
-    val capacity: Int = 0,
+    val capacity: Int,
 
     @SerializedName("description")
-    val description: String = "",
+    val description: String,
 
     @SerializedName("image")
-    val image: String = "", // Đường dẫn hoặc URL ảnh
+    val image: String, // Đường dẫn hoặc URL ảnh
 
     @SerializedName("price")
-    val price: Int = 0,
+    val price: Double,
 
-    @SerializedName("room_number")
-    val roomNumber: String = "",
+    @SerializedName("roomNumber")
+    val roomNumber: String,
 
     @SerializedName("status")
-    val status: String = "",
+    val status: String,
 
-    @SerializedName("hotel_id")
-    val hotelId: String = "",
+    @SerializedName("hotel")
+    val hotel: Hotel? = null,
+
     @SerializedName("roomType")
-    val roomType: RoomType,
+    val roomType: RoomType? = null
 
 
 
 ){
     override fun toString(): String {
-        return "${id} - ${capacity} - ${description} - ${image} - ${status}"
+        return "${id} - ${roomNumber} - ${price} - ${capacity} - ${description} - ${image} - ${status}"
     }
 }
