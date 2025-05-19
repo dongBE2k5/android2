@@ -30,9 +30,9 @@ class ListDetailRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ListDetailViewHolder, position: Int) {
         val listDetails = listDetail[position]
         holder.tvPhonCoSan.text = listDetails.tvPhongCoSan
-
+        val context = holder.itemView.context
         // Khởi tạo adapter con và truyền listener vào
-        val adapterChiTietPhong = ChiTietPhongRecyclerViewAdapter(listDetails.danhSachPhong, listener)
+        val adapterChiTietPhong = ChiTietPhongRecyclerViewAdapter(context,listDetails.danhSachPhong, listener)
         holder.recyclerViewChiTietPhong.layoutManager = LinearLayoutManager(holder.itemView.context)
         holder.recyclerViewChiTietPhong.adapter = adapterChiTietPhong
     }

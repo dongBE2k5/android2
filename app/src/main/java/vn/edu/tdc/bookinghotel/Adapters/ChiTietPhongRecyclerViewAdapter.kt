@@ -1,10 +1,12 @@
 package vn.edu.tdc.bookinghotel.Adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 import vn.edu.tdc.bookinghotel.R
@@ -12,6 +14,7 @@ import vn.edu.tdc.bookinghotel.Model.Room
 import java.text.DecimalFormat
 
 class ChiTietPhongRecyclerViewAdapter(
+    private val context: Context,
     private val listRoom: List<Room>,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<ChiTietPhongRecyclerViewAdapter.ChiTietPhongViewHolder>() {
@@ -27,8 +30,8 @@ class ChiTietPhongRecyclerViewAdapter(
         val thongTin2: TextView = itemView.findViewById(R.id.thongTin2)
         val hotelDeals: TextView = itemView.findViewById(R.id.hotelDeals)
         val giaTien: TextView = itemView.findViewById(R.id.giaTien)
-//        val tongGiaTien: TextView = itemView.findViewById(R.id.tongGiaTien)
-//        val phongConLai: TextView = itemView.findViewById(R.id.phongConLai)
+        val tongGiaTien: TextView = itemView.findViewById(R.id.tongGiaTien)
+        val phongConLai: TextView = itemView.findViewById(R.id.phongConLai)
 //        val maVoucher: TextView = itemView.findViewById(R.id.maVoucher)
         val btnDat: TextView = itemView.findViewById(R.id.btnDat) // btnDat
     }
@@ -45,20 +48,41 @@ class ChiTietPhongRecyclerViewAdapter(
         // Liên kết dữ liệu cho các trường cũ
         holder.nameDichVu.text = phongs.roomType.name
         holder.thongTin1.text = phongs.description
-//        holder.thongTin2.text = phongs.thongTin2
+        if (phongs.roomType.id.equals(1L)){
+            holder.thongTin2.text = "Có bàn làm việc và Wi-Fi miễn phí,diện tích 20m²"
+        }
+        else if (phongs.roomType.id.equals(2L)){
+            holder.thongTin2.text = "Bao gồm TV, bàn làm việc và Wi-Fi,diện tích 28m²"
+
+        }
+        else{
+            holder.thongTin2.text = "Có sofa, bàn ăn và tiện nghi đầy đủ,diện tích 40m²"
+        }
+
         holder.hotelDeals.text = phongs.status
         val formattedGiaTien = formatCurrency(phongs.price)
-        holder.giaTien.text = "$formattedGiaTien VND"
+        holder.giaTien.text = "$formattedGiaTien VND/đêm "
 
         // Định dạng tổng giá tiền
 //        val formattedTongGiaTien = formatCurrency(phongs.tongGiaTien)
 //        holder.tongGiaTien.text = "Tổng giá $formattedTongGiaTien VND bao gồm thuế và phí"
-//        holder.phongConLai.text = "Chỉ còn ${phongs.phongConLai} phòng"
+        holder.tongGiaTien.text = ""
+        holder.phongConLai.text = "Phòng ${phongs.capacity} người"
 //        holder.maVoucher.text = "Mã ${phongs.maVoucher} giảm đến 1 triệu"
 
         // Xử lý click cho btnDat
         holder.btnDat.setOnClickListener {
-            listener.onDatClick(position)
+            if (phongs.status == "AVAILABLE") {
+                listener.onDatClick(position)
+            }
+            else if (phongs.status == "MAINTENANCE"){
+                Toast.makeText(context,"Phòng đang bảo trì ",Toast.LENGTH_SHORT).show()
+            }
+
+            else {
+                Toast.makeText(context,"Phòng đã có người đặt trước",Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 
