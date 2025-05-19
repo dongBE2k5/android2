@@ -1,5 +1,6 @@
 package vn.edu.tdc.bookinghotel.Adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,45 +10,52 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import vn.edu.tdc.bookinghotel.Adapters.ListDetailRecyclerViewAdapter.MyViewHolder
+import vn.edu.tdc.bookinghotel.Model.Booking
 
 import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.databinding.ChiTietPhongBinding
+import vn.edu.tdc.bookinghotel.databinding.KhachSanDaDatRecyleviewBinding
 
 class HotelDaDatAdapter(
-    private val bookingList: List<Hotel_Booking>
+    val context: Context,
+    private val bookingList: ArrayList<Booking>
 ) : RecyclerView.Adapter<HotelDaDatAdapter.BookingViewHolder>() {
 
-    inner class BookingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // Các trường cũ
-        val tvBookingId: TextView = itemView.findViewById(R.id.tvBookingId)
-        val tvCustomerId: TextView = itemView.findViewById(R.id.tvCustomerId)
-        val tvRoomId: TextView = itemView.findViewById(R.id.tvRoomId)
-        val tvCheckInDate: TextView = itemView.findViewById(R.id.tvCheckInDate)
-        val tvCheckOutDate: TextView = itemView.findViewById(R.id.tvCheckOutDate)
-        val tvStatus: TextView = itemView.findViewById(R.id.tvStatus)
-        val tvRoomName: TextView = itemView.findViewById(R.id.tvRoomName)
-        val imgRoom: ImageView = itemView.findViewById(R.id.imgRoom)
-    }
+    inner class BookingViewHolder(val binding: KhachSanDaDatRecyleviewBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
+    inner class MyViewHolder(val binding: ChiTietPhongBinding) : RecyclerView.ViewHolder(binding.root) {
+}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookingViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.khach_san_da_dat_recyleview, parent, false)
-        return BookingViewHolder(view)
+        val binding = KhachSanDaDatRecyleviewBinding.inflate(LayoutInflater.from(context), parent, false)
+        return BookingViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: BookingViewHolder, position: Int) {
         val booking = bookingList[position]
+        val room = booking.room
+        val customer = booking.customer
 
-        // Liên kết dữ liệu cho các trường cũ
-        holder.tvBookingId.text = "Booking ID: ${booking.bookingId}"
-        holder.tvCustomerId.text = "Customer ID: ${booking.customerId}"
-        holder.tvRoomId.text = "Room ID: ${booking.roomId}"
-        holder.tvCheckInDate.text = "Check-In: ${booking.checkInDate}"
-        holder.tvCheckOutDate.text = "Check-Out: ${booking.checkOutDate}"
-        holder.tvStatus.text = "Status: ${booking.status}"
-        holder.tvRoomName.text = booking.roomName
-        holder.imgRoom.setImageResource(R.drawable.khachsan)
+        val b = holder.binding
 
+        b.tvRoomName.text = "Phòng: ${room.roomNumber}"
+        b.price.text = "Giá: ${room.price.toInt()}đ"
+        b.tvRoomCapacity.text = "Sức chứa: ${room.capacity} người"
+        b.tvRoomDescription.text = room.description
+        b.tvCustomerId.text = "Khách hàng: ${customer.fullName}"
+        b.tvCheckInDate.text = "Check-in: ${booking.checkinDate}"
+        b.tvCheckOutDate.text = "Check-out: ${booking.checkoutDate}"
+        b.tvStatus.text = "Trạng thái: ${booking.status}"
+
+        val imageUrl = "http://your-backend-url.com/images/${room.image}"
+        Glide.with(b.imgRoom.context)
+            .load(imageUrl)
+            .placeholder(R.drawable.ic_launcher_background)
+            .into(b.imgRoom)
     }
 
     override fun getItemCount(): Int = bookingList.size

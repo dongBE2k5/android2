@@ -4,13 +4,16 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.edu.tdc.bookinghotel.Adapters.HotelDaDatAdapter
+import vn.edu.tdc.bookinghotel.Model.Booking
 import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.BookingRepository
 import vn.edu.tdc.bookinghotel.databinding.StoreBinding
 
 class StoreActivity : AppCompatActivity() {
@@ -68,32 +71,42 @@ class StoreActivity : AppCompatActivity() {
 
         recyclerView = binding.recycleKsDaDat
         recyclerView.layoutManager = LinearLayoutManager(this)
+        val BookedHotel = ArrayList<Booking>()
+        val bookingRepository = BookingRepository()
+        bookingRepository.getBookingByCustomerId(1, { bookings ->
+            BookedHotel.addAll(bookings)
+            Log.d("List", "${BookedHotel.toString()}")
+            adapter = HotelDaDatAdapter(this, BookedHotel)
+            recyclerView.adapter = adapter
+            adapter.notifyDataSetChanged()
+        }, { error ->
+            Log.e("StoreActivity", "Error fetching bookings: $error")
+        })
 
+//        val dummyData = generateDummyBookings()
 
-        val dummyData = generateDummyBookings()
-        adapter = HotelDaDatAdapter(dummyData)
-        recyclerView.adapter = adapter
+//
     }
 
-    private fun generateDummyBookings(): List<Hotel_Booking> {
-        return listOf(
-            Hotel_Booking(
-                bookingId = 1,
-                customerId = 1001,
-                roomId = 201,
-                checkInDate = "2025-05-01",
-                checkOutDate = "2025-05-05",
-                status = "Đã đặt",
-                roomName = "Phòng Deluxe Hướng Biển",
-                imageUrl = R.drawable.khachsan,
-                contactInfo = "user1@example.com",
-                voucherCode = "SUMMER2025",
-                paymentMethods = "Tiền mặt,Chuyển khoản",
-                totalAmount = "5,000,000 VNĐ",
-                isInsuranceSelected = true,
-                insurancePrice = "43,500 VNĐ"
-            )
-        )
-    }
+//    private fun generateDummyBookings(): List<Hotel_Booking> {
+//        return listOf(
+//            Hotel_Booking(
+//                bookingId = 1,
+//                customerId = 1001,
+//                roomId = 201,
+//                checkInDate = "2025-05-01",
+//                checkOutDate = "2025-05-05",
+//                status = "Đã đặt",
+//                roomName = "Phòng Deluxe Hướng Biển",
+//                imageUrl = R.drawable.khachsan,
+//                contactInfo = "user1@example.com",
+//                voucherCode = "SUMMER2025",
+//                paymentMethods = "Tiền mặt,Chuyển khoản",
+//                totalAmount = "5,000,000 VNĐ",
+//                isInsuranceSelected = true,
+//                insurancePrice = "43,500 VNĐ"
+//            )
+//        )
+//    }
 }
 
