@@ -138,6 +138,7 @@ class MainActivity : AppCompatActivity() {
                     onSuccess = { hotelsList ->
                         hotels.addAll(hotelsList)
                         Log.d("hotels",hotels.toString() )
+                        Log.d("hotelsImg",hotels.toString() )
                         // Cập nhật RecyclerView sau khi có dữ liệu
                         binding.recycleListHotel.layoutManager = LinearLayoutManager(
                             this@MainActivity,
@@ -153,6 +154,9 @@ class MainActivity : AppCompatActivity() {
                                 val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
                                 intent.putExtra("hotel_name", hotel.name) // nếu cần truyền dữ liệu
                                 intent.putExtra("hotel_id", hotel.id)
+                                Log.d("Check image",hotel.image )
+                                intent.putExtra("hotel_image", hotel.image)
+
                                 startActivity(intent)
                             }
 
@@ -162,6 +166,7 @@ class MainActivity : AppCompatActivity() {
                                 val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
                                 intent.putExtra("hotel_name", hotel.name)
                                 intent.putExtra("hotel_id", hotel.id)
+                                intent.putExtra("hotel_image", hotel.image)
                                 startActivity(intent)
                             }
                         })

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BookingHotel</string>
+    <string name="localUpload">http://192.168.1.4:8080/uploads/</string>
 </resources>

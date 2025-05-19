@@ -16,7 +16,7 @@ class Hotel
        val status: String,
 
        @SerializedName("image")
-       val image: String?,
+       val image: String,
 
        @SerializedName("location")
        val locations: Location,

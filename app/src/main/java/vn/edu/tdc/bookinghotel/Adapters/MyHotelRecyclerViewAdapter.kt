@@ -15,6 +15,8 @@ import vn.edu.tdc.bookinghotel.databinding.CardRecyclerListHotelBinding
 import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
 
 
+private const val s = "192.168.1.4:8080/upload/"
+
 class MyHotelRecyclerViewAdapter(
     private val context: Context,
     private val list: ArrayList<Hotel>,
@@ -75,11 +77,11 @@ class MyHotelRecyclerViewAdapter(
         val binding = CardRecyclerListHotelBinding.bind(holder.binding)
         binding.tvThanhPho.text = locationName
         binding.nameHotel.text = hotel.name
-        binding.statusHotel.text = if (hotel.status == "CON_PHONG") "Còn phòng" else "Hết phòng"
+        binding.statusHotel.text = if (hotel.status == "OPEN") "Còn phòng" else "Hết phòng"
         binding.feedback.text = hotel.name
         binding.descriptionHotel.text = hotel.address
         Glide.with(holder.itemView.context)
-            .load(hotel.image)
+            .load("${context.getString(R.string.localUpload)}${hotel.image}")
             .placeholder(R.drawable.khachsan)
             .error(R.drawable.ic_launcher_background)
             .into(binding.imageThumb)

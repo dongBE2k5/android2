@@ -1,5 +1,6 @@
 package vn.edu.tdc.bookinghotel.Activity
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -9,6 +10,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import vn.edu.tdc.bookinghotel.Adapters.ChiTietPhongRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.Adapters.ListDetailRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.Model.Hotel
@@ -42,11 +44,17 @@ class ChiTietKhachSan : AppCompatActivity() {
         // Nhận dữ liệu từ Intent
         val hotelName = intent.getStringExtra("hotel_name")
         val hotelId = intent.getLongExtra("hotel_id", 0L)
-
+        val hotelImage = intent.getStringExtra("hotel_image")
+        Log.d("image hotels",hotelImage.toString())
+        Log.d("Requet image hotels",getString(R.string.localUpload))
 
         binding.tvTenKhachSan.text = hotelName ?: "Tên khách sạn không có"
 
-
+        Glide.with(this)
+            .load("${getString(R.string.localUpload)}${hotelImage}")
+            .placeholder(R.drawable.khachsan)
+            .error(R.drawable.ic_launcher_background)
+            .into(binding.imgHotel)
         Log.d("ID hotels", hotelId.toString())
         val repositoryRoom= RoomRepository()
         var rooms = ArrayList<Room>()
@@ -55,7 +63,7 @@ class ChiTietKhachSan : AppCompatActivity() {
             onSuccess = {roomList->
                 rooms.clear()
                 rooms.addAll(roomList)
-                val detailPhong = arrayListOf(ListDetail("Phòng có sẵn", rooms))
+                val detailPhong = arrayListOf(ListDetail("Danh sách phòng", rooms))
                 Log.d("List room", rooms.toString())
 
                 // Gán adapter cho RecyclerView và truyền listener

@@ -53,6 +53,16 @@ RecyclerView.Adapter<ListDetailRecyclerViewAdapter.MyViewHolder>()  {
     }
 
 
+//     override fun onBindViewHolder(holder: ListDetailViewHolder, position: Int) {
+//         val listDetails = listDetail[position]
+//         holder.tvPhonCoSan.text = listDetails.tvPhongCoSan
+//         val context = holder.itemView.context
+//         // Khởi tạo adapter con và truyền listener vào
+//         val adapterChiTietPhong = ChiTietPhongRecyclerViewAdapter(context,listDetails.danhSachPhong, listener)
+//         holder.recyclerViewChiTietPhong.layoutManager = LinearLayoutManager(holder.itemView.context)
+//         holder.recyclerViewChiTietPhong.adapter = adapterChiTietPhong
+
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // Do du lieu vao binding
         val room = list.get(position)
@@ -74,6 +84,7 @@ RecyclerView.Adapter<ListDetailRecyclerViewAdapter.MyViewHolder>()  {
     fun formatCurrency(amount: Double): String {
         val format = DecimalFormat("#,###")
         return format.format(amount)
+
     }
 
 
