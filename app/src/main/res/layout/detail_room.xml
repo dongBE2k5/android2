@@ -23,7 +23,7 @@
 
         <!-- Nút back overlay trên ảnh -->
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageBack"
             android:layout_width="30dp"
             android:layout_height="25dp"
             android:layout_margin="16dp"

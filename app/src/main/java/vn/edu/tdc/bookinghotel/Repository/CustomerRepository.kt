@@ -13,6 +13,7 @@ import vn.edu.tdc.bookinghotel.CallAPI.LocationAPI
 import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.Model.Customer
 import vn.edu.tdc.bookinghotel.Model.CustomerUpdate
+import vn.edu.tdc.bookinghotel.Model.CustomerUpdateUser
 import vn.edu.tdc.bookinghotel.Response.CustomerResponse
 import vn.edu.tdc.bookinghotel.Response.HotelResponse
 
@@ -83,7 +84,7 @@ class CustomerRepository {
     //qua id user
     fun updateCustomerByIdUser(
         id: Long,
-        customer: CustomerUpdate,
+        customer: CustomerUpdateUser,
         onSuccess: (Customer) -> Unit,
         onError: (Throwable) -> Unit
     ) {

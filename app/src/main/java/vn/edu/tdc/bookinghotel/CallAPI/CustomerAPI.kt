@@ -10,6 +10,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 import vn.edu.tdc.bookinghotel.Model.CustomerUpdate
+import vn.edu.tdc.bookinghotel.Model.CustomerUpdateUser
 import vn.edu.tdc.bookinghotel.Response.CustomerResponse
 import vn.edu.tdc.bookinghotel.Response.HotelResponse
 import vn.edu.tdc.bookinghotel.Response.LocationResponse
@@ -40,5 +41,5 @@ interface CustomerAPI {
     fun updateCustomer(@Path("customerId") customerId: Long, @Body customer: CustomerUpdate): Call<CustomerResponse>
 
     @PUT("customers/userNew/{userId}")
-    fun updateCustomerByUser(@Path("userId") userId: Long, @Body customer: CustomerUpdate): Call<CustomerResponse>
+    fun updateCustomerByUser(@Path("userId") userId: Long, @Body customer: CustomerUpdateUser): Call<CustomerResponse>
 }
