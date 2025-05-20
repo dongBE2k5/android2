@@ -1,4 +1,10 @@
+
 package vn.edu.tdc.bookinghotel.Model
+
+
+
+
+
 
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
@@ -17,7 +23,7 @@ data class Room (
     val image: String, // Đường dẫn hoặc URL ảnh
 
     @SerializedName("price")
-    val price: Double,
+    val price: BigDecimal, // Đổi sang BigDecimal để tính toán chính xác
 
     @SerializedName("roomNumber")
     val roomNumber: String,
@@ -29,12 +35,15 @@ data class Room (
     val hotel: Hotel? = null,
 
     @SerializedName("roomType")
-    val roomType: RoomType? = null
+    val roomType: RoomType? = null,
 
+    @SerializedName("area")
+    val area: Double? = null, // Diện tích phòng (m²)
 
-
-){
+    @SerializedName("amenities")
+    val amenities: List<String>? = null // Danh sách tiện nghi (ví dụ: ["Wi-Fi", "Desk", "TV"])
+) {
     override fun toString(): String {
-        return "${id} - ${roomNumber} - ${price} - ${capacity} - ${description} - ${image} - ${status}"
+        return "${id} - ${roomNumber} - ${price} - ${capacity} - ${description} - ${image} - ${status} - ${area}m² - Amenities: ${amenities?.joinToString()}"
     }
 }

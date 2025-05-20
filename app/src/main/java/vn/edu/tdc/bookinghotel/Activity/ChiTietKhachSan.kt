@@ -75,7 +75,7 @@ class ChiTietKhachSan : AppCompatActivity() {
 
                 adapterListDetail.setOnItemClick(object : ListDetailRecyclerViewAdapter.onRecyclerViewItemClickListener {
                     override fun onButtonBookClick(item: View?, position: Int) {
-                        val intent = Intent(this@ChiTietKhachSan, Hotel_BookingActivity::class.java)
+                        val intent = Intent(this@ChiTietKhachSan, ChiTietPhongActivity::class.java)
                         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
                         startActivity(intent)
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
