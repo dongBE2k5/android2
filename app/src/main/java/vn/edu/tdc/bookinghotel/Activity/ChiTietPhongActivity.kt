@@ -1,29 +1,24 @@
 package vn.edu.tdc.bookinghotel.Activity
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowInsetsController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import vn.edu.tdc.bookinghotel.Adapters.ChiTietPhongRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.Adapters.ListDetailRecyclerViewAdapter
-import vn.edu.tdc.bookinghotel.Model.Hotel
-import vn.edu.tdc.bookinghotel.R
-import vn.edu.tdc.bookinghotel.databinding.DetailRoomBinding
-import vn.edu.tdc.bookinghotel.Model.Room
 import vn.edu.tdc.bookinghotel.Model.ListDetail
-import vn.edu.tdc.bookinghotel.Repository.HotelRepository
+import vn.edu.tdc.bookinghotel.Model.Room
+import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.RoomRepository
+import vn.edu.tdc.bookinghotel.databinding.DetailRoomBinding
 
-class ChiTietKhachSan : AppCompatActivity() {
+
+class ChiTietPhongActivity: AppCompatActivity() {
 
     private lateinit var binding: DetailRoomBinding
     private lateinit var adapterListDetail: ListDetailRecyclerViewAdapter
@@ -31,26 +26,17 @@ class ChiTietKhachSan : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DetailRoomBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false) // Cho phép layout vẽ tràn lên status/navigation
-            window.insetsController?.apply {
-                hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-                systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-        } else {
-            @Suppress("DEPRECATION")
-            window.decorView.systemUiVisibility = (
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_FULLSCREEN
-                            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    )
+        // Full màn hình
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.navigationBarColor = Color.TRANSPARENT
+            window.statusBarColor = Color.TRANSPARENT
         }
-
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                )
+        setContentView(binding.root)
 
         // Nhận dữ liệu từ Intent
         val hotelName = intent.getStringExtra("hotel_name")
@@ -86,20 +72,7 @@ class ChiTietKhachSan : AppCompatActivity() {
 
                 adapterListDetail.setOnItemClick(object : ListDetailRecyclerViewAdapter.onRecyclerViewItemClickListener {
                     override fun onButtonBookClick(item: View?, position: Int) {
-
-
-//                         val intent = Intent(this@ChiTietKhachSan, ChiTietPhongActivity::class.java)
-
-                        val roomSelected = rooms[position];
-                        Log.d("IdRoom" , "${roomSelected.id}")
-
-
-                        val intent = Intent(this@ChiTietKhachSan, Hotel_BookingActivity::class.java)
-
-                        intent.putExtra("roomId", "${roomSelected.id}")
-                        intent.putExtra("roomImage", roomSelected.image)
-
-
+                        val intent = Intent(this@BookingRoomDetailsActivity, Hotel_BookingActivity::class.java)
                         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
                         startActivity(intent)
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
