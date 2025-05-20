@@ -6,27 +6,30 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import vn.edu.tdc.bookinghotel.Adapters.ListDetailRecyclerViewAdapter
-import vn.edu.tdc.bookinghotel.Model.ListDetail
+import vn.edu.tdc.bookinghotel.Adapters.BookingRoomDetailsAdapter
 import vn.edu.tdc.bookinghotel.Model.Room
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.RoomRepository
+import vn.edu.tdc.bookinghotel.databinding.ActivityBookingRoomDetailsBinding
 import vn.edu.tdc.bookinghotel.databinding.DetailRoomBinding
+import java.math.BigDecimal
+import java.text.DecimalFormat
 
+class ChiTietPhongActivity : AppCompatActivity() {
 
-class ChiTietPhongActivity: AppCompatActivity() {
-
-    private lateinit var binding: DetailRoomBinding
-    private lateinit var adapterListDetail: ListDetailRecyclerViewAdapter
+    private lateinit var binding: ActivityBookingRoomDetailsBinding
+    private lateinit var adapterListDetail: BookingRoomDetailsAdapter
+//    private var rooms = ArrayList<Room>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DetailRoomBinding.inflate(layoutInflater)
-        // Full màn hình
+        binding = ActivityBookingRoomDetailsBinding.inflate(layoutInflater)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.navigationBarColor = Color.TRANSPARENT
             window.statusBarColor = Color.TRANSPARENT
@@ -38,47 +41,50 @@ class ChiTietPhongActivity: AppCompatActivity() {
                 )
         setContentView(binding.root)
 
-        // Nhận dữ liệu từ Intent
         val hotelName = intent.getStringExtra("hotel_name")
-        val hotelId = intent.getLongExtra("hotel_id", 0L)
-        val hotelImage = intent.getStringExtra("hotel_image")
-        Log.d("image hotels",hotelImage.toString())
-        Log.d("Requet image hotels",getString(R.string.localUpload))
+        val roomId = intent.getLongExtra("roomId", 0L)
+        val roomImage = intent.getStringExtra("roomImage")
+        Log.d("roomId",roomId.toString())
 
-        binding.tvTenKhachSan.text = hotelName ?: "Tên khách sạn không có"
 
-        Glide.with(this)
-            .load("${getString(R.string.localUpload)}${hotelImage}")
-            .placeholder(R.drawable.khachsan)
-            .error(R.drawable.ic_launcher_background)
-            .into(binding.imgHotel)
-        Log.d("ID hotels", hotelId.toString())
-        val repositoryRoom= RoomRepository()
-        var rooms = ArrayList<Room>()
-        repositoryRoom.fetchRoomByHotel(
-            hotelId=hotelId,
-            onSuccess = {roomList->
-                rooms.clear()
-                rooms.addAll(roomList)
-                val detailPhong = arrayListOf(ListDetail("Danh sách phòng", rooms))
-                Log.d("List room", rooms.toString())
 
-                // Gán adapter cho RecyclerView và truyền listener
-                val recyclerViewListDetail = findViewById<RecyclerView>(R.id.recyclerViewListDetail)
-//        recyclerViewListDetail.layoutManager = LinearLayoutManager(this)
-                recyclerViewListDetail.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                adapterListDetail = ListDetailRecyclerViewAdapter(this, rooms) // Truyền this vào
-                recyclerViewListDetail.adapter = adapterListDetail
 
-                adapterListDetail.setOnItemClick(object : ListDetailRecyclerViewAdapter.onRecyclerViewItemClickListener {
-                    override fun onButtonBookClick(item: View?, position: Int) {
-                        val intent = Intent(this@BookingRoomDetailsActivity, Hotel_BookingActivity::class.java)
-                        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
-                        startActivity(intent)
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        val repositoryRoom = RoomRepository()
+        repositoryRoom.fetchRoomById(
+            roomId = roomId,
+            onSuccess = { fetchedRoom ->
+
+                binding.nameDichVu.text = fetchedRoom.roomType?.name ?: "Phòng không rõ"
+                binding.thongTin1.text = fetchedRoom.description ?: "Không có mô tả"
+                binding.thongTin2.text = buildRoomDetails(fetchedRoom)
+                binding.hotelDeals.text = when (fetchedRoom.status) {
+                    "AVAILABLE" -> "Còn phòng"
+                    "MAINTENANCE" -> "Đang bảo trì"
+                    else -> "Đã đặt"
+                }
+                binding.giaTien.text = "${formatCurrency(fetchedRoom.price)} VND/đêm"
+                binding.tongGiaTien.text = "Tổng: ${formatCurrency(fetchedRoom.price)} VND"
+                binding.phongConLai.text = "Phòng cho ${fetchedRoom.capacity} người"
+
+                Glide.with(this)
+                    .load("${getString(R.string.localUpload)}${fetchedRoom.image}")
+                    .placeholder(R.drawable.khachsan)
+                    .into(binding.roomImage)
+
+                binding.btnDat.setOnClickListener {
+                    when (fetchedRoom.status) {
+                        "AVAILABLE" -> {
+                            val intent = Intent(this, Hotel_BookingActivity::class.java)
+                            intent.putExtra("selected_nav", R.id.nav_store)
+                            intent.putExtra("roomId", "${fetchedRoom.id}")
+                            intent.putExtra("roomImage", fetchedRoom.image)
+                            startActivity(intent)
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        }
+                        "MAINTENANCE" -> Toast.makeText(this, "Phòng đang bảo trì", Toast.LENGTH_SHORT).show()
+                        else -> Toast.makeText(this, "Phòng đã được đặt", Toast.LENGTH_SHORT).show()
                     }
-
-                })
+                }
             },
             onError = { error ->
                 Log.e("API Room error", "Error: ${error.message}")
@@ -86,6 +92,17 @@ class ChiTietPhongActivity: AppCompatActivity() {
         )
 
 
+
+    }
+    private fun formatCurrency(amount: BigDecimal?): String {
+        val format = DecimalFormat("#,###")
+        return format.format(amount ?: BigDecimal.ZERO)
     }
 
+    private fun buildRoomDetails(room: Room): String {
+        val details = mutableListOf<String>()
+        room.area?.let { details.add("Diện tích ${String.format("%.1f", it)}m²") }
+        room.amenities?.let { details.addAll(it) }
+        return if (details.isNotEmpty()) details.joinToString(", ") else "Không có thông tin chi tiết"
+    }
 }

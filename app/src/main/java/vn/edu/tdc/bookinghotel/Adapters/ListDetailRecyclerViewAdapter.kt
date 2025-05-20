@@ -5,13 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-import vn.edu.tdc.bookinghotel.R
-
-import vn.edu.tdc.bookinghotel.Model.ListDetail
 import vn.edu.tdc.bookinghotel.Model.Room
 import vn.edu.tdc.bookinghotel.databinding.ChiTietPhongBinding
 import java.math.BigDecimal
@@ -81,7 +76,7 @@ RecyclerView.Adapter<ListDetailRecyclerViewAdapter.MyViewHolder>()  {
             onItemClick?.onButtonBookClick(it, position)
         }
     }
-    fun formatCurrency(amount: Double): String {
+    fun formatCurrency(amount: BigDecimal): String {
         val format = DecimalFormat("#,###")
         return format.format(amount)
 

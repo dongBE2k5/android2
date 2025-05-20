@@ -3,8 +3,8 @@ package vn.edu.tdc.bookinghotel.CallAPI
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
-import vn.edu.tdc.bookinghotel.Response.HotelResponse
-import vn.edu.tdc.bookinghotel.Response.RoomRespose
+import vn.edu.tdc.bookinghotel.Response.RoomResponse
+import vn.edu.tdc.bookinghotel.Response.RoomSingleResponse
 
 interface RoomAPI {
     companion object {
@@ -14,11 +14,11 @@ interface RoomAPI {
     }
 
     @GET("rooms")
-    fun getRooms(): Call<RoomRespose>
+    fun getRooms(): Call<RoomResponse>
 
     @GET("rooms/{roomId}")
-    fun getRoomsById(@Path("roomId") roomId: Long): Call<RoomRespose>
+    fun getRoomsById(@Path("roomId") roomId: Long): Call<RoomSingleResponse>
 
     @GET("rooms/hotel/{hotelId}")
-    fun getRoomByHotel(@Path("hotelId") hotelId: Long): Call<RoomRespose>
+    fun getRoomByHotel(@Path("hotelId") hotelId: Long): Call<RoomResponse>
 }

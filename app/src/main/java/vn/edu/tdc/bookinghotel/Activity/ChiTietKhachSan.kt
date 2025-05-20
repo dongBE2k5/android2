@@ -94,9 +94,10 @@ class ChiTietKhachSan : AppCompatActivity() {
                         Log.d("IdRoom" , "${roomSelected.id}")
 
 
-                        val intent = Intent(this@ChiTietKhachSan, Hotel_BookingActivity::class.java)
+                        val intent = Intent(this@ChiTietKhachSan, ChiTietPhongActivity::class.java)
 
-                        intent.putExtra("roomId", "${roomSelected.id}")
+                        intent.putExtra("roomId", roomSelected.id)
+                        Log.d("roomIdgui",roomSelected.id.toString())
                         intent.putExtra("roomImage", roomSelected.image)
 
 

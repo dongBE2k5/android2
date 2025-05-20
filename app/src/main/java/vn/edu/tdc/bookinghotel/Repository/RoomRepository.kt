@@ -8,8 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 import vn.edu.tdc.bookinghotel.CallAPI.RoomAPI
 import vn.edu.tdc.bookinghotel.Model.Room
-import vn.edu.tdc.bookinghotel.Response.RoomRespose
-import java.lang.Error
+import vn.edu.tdc.bookinghotel.Response.RoomResponse
+import vn.edu.tdc.bookinghotel.Response.RoomSingleResponse
 
 class RoomRepository {
     private val retrofit = Retrofit.Builder()
@@ -23,8 +23,8 @@ class RoomRepository {
         onError: (Throwable)->Unit
     ){
         val call = roomAPI.getRooms()
-        call.enqueue(object : Callback<RoomRespose> {
-            override fun onResponse(call: Call<RoomRespose>, response: Response<RoomRespose>) {
+        call.enqueue(object : Callback<RoomResponse> {
+            override fun onResponse(call: Call<RoomResponse>, response: Response<RoomResponse>) {
                 if (response.isSuccessful){
                     response.body()?.let {
                         onSuccess(it.body)
@@ -34,7 +34,7 @@ class RoomRepository {
                 }
             }
 
-            override fun onFailure(call: Call<RoomRespose>, t: Throwable) {
+            override fun onFailure(call: Call<RoomResponse>, t: Throwable) {
               onError(t)
             }
 
@@ -48,8 +48,8 @@ class RoomRepository {
         onError: (Throwable)->Unit
     ){
         val call = roomAPI.getRoomByHotel(hotelId)
-        call.enqueue(object : Callback<RoomRespose> {
-            override fun onResponse(call: Call<RoomRespose>, response: Response<RoomRespose>) {
+        call.enqueue(object : Callback<RoomResponse> {
+            override fun onResponse(call: Call<RoomResponse>, response: Response<RoomResponse>) {
                 if (response.isSuccessful){
                     response.body()?.let {
                         onSuccess(it.body)
@@ -59,35 +59,37 @@ class RoomRepository {
                 }
             }
 
-            override fun onFailure(call: Call<RoomRespose>, t: Throwable) {
+            override fun onFailure(call: Call<RoomResponse>, t: Throwable) {
                 onError(t)
             }
 
         })
     }
     fun fetchRoomById(
-        roomId:Long,
-        onSuccess:(List<Room>)->Unit,
-        onError: (Throwable)->Unit
-    ){
+        roomId: Long,
+        onSuccess: (Room) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
         val call = roomAPI.getRoomsById(roomId)
-        call.enqueue(object : Callback<RoomRespose> {
-            override fun onResponse(call: Call<RoomRespose>, response: Response<RoomRespose>) {
-                if (response.isSuccessful){
+        call.enqueue(object : Callback<RoomSingleResponse> {
+            override fun onResponse(call: Call<RoomSingleResponse>, response: Response<RoomSingleResponse>) {
+                if (response.isSuccessful) {
                     response.body()?.let {
                         onSuccess(it.body)
                     } ?: onError(Exception("Response null"))
-                }else{
-                    onError(Exception("Error code: ${response.code()}"))
+                } else {
+                    onError(Exception("Error ${response.code()}: ${response.message()}"))
                 }
             }
 
-            override fun onFailure(call: Call<RoomRespose>, t: Throwable) {
+            override fun onFailure(call: Call<RoomSingleResponse>, t: Throwable) {
                 onError(t)
             }
-
         })
     }
+
+
+
 
 }
 

@@ -5,15 +5,10 @@ import android.util.Log
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import vn.edu.tdc.bookinghotel.CallAPI.RoomAPI
 import vn.edu.tdc.bookinghotel.CallAPI.UserAPI
-import vn.edu.tdc.bookinghotel.Model.Room
-import vn.edu.tdc.bookinghotel.Model.User
-import vn.edu.tdc.bookinghotel.Response.RoomRespose
 import vn.edu.tdc.bookinghotel.Response.UserResponse
 import vn.edu.tdc.bookinghotel.Session.SessionManager
 
