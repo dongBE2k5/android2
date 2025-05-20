@@ -10,6 +10,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import vn.edu.tdc.bookinghotel.Adapters.Hotel_BookingViewAdapter
 import vn.edu.tdc.bookinghotel.Model.Booking
 import vn.edu.tdc.bookinghotel.Model.BookingRequest
@@ -22,6 +23,7 @@ import vn.edu.tdc.bookinghotel.Repository.BookingRepository
 import vn.edu.tdc.bookinghotel.Repository.CustomerRepository
 import vn.edu.tdc.bookinghotel.Response.BookingResponse
 import vn.edu.tdc.bookinghotel.Response.CustomerResponse
+import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.databinding.ActivityHotelBookkingBinding
 import vn.edu.tdc.bookinghotel.databinding.BookingHotelBinding
 import java.util.Calendar
@@ -34,7 +36,8 @@ class Hotel_BookingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = BookingHotelBinding.inflate(layoutInflater)
-
+        val session = SessionManager(this)
+        Log.d("IDMain" , "${session.getIdUser()}")
         // full màn hình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.navigationBarColor = Color.TRANSPARENT
@@ -46,10 +49,18 @@ class Hotel_BookingActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 )
         setContentView(binding.root)
-
+        val roomID = intent.getStringExtra("roomId")
+        val roomImage = intent.getStringExtra("roomImage")
+        Log.d("roomID", "${roomID}")
+        Log.d("roomImage", "${roomImage}")
+        Glide.with(this)
+            .load("${getString(R.string.localUpload)}${roomImage}") // hoặc roomImage trực tiếp nếu là URL đầy đủ
+            .placeholder(R.drawable.khachsan)
+            .error(R.drawable.ic_launcher_background)
+            .into(binding.imgRoom)
         val customerRepository = CustomerRepository()
         customerRepository.fetchCustomer(
-            1,
+            session.getIdUser()!!.toLong(),
             onSuccess = { customer: Customer ->
                 // Xử lý khi lấy thành công customer
                 Log.d("Customer", "Name: ${customer.fullName}")
@@ -78,7 +89,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
                     ) {
                         val customerUpdate = CustomerUpdate(fullName, cccd, phone)
                         customerRepository.updateCustomer(
-                            1,
+                            session.getIdUser()!!.toLong(),
                             customerUpdate,
                             onSuccess = { customer: Customer ->
                                 Log.d("customer", customer.toString())
@@ -89,7 +100,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
                         )
                     }
                     if( checkInDate != "" && checkOutDate != "") {
-                        val bookingRequest = BookingRequest(1, 1, checkInDate, checkOutDate)
+                        val bookingRequest = BookingRequest(session.getIdUser()!!.toLong(), roomID!!.toLong(), checkInDate, checkOutDate)
 
                         bookingRepository.createBooking(
                             bookingRequest,

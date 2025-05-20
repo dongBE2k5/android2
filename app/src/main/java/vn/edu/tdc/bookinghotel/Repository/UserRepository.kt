@@ -46,16 +46,23 @@ class UserRepository(private val context: Context) {
         val call = userAPI.login(username, password)
         call.enqueue(object : Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                Log.d("User", "${response.body()?.id}")
                 if (response.isSuccessful) {
                     response.body()?.let {
+                        Log.d("Id", "${it.id}")
                         session.saveToken(it.token)
+
                         session.saveIdUser(it.id)
                         session.saveUserName(it.username)
+
                         val responseCustomer=CustomerRepository()
 
                         responseCustomer.fetchCustomerByUser(
                             it.id.toLong(),
                             onSuccess = { response ->
+                                Log.d("customerLogin1", "${response.id}")
+                                session.saveIdUser(response.id.toString())
+
                                 Log.d("Find", "Tìm thấy customer")
                             },
                             onError = { error ->
@@ -66,6 +73,9 @@ class UserRepository(private val context: Context) {
                                     responseCustomer.fetchCreatedByUser(
                                         it.id.toLong(),
                                         onSuccess = { createdResponse ->
+                                            Log.d("customerLogin", "${createdResponse.id}")
+                                            session.saveIdUser(createdResponse.id.toString())
+
                                             Log.d("Find", "Tạo customer thành công")
                                         },
                                         onError = { createError ->

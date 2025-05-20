@@ -14,6 +14,7 @@ import vn.edu.tdc.bookinghotel.Model.Booking
 import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.BookingRepository
+import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.StoreBinding
 
@@ -50,13 +51,14 @@ class StoreActivity : AppCompatActivity() {
         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
         BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
-
+        val session = SessionManager(this)
+        Log.d("IDMain" , "${session.getIdUser()}")
 
         recyclerView = binding.recycleKsDaDat
         recyclerView.layoutManager = LinearLayoutManager(this)
         val BookedHotel = ArrayList<Booking>()
         val bookingRepository = BookingRepository()
-        bookingRepository.getBookingByCustomerId(1, { bookings ->
+        bookingRepository.getBookingByCustomerId(session.getIdUser()!!.toLong(), { bookings ->
             BookedHotel.addAll(bookings)
             Log.d("List", "${BookedHotel.toString()}")
             adapter = HotelDaDatAdapter(this, BookedHotel)

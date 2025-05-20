@@ -24,6 +24,7 @@ import vn.edu.tdc.bookinghotel.Repository.LocationRepository
 import vn.edu.tdc.bookinghotel.Model.Voucher
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.HotelRepository
+import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapterVoucher: MyVoucherRecyclerViewAdapter
     private lateinit var locationAPI: LocationAPI
     private lateinit var locationName: ArrayList<String>
-    
+
 
 
 //    private val originalHotels = arrayListOf(
@@ -58,6 +59,8 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        val session = SessionManager(this)
+        Log.d("IDMain" , "${session.getIdUser()}")
         // full màn hình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             WindowCompat.setDecorFitsSystemWindows(window, false)
