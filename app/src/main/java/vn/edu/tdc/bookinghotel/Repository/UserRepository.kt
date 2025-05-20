@@ -46,17 +46,15 @@ class UserRepository(private val context: Context) {
                     response.body()?.let {
                         Log.d("Id", "${it.id}")
                         session.saveToken(it.token)
-
                         session.saveIdUser(it.id)
+
                         session.saveUserName(it.username)
-
                         val responseCustomer=CustomerRepository()
-
                         responseCustomer.fetchCustomerByUser(
                             it.id.toLong(),
                             onSuccess = { response ->
                                 Log.d("customerLogin1", "${response.id}")
-                                session.saveIdUser(response.id.toString())
+                                session.saveIdCustomer(response.id.toString())
 
                                 Log.d("Find", "Tìm thấy customer")
                             },
@@ -69,7 +67,7 @@ class UserRepository(private val context: Context) {
                                         it.id.toLong(),
                                         onSuccess = { createdResponse ->
                                             Log.d("customerLogin", "${createdResponse.id}")
-                                            session.saveIdUser(createdResponse.id.toString())
+                                            session.saveIdCustomer(createdResponse.id.toString())
 
                                             Log.d("Find", "Tạo customer thành công")
                                         },

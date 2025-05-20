@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -60,7 +61,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
             .into(binding.imgRoom)
         val customerRepository = CustomerRepository()
         customerRepository.fetchCustomer(
-            session.getIdUser()!!.toLong(),
+            session.getIdCustomer()!!.toLong(),
             onSuccess = { customer: Customer ->
                 // Xử lý khi lấy thành công customer
                 Log.d("Customer", "Name: ${customer.fullName}")
@@ -89,7 +90,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
                     ) {
                         val customerUpdate = CustomerUpdate(fullName, cccd, phone)
                         customerRepository.updateCustomer(
-                            session.getIdUser()!!.toLong(),
+                            session.getIdCustomer()!!.toLong(),
                             customerUpdate,
                             onSuccess = { customer: Customer ->
                                 Log.d("customer", customer.toString())
@@ -100,12 +101,13 @@ class Hotel_BookingActivity : AppCompatActivity() {
                         )
                     }
                     if( checkInDate != "" && checkOutDate != "") {
-                        val bookingRequest = BookingRequest(session.getIdUser()!!.toLong(), roomID!!.toLong(), checkInDate, checkOutDate)
+                        val bookingRequest = BookingRequest(session.getIdCustomer()!!.toLong(), roomID!!.toLong(), checkInDate, checkOutDate)
 
                         bookingRepository.createBooking(
                             bookingRequest,
                             onSuccess = { booking: Booking ->
                                 Log.d("booking", booking.toString())
+                                Toast.makeText(this, "Booking is success", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this, MainActivity::class.java)
                                 startActivity(intent)
                             },
