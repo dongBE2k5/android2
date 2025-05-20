@@ -50,7 +50,7 @@ class CustomerRepository {
             }
         })
     }
-
+//qua id customer
     fun updateCustomer(
         id: Long,
         customer: CustomerUpdate,
@@ -78,6 +78,37 @@ class CustomerRepository {
             }
         })
     }
+
+
+    //qua id user
+    fun updateCustomerByIdUser(
+        id: Long,
+        customer: CustomerUpdate,
+        onSuccess: (Customer) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        val call = customerAPI.updateCustomerByUser(id, customer)
+        call.enqueue(object : Callback<CustomerResponse> {
+            override fun onResponse(call: Call<CustomerResponse>, response: Response<CustomerResponse>) {
+                Log.d("customerRepo", "${customer.toString()}")
+                Log.d("customerRepo", "${response}")
+
+                if (response.isSuccessful) {
+                    response.body()?.let {
+
+                        onSuccess(it.body)
+                    } ?: onError(Exception("Response null"))
+                } else {
+                    onError(Exception("Error code: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<CustomerResponse>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
+
     fun fetchCustomerByUser(
         id: Long,
         onSuccess: (Customer) -> Unit,

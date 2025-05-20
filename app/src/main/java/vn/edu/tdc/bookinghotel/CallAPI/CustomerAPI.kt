@@ -38,4 +38,7 @@ interface CustomerAPI {
 
     @PUT("customers/customer-new/{customerId}")
     fun updateCustomer(@Path("customerId") customerId: Long, @Body customer: CustomerUpdate): Call<CustomerResponse>
+
+    @PUT("customers/userNew/{userId}")
+    fun updateCustomerByUser(@Path("userId") userId: Long, @Body customer: CustomerUpdate): Call<CustomerResponse>
 }
