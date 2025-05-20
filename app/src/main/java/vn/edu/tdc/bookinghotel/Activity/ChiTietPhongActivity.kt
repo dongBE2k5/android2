@@ -1,0 +1,91 @@
+package vn.edu.tdc.bookinghotel.Activity
+
+import android.content.Intent
+import android.graphics.Color
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import vn.edu.tdc.bookinghotel.Adapters.ListDetailRecyclerViewAdapter
+import vn.edu.tdc.bookinghotel.Model.ListDetail
+import vn.edu.tdc.bookinghotel.Model.Room
+import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.RoomRepository
+import vn.edu.tdc.bookinghotel.databinding.DetailRoomBinding
+
+
+class ChiTietPhongActivity: AppCompatActivity() {
+
+    private lateinit var binding: DetailRoomBinding
+    private lateinit var adapterListDetail: ListDetailRecyclerViewAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DetailRoomBinding.inflate(layoutInflater)
+        // Full màn hình
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.navigationBarColor = Color.TRANSPARENT
+            window.statusBarColor = Color.TRANSPARENT
+        }
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                )
+        setContentView(binding.root)
+
+        // Nhận dữ liệu từ Intent
+        val hotelName = intent.getStringExtra("hotel_name")
+        val hotelId = intent.getLongExtra("hotel_id", 0L)
+        val hotelImage = intent.getStringExtra("hotel_image")
+        Log.d("image hotels",hotelImage.toString())
+        Log.d("Requet image hotels",getString(R.string.localUpload))
+
+        binding.tvTenKhachSan.text = hotelName ?: "Tên khách sạn không có"
+
+        Glide.with(this)
+            .load("${getString(R.string.localUpload)}${hotelImage}")
+            .placeholder(R.drawable.khachsan)
+            .error(R.drawable.ic_launcher_background)
+            .into(binding.imgHotel)
+        Log.d("ID hotels", hotelId.toString())
+        val repositoryRoom= RoomRepository()
+        var rooms = ArrayList<Room>()
+        repositoryRoom.fetchRoomByHotel(
+            hotelId=hotelId,
+            onSuccess = {roomList->
+                rooms.clear()
+                rooms.addAll(roomList)
+                val detailPhong = arrayListOf(ListDetail("Danh sách phòng", rooms))
+                Log.d("List room", rooms.toString())
+
+                // Gán adapter cho RecyclerView và truyền listener
+                val recyclerViewListDetail = findViewById<RecyclerView>(R.id.recyclerViewListDetail)
+//        recyclerViewListDetail.layoutManager = LinearLayoutManager(this)
+                recyclerViewListDetail.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                adapterListDetail = ListDetailRecyclerViewAdapter(this, rooms) // Truyền this vào
+                recyclerViewListDetail.adapter = adapterListDetail
+
+                adapterListDetail.setOnItemClick(object : ListDetailRecyclerViewAdapter.onRecyclerViewItemClickListener {
+                    override fun onButtonBookClick(item: View?, position: Int) {
+                        val intent = Intent(this@BookingRoomDetailsActivity, Hotel_BookingActivity::class.java)
+                        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
+                        startActivity(intent)
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    }
+
+                })
+            },
+            onError = { error ->
+                Log.e("API Room error", "Error: ${error.message}")
+            }
+        )
+
+
+    }
+
+}
