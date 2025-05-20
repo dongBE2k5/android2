@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.CustomerRepository
 import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.AcountActiveBinding
@@ -30,9 +31,32 @@ class AcountSuccessActivity : AppCompatActivity() {
                 )
         setContentView(binding.root)
 
+        window.insetsController?.let { controller ->
+            controller.hide(
+                android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars()
+            )
+            controller.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
+        val session=SessionManager(this)
+        val repositoryCustomer= CustomerRepository()
+        session.getIdUser()?.let {
+            repositoryCustomer.fetchCustomerByUser(
+                it.toLong(),
+                onSuccess = {resources->
+                    binding.userNameAccount.setText(session.getUserName())
+                    binding.number.setText(resources.phone?:"")
+                    binding.email.setText(resources.email?:"")
+                    binding.hoTen.setText(resources.fullName?:"")
+                },
+                onError = {
+
+                }
+            )
+        }
 
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile)
         BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
 

@@ -91,7 +91,7 @@ class ChiTietPhongRecyclerViewAdapter(
         return listRoom.size
     }
 
-    fun formatCurrency(amount: Double): String {
+    fun formatCurrency(amount: BigDecimal): String {
         val format = DecimalFormat("#,###")
         return format.format(amount)
     }

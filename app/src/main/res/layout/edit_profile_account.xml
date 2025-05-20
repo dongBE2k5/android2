@@ -165,6 +165,7 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
+
                 <TextView
                     android:id="@+id/tvBirthday"
                     android:layout_width="match_parent"
@@ -245,7 +246,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/rounded_white_bg"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -291,7 +292,7 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/rounded_white_bg"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -336,7 +337,56 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
         </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="3dp"
+            android:background="@drawable/rounded_white_bg"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
+                    android:text="CCCD"
+                    android:textSize="15sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                     />
+
+                <EditText
+                    android:id="@+id/edtCCCD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/bogocprofile"
+                    android:text="012345678901"
+                    android:padding="5dp"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
 

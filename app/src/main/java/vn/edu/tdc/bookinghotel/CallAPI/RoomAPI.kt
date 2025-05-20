@@ -16,6 +16,9 @@ interface RoomAPI {
     @GET("rooms")
     fun getRooms(): Call<RoomRespose>
 
+    @GET("rooms/{roomId}")
+    fun getRoomsById(@Path("roomId") roomId: Long): Call<RoomRespose>
+
     @GET("rooms/hotel/{hotelId}")
     fun getRoomByHotel(@Path("hotelId") hotelId: Long): Call<RoomRespose>
 }

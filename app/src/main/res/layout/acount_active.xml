@@ -238,7 +238,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-
+                    android:id="@+id/hoTen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -356,7 +356,7 @@
                     android:src="@drawable/mail" />
 
                 <TextView
-
+                    android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -398,7 +398,7 @@
                     android:src="@drawable/phone" />
 
                 <TextView
-
+                    android:id="@+id/number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

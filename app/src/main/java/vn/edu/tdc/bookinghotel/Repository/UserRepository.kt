@@ -50,6 +50,7 @@ class UserRepository(private val context: Context) {
                     response.body()?.let {
                         session.saveToken(it.token)
                         session.saveIdUser(it.id)
+                        session.saveUserName(it.username)
                         val responseCustomer=CustomerRepository()
 
                         responseCustomer.fetchCustomerByUser(

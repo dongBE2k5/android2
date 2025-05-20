@@ -65,6 +65,31 @@ class RoomRepository {
 
         })
     }
+    fun fetchRoomById(
+        roomId:Long,
+        onSuccess:(List<Room>)->Unit,
+        onError: (Throwable)->Unit
+    ){
+        val call = roomAPI.getRoomsById(roomId)
+        call.enqueue(object : Callback<RoomRespose> {
+            override fun onResponse(call: Call<RoomRespose>, response: Response<RoomRespose>) {
+                if (response.isSuccessful){
+                    response.body()?.let {
+                        onSuccess(it.body)
+                    } ?: onError(Exception("Response null"))
+                }else{
+                    onError(Exception("Error code: ${response.code()}"))
+                }
+            }
 
+            override fun onFailure(call: Call<RoomRespose>, t: Throwable) {
+                onError(t)
+            }
+
+        })
+    }
 
 }
+
+
+

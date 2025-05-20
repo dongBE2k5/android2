@@ -9,9 +9,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import vn.edu.tdc.bookinghotel.Model.CustomerUpdateUser
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.CustomerRepository
+import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.EditProfileAccountBinding
 import java.util.Calendar
@@ -41,6 +45,23 @@ class EditProfile: AppCompatActivity() {
         setContentView(binding.root)
 
 
+        val session=SessionManager(this)
+        val repositoryCustomer=CustomerRepository()
+        session.getIdUser()?.let {
+            repositoryCustomer.fetchCustomerByUser(
+                it.toLong(),
+                onSuccess = {resources->
+                  binding.edtCCCD.setText(resources.cccd?:"")
+                    binding.edtNumber.setText(resources.phone?:"")
+                    binding.edtMail.setText(resources.email?:"")
+                    binding.HoTen.setText(resources.fullName?:"")
+                },
+                onError = {
+
+                }
+            )
+        }
+
         inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
         // Disable EditTexts ban đầu
@@ -50,6 +71,7 @@ class EditProfile: AppCompatActivity() {
         binding.tvGender.isEnabled = false
         binding.edtMail.isEnabled = false
         binding.edtNumber.isEnabled = false
+        binding.edtCCCD.isEnabled = false
 
         binding.tvEditToggle.setOnClickListener {
             if (binding.tvEditToggle.text == "Chỉnh sửa") {
@@ -63,6 +85,9 @@ class EditProfile: AppCompatActivity() {
                 binding.tvGender.isEnabled = true
                 binding.HoTen.isEnabled = true
                 binding.DiaChi.isEnabled = true
+                binding.edtCCCD.isEnabled = true
+
+
             } else {
                 binding.tvEditToggle.text = "Chỉnh sửa"
                 binding.tvEditToggle.setTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_dark))
@@ -74,6 +99,26 @@ class EditProfile: AppCompatActivity() {
                 binding.DiaChi.isEnabled = false
                 binding.edtMail.isEnabled = false
                 binding.edtNumber.isEnabled = false
+                binding.edtCCCD.isEnabled = false
+                val email=  binding.edtMail.text;
+                val phone=  binding.edtNumber.text;
+                val cccd=  binding.edtCCCD.text;
+                val fullName=  binding.HoTen.text;
+
+                val customer=CustomerUpdateUser(fullName.toString(),cccd.toString(),phone.toString(),email.toString())
+
+                session.getIdUser()?.let { it ->
+                    repositoryCustomer.updateCustomerByIdUser(
+                        it.toLong(),
+                        customer,
+                        onSuccess = {response->
+                            Toast.makeText(this, "Login success", Toast.LENGTH_SHORT).show()
+                        },
+                        onError = { error->
+                            Toast.makeText(this, "Login failed: ${error.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
             }
         }
 
@@ -85,7 +130,7 @@ class EditProfile: AppCompatActivity() {
         }
 
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile)
         BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
         //gọi hàm ngy sinh

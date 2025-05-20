@@ -31,5 +31,14 @@ data class CustomerUpdate(
     val fullName: String,
     val cccd: String,
     val phone: String
+
     )
+
+data class CustomerUpdateUser(
+    @SerializedName("fullName")
+    val fullName: String,
+    val cccd: String,
+    val phone: String,
+    val email: String
+)
 
