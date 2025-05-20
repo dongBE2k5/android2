@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import vn.edu.tdc.bookinghotel.Adapters.ChiTietDatHangAdminRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.Model.ChiTietDatHangAdmin
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.AdminChiTietDatHangBinding
 
 class AdminQLDatKS: AppCompatActivity() {
@@ -56,29 +57,9 @@ class AdminQLDatKS: AppCompatActivity() {
         recyclerViewChiTietKSDaDat.adapter = adapter
 
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_admin)
-        binding.bottomNav.selectedItemId = selectedItem
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            if (item.itemId != selectedItem) {
-                val intent = when (item.itemId) {
-                    R.id.nav_home -> Intent(this, MainActivity::class.java)
-                    R.id.nav_store -> Intent(this, StoreActivity::class.java)
-                    R.id.nav_profile -> Intent(this, AcountActivity::class.java)
-                    R.id.nav_admin -> Intent(this, AdminActivity::class.java)
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
-                    else -> null
-                }
-                intent?.let {
-                    it.putExtra("selected_nav", item.itemId)
-                    startActivity(it)
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                    finish()
-                }
-                true
-            } else {
-                true
-            }
-        }
 
     }
 }

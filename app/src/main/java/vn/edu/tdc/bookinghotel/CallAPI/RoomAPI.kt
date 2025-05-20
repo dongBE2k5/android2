@@ -10,7 +10,7 @@ interface RoomAPI {
     companion object {
         //        const val BASE_URL = "https://hotel-manager-production-b051.up.railway.app/api/"
 //        const val BASE_URL = "http://192.168.1.4:8080/api/"
-            const val BASE_URL = "http://192.168.1.56:8080/api/"
+            const val BASE_URL = ApiConfig.BASE_URL
     }
 
     @GET("rooms")

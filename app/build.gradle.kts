@@ -8,6 +8,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
+
         applicationId = "vn.edu.tdc.bookinghotel"
         minSdk = 30
         targetSdk = 34

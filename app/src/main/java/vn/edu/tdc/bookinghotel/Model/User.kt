@@ -5,10 +5,8 @@ import com.google.gson.annotations.SerializedName
 class User(
     val username: String,
     val password: String,
-    val fullname: String,
-    val email: String,
-    val phone: String,
-    val cccd: String,
+
+
 ){}
 
 class UserRegister(
@@ -20,6 +18,8 @@ class UserRegister(
 class UserLogin(
     val username: String,
     val password: String,
+    @SerializedName("token")
+    val token: String,
 )
 
 data class LoginResponse(

@@ -43,6 +43,7 @@ class AcountActivity :AppCompatActivity(){
         }
 
         //gọi nút login
+
         binding.login.setOnClickListener {
             val intent =Intent(this, LoginActivity::class.java)
             startActivity(intent)

@@ -7,13 +7,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Session.SessionManager
+import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.AcountActiveBinding
 
-class AcountActive : AppCompatActivity() {
+class AcountSuccessActivity : AppCompatActivity() {
 
     private lateinit var binding: AcountActiveBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = AcountActiveBinding.inflate(layoutInflater)
+
         super.onCreate(savedInstanceState)
         //full màn hiình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -29,31 +32,14 @@ class AcountActive : AppCompatActivity() {
 
 
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile)
-        binding.bottomNav.selectedItemId = selectedItem
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            if (item.itemId != selectedItem) {
-                val intent = when (item.itemId) {
-                    R.id.nav_home -> Intent(this, MainActivity::class.java)
-                    R.id.nav_store -> Intent(this, StoreActivity::class.java)
-                    R.id.nav_profile -> Intent(this, AcountActivity::class.java)
-                    R.id.nav_admin -> Intent(this, AdminActivity::class.java)
-                    else -> null
-                }
-                intent?.let {
-                    it.putExtra("selected_nav", item.itemId)
-                    startActivity(it)
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                    finish()
-                }
-                true
-            } else {
-                true
-            }
-        }
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
+
 
         //dang xuat chuyen den trang accountactivity
         binding.btnDangXuat.setOnClickListener {
+            val session = SessionManager(this)
+            session.logout()
             val intent =Intent(this, AcountActivity::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

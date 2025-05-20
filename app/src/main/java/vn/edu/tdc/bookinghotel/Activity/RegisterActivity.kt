@@ -16,6 +16,7 @@ import vn.edu.tdc.bookinghotel.CallAPI.RegisterAPI
 import vn.edu.tdc.bookinghotel.Model.RegisterResponse
 import vn.edu.tdc.bookinghotel.Model.UserRegister
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.UserRepository
 import vn.edu.tdc.bookinghotel.databinding.RegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
@@ -52,14 +53,25 @@ class RegisterActivity : AppCompatActivity() {
             if (binding.btnDangKy.isEnabled) {
                 username = binding.edtUsername.text.toString()
                 password = binding.edtPassword.text.toString()
-                email = binding.edtEmail.text.toString()
-                if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
+                if (username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show()
-              
-                } else {
-                    val registerRequest = UserRegister(username, password, email)
-                    register(registerRequest)
                 }
+                else {
+                    val repository= UserRepository(this)
+                    repository.fetchregister(
+                        username=username,
+                        password=password,
+                        onSuccess =  {response ->
+                            Toast.makeText(this, "Register success", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                        },
+                        onError={error->
+                            Toast.makeText(this, "Login failed: ${error.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+
             }
         }
 

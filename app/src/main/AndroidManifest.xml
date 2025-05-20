@@ -47,7 +47,7 @@
             android:name=".Activity.EditProfile"
             android:exported="false" />
         <activity
-            android:name=".Activity.AcountActive"
+            android:name=".Activity.AcountSuccessActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.MainActivity"

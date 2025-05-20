@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.RegisterBinding
 
 class Register : AppCompatActivity() {
@@ -54,26 +55,9 @@ class Register : AppCompatActivity() {
         }
 
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile)
-        binding.bottomNav.selectedItemId = selectedItem
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            if (item.itemId != selectedItem) {
-                val intent = when (item.itemId) {
-                    R.id.nav_home -> Intent(this, MainActivity::class.java)
-                    R.id.nav_store -> Intent(this, StoreActivity::class.java)
-                    R.id.nav_profile -> Intent(this, AcountActivity::class.java)
-                    else -> null
-                }
-                intent?.let {
-                    it.putExtra("selected_nav", item.itemId)
-                    startActivity(it)
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                    finish()
-                }
-                true
-            } else {
-                true
-            }
-        }
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
+
+
     }
 }

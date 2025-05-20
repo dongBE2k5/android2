@@ -14,6 +14,7 @@ import vn.edu.tdc.bookinghotel.Model.Booking
 import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.BookingRepository
+import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.StoreBinding
 
 class StoreActivity : AppCompatActivity() {
@@ -46,27 +47,9 @@ class StoreActivity : AppCompatActivity() {
             controller.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
-        binding.bottomNav.selectedItemId = selectedItem
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            if (item.itemId != selectedItem) {
-                val intent = when (item.itemId) {
-                    R.id.nav_home -> Intent(this, MainActivity::class.java)
-                    R.id.nav_store -> Intent(this, StoreActivity::class.java)
-                    R.id.nav_profile -> Intent(this, AcountActivity::class.java)
-                    else -> null
-                }
-                intent?.let {
-                    it.putExtra("selected_nav", item.itemId)
-                    startActivity(it)
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                    finish()
-                }
-                true
-            } else {
-                true
-            }
-        }
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
+
 
 
         recyclerView = binding.recycleKsDaDat

@@ -1,9 +1,11 @@
 package vn.edu.tdc.bookinghotel.Activity
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,7 @@ import vn.edu.tdc.bookinghotel.CallAPI.LoginAPI
 import vn.edu.tdc.bookinghotel.Model.LoginResponse
 import vn.edu.tdc.bookinghotel.Model.UserLogin
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.UserRepository
 import vn.edu.tdc.bookinghotel.databinding.LoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -41,16 +44,37 @@ class LoginActivity : AppCompatActivity() {
 
         //gọi trang account active
         binding.btnDangNhap.setOnClickListener {
+
             username = binding.edtUsername.text.toString()
             password = binding.edtPassword.text.toString()
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập tên đăng nhập và mật khẩu", Toast.LENGTH_SHORT)
                     .show()
-            } else {
-            val loginRequest = UserLogin(username, password)
-            login(loginRequest)
             }
-            
+            else {
+            val repository=UserRepository(this)
+            repository.fetchlogin(
+                username=username,
+                password=password,
+                   onSuccess =  {response ->
+                       Toast.makeText(this, "Login success", Toast.LENGTH_SHORT).show()
+
+                       val intent =Intent(this@LoginActivity, AcountSuccessActivity::class.java)
+                       startActivity(intent)
+                   },
+                onError={error->
+                    Toast.makeText(this, "Login failed: ${error.message}", Toast.LENGTH_SHORT).show()
+                }
+            )
+
+
+
+            Log.d("user",username)
+            Log.d("user",password)
+
+
+            }
+//
 
         }
 
@@ -134,8 +158,7 @@ class LoginActivity : AppCompatActivity() {
                         editor.putString("token", loginResponse.token)
                         editor.apply()
                         // Chuyen huong den MainActivity
-                        val intent =Intent(this@LoginActivity, AcountActive::class.java)
-                        startActivity(intent)
+
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                     }
 
