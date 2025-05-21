@@ -48,17 +48,17 @@ class StoreActivity : AppCompatActivity() {
             controller.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
         // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
         BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
         val session = SessionManager(this)
-        Log.d("IDMain" , "${session.getIdUser()}")
+        Log.d("IDMain" , "${session.getIdCustomer()}")
 
         recyclerView = binding.recycleKsDaDat
         recyclerView.layoutManager = LinearLayoutManager(this)
         val BookedHotel = ArrayList<Booking>()
         val bookingRepository = BookingRepository()
-        bookingRepository.getBookingByCustomerId(session.getIdUser()!!.toLong(), { bookings ->
+        bookingRepository.getBookingByCustomerId(session.getIdCustomer()!!.toLong(), { bookings ->
             BookedHotel.addAll(bookings)
             Log.d("List", "${BookedHotel.toString()}")
             adapter = HotelDaDatAdapter(this, BookedHotel)

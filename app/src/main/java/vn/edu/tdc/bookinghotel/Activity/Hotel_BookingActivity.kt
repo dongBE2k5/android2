@@ -53,7 +53,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
         val roomID = intent.getStringExtra("roomId")
         val roomImage = intent.getStringExtra("roomImage")
         Log.d("roomID", "${roomID}")
-        Log.d("roomImage", "${roomImage}")
+        Log.d("roomImagenhan", "${roomImage}")
         Glide.with(this)
             .load("${getString(R.string.localUpload)}${roomImage}") // hoặc roomImage trực tiếp nếu là URL đầy đủ
             .placeholder(R.drawable.khachsan)
@@ -112,6 +112,8 @@ class Hotel_BookingActivity : AppCompatActivity() {
                                 startActivity(intent)
                             },
                             onError = { error: Throwable ->
+                                Toast.makeText(this, "Ngày không hợp lệ", Toast.LENGTH_SHORT).show()
+
                                 Log.e("Booking", "Error: ${error.message}")
                             }
                         )

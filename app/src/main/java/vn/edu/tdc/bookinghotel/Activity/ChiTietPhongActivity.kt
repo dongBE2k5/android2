@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -29,7 +30,7 @@ class ChiTietPhongActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBookingRoomDetailsBinding.inflate(layoutInflater)
-
+        //full màn hiình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.navigationBarColor = Color.TRANSPARENT
             window.statusBarColor = Color.TRANSPARENT
@@ -40,6 +41,16 @@ class ChiTietPhongActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 )
         setContentView(binding.root)
+
+        window.setDecorFitsSystemWindows(false)
+
+        window.insetsController?.let { controller ->
+            controller.hide(
+                android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars()
+            )
+            controller.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
 
         val hotelName = intent.getStringExtra("hotel_name")
         val roomId = intent.getLongExtra("roomId", 0L)
@@ -62,6 +73,9 @@ class ChiTietPhongActivity : AppCompatActivity() {
                     "MAINTENANCE" -> "Đang bảo trì"
                     else -> "Đã đặt"
                 }
+
+
+
                 binding.giaTien.text = "${formatCurrency(fetchedRoom.price)} VND/đêm"
                 binding.tongGiaTien.text = "Tổng: ${formatCurrency(fetchedRoom.price)} VND"
                 binding.phongConLai.text = "Phòng cho ${fetchedRoom.capacity} người"
@@ -78,6 +92,7 @@ class ChiTietPhongActivity : AppCompatActivity() {
                             intent.putExtra("selected_nav", R.id.nav_store)
                             intent.putExtra("roomId", "${fetchedRoom.id}")
                             intent.putExtra("roomImage", fetchedRoom.image)
+                            intent.putExtra("roomPrice", fetchedRoom.price)
                             startActivity(intent)
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                         }
@@ -85,6 +100,7 @@ class ChiTietPhongActivity : AppCompatActivity() {
                         else -> Toast.makeText(this, "Phòng đã được đặt", Toast.LENGTH_SHORT).show()
                     }
                 }
+
             },
             onError = { error ->
                 Log.e("API Room error", "Error: ${error.message}")

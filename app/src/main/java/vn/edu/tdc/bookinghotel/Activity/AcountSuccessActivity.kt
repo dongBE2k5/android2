@@ -1,5 +1,6 @@
 package vn.edu.tdc.bookinghotel.Activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -19,6 +20,7 @@ class AcountSuccessActivity : AppCompatActivity() {
 
     private lateinit var binding: AcountActiveBinding
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = AcountActiveBinding.inflate(layoutInflater)

@@ -4,10 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 
 import androidx.recyclerview.widget.RecyclerView
 
 import vn.edu.tdc.bookinghotel.Model.Room
+import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.ChiTietPhongBinding
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -20,6 +22,8 @@ RecyclerView.Adapter<ListDetailRecyclerViewAdapter.MyViewHolder>()  {
         //        fun onImageClickListener(item:View?, position:Int);
 //        fun onItemClickListener(item:View?, position:Int);
         fun onButtonBookClick(item: View?, position: Int) // 👉 Thêm dòng này
+        fun onButtonViewClick(item: View?, position: Int) // Thêm phương thức này
+
     }
     // B2. Dinh nghia doi tuong interface
     private var onItemClick:onRecyclerViewItemClickListener? = null
@@ -75,6 +79,20 @@ RecyclerView.Adapter<ListDetailRecyclerViewAdapter.MyViewHolder>()  {
         holder.binding.btnDat.setOnClickListener {
             onItemClick?.onButtonBookClick(it, position)
         }
+
+        holder.binding.btnXem.setOnClickListener {
+            onItemClick?.onButtonViewClick(it, position)
+        }
+        holder.binding.hotelDeals.setBackgroundColor(
+            ContextCompat.getColor(
+                context,
+                when (room.status) {
+                    "AVAILABLE" -> R.color.available_green
+                    "MAINTENANCE" -> R.color.maintenance_red
+                    else -> R.color.booked_yellow
+                }
+            )
+        )
     }
     fun formatCurrency(amount: BigDecimal): String {
         val format = DecimalFormat("#,###")

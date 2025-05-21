@@ -10,7 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.edu.tdc.bookinghotel.Model.Hotel
+import vn.edu.tdc.bookinghotel.Model.Room
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.RoomRepository
 import vn.edu.tdc.bookinghotel.databinding.CardRecyclerListHotelBinding
 import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
 
@@ -75,19 +77,40 @@ class MyHotelRecyclerViewAdapter(
         holder.itemPosition = position
 
         val binding = CardRecyclerListHotelBinding.bind(holder.binding)
+
+        // Cập nhật thông tin khách sạn
         binding.tvThanhPho.text = locationName
         binding.nameHotel.text = hotel.name
         binding.statusHotel.text = if (hotel.status == "OPEN") "Còn phòng" else "Hết phòng"
         binding.feedback.text = hotel.name
         binding.descriptionHotel.text = hotel.address
+
+        // Load ảnh khách sạn
         Glide.with(holder.itemView.context)
             .load("${context.getString(R.string.localUpload)}${hotel.image}")
             .placeholder(R.drawable.khachsan)
             .error(R.drawable.ic_launcher_background)
             .into(binding.imageThumb)
-//        binding.imageThumb.setImageResource(R.drawable.khachsan)
 
+        // Gọi fetchRoomByHotel 1 lần duy nhất và thêm sortedRooms tại đây
+        val repositoryRoom = RoomRepository()
+
+        repositoryRoom.fetchRoomByHotel(
+            hotelId = hotel.id,
+            onSuccess = { roomList ->
+                // 👉 Sắp xếp phòng theo số phòng (soPhong) tăng dần
+                val sortedRooms = roomList.sortedBy { it.soPhong }
+
+                // Sau khi sắp xếp, cập nhật giao diện
+                binding.soPhong.text = "${sortedRooms.size}" // Hiển thị số lượng phòng
+            },
+            onError = {
+                binding.soPhong.text = "Lỗi tải phòng" // Thông báo lỗi nếu không tải được phòng
+            }
+        )
     }
+
+
     fun updateData(newList: List<Hotel>) {
         list.clear()
         list.addAll(newList)

@@ -40,6 +40,16 @@ class RegisterActivity : AppCompatActivity() {
                 )
         setContentView(binding.root)
 
+        window.setDecorFitsSystemWindows(false)
+
+        window.insetsController?.let { controller ->
+            controller.hide(
+                android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars()
+            )
+            controller.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
+
 
         //goi lai trang account activity
         binding.btnBack.setOnClickListener {
