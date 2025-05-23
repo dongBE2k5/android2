@@ -4,6 +4,7 @@
         <domain includeSubdomains="true">192.168.1.9</domain>
         <domain includeSubdomains="true">192.168.1.4</domain>
         <domain includeSubdomains="true">192.168.1.56</domain>
+        <domain includeSubdomains="true">172.20.10.7</domain>
         <domain includeSubdomains="true">localhost</domain>
     </domain-config>
 </network-security-config>

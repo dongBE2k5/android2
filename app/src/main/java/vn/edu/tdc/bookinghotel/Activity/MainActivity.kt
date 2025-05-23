@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity() {
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         val citySpinner = binding.citySpinner
         citySpinner.adapter = adapterSpinner
+        //vị tri dau tien cua danh sach spinner
         citySpinner.setSelection(0)
 
 // Gọi API
@@ -164,8 +165,8 @@ class MainActivity : AppCompatActivity() {
                                 intent.putExtra("hotel_id", hotel.id)
                                 Log.d("Check image",hotel.image )
                                 intent.putExtra("hotel_image", hotel.image)
-
                                 startActivity(intent)
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                             }
 
                             override fun onMyItemClickListener(item: View?, position: Int) {
@@ -176,6 +177,7 @@ class MainActivity : AppCompatActivity() {
                                 intent.putExtra("hotel_id", hotel.id)
                                 intent.putExtra("hotel_image", hotel.image)
                                 startActivity(intent)
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                             }
                         })
 

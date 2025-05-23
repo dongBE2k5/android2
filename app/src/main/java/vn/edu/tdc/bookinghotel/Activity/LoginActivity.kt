@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,6 +42,15 @@ class LoginActivity : AppCompatActivity() {
                 )
         setContentView(binding.root)
 
+        window.setDecorFitsSystemWindows(false)
+
+        window.insetsController?.let { controller ->
+            controller.hide(
+                android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars()
+            )
+            controller.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
 
         //gọi trang account active
         binding.btnDangNhap.setOnClickListener {
@@ -63,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
                        startActivity(intent)
                    },
                 onError={error->
-                    Toast.makeText(this, "Login failed: ${error.message}", Toast.LENGTH_SHORT).show()
+                    showErrorDialog(error.message ?: "Sai tài khoản hoặc mật khẩu không chính xác.")
                 }
             )
 
@@ -174,5 +184,12 @@ class LoginActivity : AppCompatActivity() {
             }
 
         })
+    }
+    fun showErrorDialog(message: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Thông báo")
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 }

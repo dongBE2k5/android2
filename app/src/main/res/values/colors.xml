@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="available_green">#4CAF50</color> <!-- Màu lá cây -->
+    <color name="maintenance_red">#F44336</color> <!-- Màu đỏ -->
+    <color name="booked_yellow">#FFEB3B</color> <!-- Màu vàng -->
+
 </resources>

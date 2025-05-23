@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide
 import vn.edu.tdc.bookinghotel.Adapters.ChiTietPhongRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.Adapters.ListDetailRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.Model.Hotel
+import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.DetailRoomBinding
 import vn.edu.tdc.bookinghotel.Model.Room
@@ -50,6 +52,13 @@ class ChiTietKhachSan : AppCompatActivity() {
                             or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                     )
         }
+
+        binding.btnback.setOnClickListener {
+            val intent= Intent(this,MainActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+
 
 
         // Nhận dữ liệu từ Intent
@@ -87,7 +96,6 @@ class ChiTietKhachSan : AppCompatActivity() {
                 adapterListDetail.setOnItemClick(object : ListDetailRecyclerViewAdapter.onRecyclerViewItemClickListener {
                     override fun onButtonBookClick(item: View?, position: Int) {
 
-
 //                         val intent = Intent(this@ChiTietKhachSan, ChiTietPhongActivity::class.java)
 
                         val roomSelected = rooms[position];
@@ -104,6 +112,29 @@ class ChiTietKhachSan : AppCompatActivity() {
                         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
                         startActivity(intent)
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+
+                    }
+                    override fun onButtonViewClick(item: View?, position: Int) {
+
+
+                        val roomSelected = rooms[position];
+                        Log.d("IdRoom" , "${roomSelected.id}")
+
+
+                        val intent = Intent(this@ChiTietKhachSan, Hotel_BookingActivity::class.java)
+                        intent.putExtra("selected_nav", R.id.nav_store)
+                        intent.putExtra("roomId", "${roomSelected.id}")
+                        intent.putExtra("roomImage", roomSelected.image)
+
+
+
+                        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
+                        startActivity(intent)
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+
+                        // Xử lý sự kiện nút "Xem"
+                        val room = adapterListDetail.list[position]
+                        // Thực hiện hành động khi nhấn nút "Xem", ví dụ: mở chi tiết phòng
                     }
 
                 })

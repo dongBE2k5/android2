@@ -44,6 +44,16 @@ class EditProfile: AppCompatActivity() {
                 )
         setContentView(binding.root)
 
+        window.setDecorFitsSystemWindows(false)
+
+        window.insetsController?.let { controller ->
+            controller.hide(
+                android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars()
+            )
+            controller.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
+
 
         val session=SessionManager(this)
         val repositoryCustomer=CustomerRepository()

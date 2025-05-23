@@ -51,11 +51,13 @@ class HotelDaDatAdapter(
         b.tvCheckOutDate.text = "Check-out: ${booking.checkoutDate}"
         b.tvStatus.text = "Trạng thái: ${booking.status}"
 
-        val imageUrl = "http://your-backend-url.com/images/${room.image}"
+        
         Glide.with(b.imgRoom.context)
-            .load(imageUrl)
+            .load("${context.getString(R.string.localUpload)}${room.image}")
             .placeholder(R.drawable.ic_launcher_background)
             .into(b.imgRoom)
+
+
     }
 
     override fun getItemCount(): Int = bookingList.size

@@ -136,6 +136,7 @@
                 android:layout_marginLeft="15dp"
                 android:background="@null"
                 android:hint="Nhập mật khẩu"
+                android:inputType="textPassword"
                 android:padding="8dp"
                 android:textSize="14sp" />
 
