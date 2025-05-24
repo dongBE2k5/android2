@@ -49,6 +49,7 @@
     </FrameLayout>
 
     <!-- Danh sách phòng -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewListDetail"
         android:layout_width="match_parent"

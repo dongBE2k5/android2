@@ -2,13 +2,10 @@ package vn.edu.tdc.bookinghotel.Model
 
 import com.google.gson.annotations.SerializedName
 
-data class RoomType (
+data class RoomType(
     @SerializedName("roomTypeId")
-    val id: Long,
+    val id: Long = 0L,
+
     @SerializedName("name")
-    val name: String
-
-
-
-
+    val name: String = ""
 )

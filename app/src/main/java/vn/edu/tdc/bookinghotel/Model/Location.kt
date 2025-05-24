@@ -4,17 +4,21 @@ import com.google.gson.annotations.SerializedName
 
 class Location(
     @SerializedName("locationId")
-    val id: Long,
+    val id: Long = 0L,
+
     @SerializedName("name")
-    val name: String,
+    val name: String = "",
+
     @SerializedName("description")
-    val description: String,
+    val description: String = "",
+
     @SerializedName("image")
-    val image: String,
+    val image: String = "",
+
     @SerializedName("hotels")
-    val hotels: List<Hotel>
+    val hotels: List<Hotel> = emptyList()
 ) {
     override fun toString(): String {
-        return "Location(id=$id, name='$name', description='$description', image='$image', hotels=$hotels)"
+        return "Location(id=$id, name='$name', description='$description', image='$image')"
     }
 }

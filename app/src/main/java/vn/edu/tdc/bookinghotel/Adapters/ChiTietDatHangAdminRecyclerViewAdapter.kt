@@ -69,7 +69,8 @@ class ChiTietDatHangAdminRecyclerViewAdapter(
 
         val binding = ChiTietKhachSanDaDatRecyleviewBinding.bind(holder.binding)
         binding.tvBookingId.text = "Booking ID: ${datHang.bookingId}"
-        binding.tvTongTien.text = "Customer ID: ${datHang.tongTien}"
+        binding.tvTongTien.text = "Price: ${formatCurrency(datHang.tongTien)} VND"
+        binding.tvCustomerId.text = "CustomerId: ${datHang.customerId}"
         binding.tvRoomId.text = "Room ID: ${datHang.roomId}"
         binding.tvCheckInDate.text = "Check-In: ${datHang.checkInDate}"
         binding.tvCheckOutDate.text = "Check-Out: ${datHang.checkOutDate}"

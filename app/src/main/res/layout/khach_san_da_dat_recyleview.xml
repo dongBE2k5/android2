@@ -26,14 +26,51 @@
 
         <!-- Thông tin phòng -->
         <TextView
-            android:id="@+id/tvRoomName"
-            android:layout_marginTop="12dp"
+            android:id="@+id/tenKS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phòng 402"
-            android:textStyle="bold"
+            android:text="een khach san"
             android:textSize="20sp"
-            android:textColor="#212121" />
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+  <LinearLayout
+
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvRoomName"
+                android:layout_marginTop="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phòng 402"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="#212121" />
+        </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+          <TextView
+              android:id="@+id/btnHuy"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:layout_marginLeft="150dp"
+              android:layout_marginTop="5dp"
+              android:background="@drawable/red_bg"
+              android:gravity="right"
+              android:padding="3dp"
+              android:text="hủy phòng"
+              android:textColor="@color/white"
+              android:textSize="12sp"
+              android:textStyle="bold"></TextView>
+      </LinearLayout>
+  </LinearLayout>
 
         <TextView
             android:id="@+id/price"

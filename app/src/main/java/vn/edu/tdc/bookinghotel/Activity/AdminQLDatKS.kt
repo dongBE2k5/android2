@@ -4,13 +4,17 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.edu.tdc.bookinghotel.Adapters.ChiTietDatHangAdminRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.Model.ChiTietDatHangAdmin
+import vn.edu.tdc.bookinghotel.Model.Location
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.LocationRepository
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.AdminChiTietDatHangBinding
 
@@ -23,6 +27,7 @@ class AdminQLDatKS: AppCompatActivity() {
         ChiTietDatHangAdmin(
             bookingId = 1,
             userName = "Nguyen Van A",
+            customerId = 421312,
             roomId = 101,
             tongTien = 1500000,
             checkInDate = "2025-06-01",
@@ -32,6 +37,7 @@ class AdminQLDatKS: AppCompatActivity() {
             imageUrl = R.drawable.khachsan
         )
     )
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

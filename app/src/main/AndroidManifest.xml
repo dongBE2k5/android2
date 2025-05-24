@@ -22,6 +22,9 @@
             android:name=".Activity.StoreActivity"
             android:exported="false" />
         <activity
+            android:name=".Activity.AddRoomActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.AdminQLDatKS"
             android:exported="false" />
         <activity

@@ -3,7 +3,7 @@ package vn.edu.tdc.bookinghotel.Model
 import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
 
-data class Room (
+data class  Room (
     @SerializedName("roomId")
     val id: Long,
 
