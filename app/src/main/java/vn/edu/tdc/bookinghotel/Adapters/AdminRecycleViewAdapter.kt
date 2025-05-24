@@ -17,7 +17,8 @@ import java.util.Locale
 
 class AdminRecycleViewAdapter(
     private val context: Context,
-    private val list: ArrayList<UserDatHang>
+    private var list: ArrayList<UserDatHang>
+
 ) : RecyclerView.Adapter<AdminRecycleViewAdapter.MyViewHolderUserDatHang>()  {
 
 
@@ -78,6 +79,11 @@ class AdminRecycleViewAdapter(
     fun formatCurrency(amount: Int): String {
         val format = DecimalFormat("#,###")
         return format.format(amount)
+    }
+
+    fun updateData(newList: List<UserDatHang>) {
+        this.list = ArrayList(newList)
+        notifyDataSetChanged()
     }
 
 }

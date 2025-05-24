@@ -18,11 +18,17 @@ import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.databinding.ChiTietPhongBinding
 import vn.edu.tdc.bookinghotel.databinding.KhachSanDaDatRecyleviewBinding
+import java.text.DecimalFormat
 
 class HotelDaDatAdapter(
     val context: Context,
     private val bookingList: ArrayList<Booking>
 ) : RecyclerView.Adapter<HotelDaDatAdapter.BookingViewHolder>() {
+
+
+    //khai bao nut huy phong
+    var onCancelClick: ((Booking, Int) -> Unit)? = null
+
 
     inner class BookingViewHolder(val binding: KhachSanDaDatRecyleviewBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -39,26 +45,42 @@ class HotelDaDatAdapter(
         val booking = bookingList[position]
         val room = booking.room
         val customer = booking.customer
+        val hotel = room?.hotel  // Lấy hotel từ room
 
         val b = holder.binding
 
-        b.tvRoomName.text = "Phòng: ${room.roomNumber}"
-        b.price.text = "Giá: ${room.price.toInt()}đ"
-        b.tvRoomCapacity.text = "Sức chứa: ${room.capacity} người"
-        b.tvRoomDescription.text = room.description
-        b.tvCustomerId.text = "Khách hàng: ${customer.fullName}"
-        b.tvCheckInDate.text = "Check-in: ${booking.checkinDate}"
-        b.tvCheckOutDate.text = "Check-out: ${booking.checkoutDate}"
-        b.tvStatus.text = "Trạng thái: ${booking.status}"
+        b.tenKS.text = hotel?.name ?: "Khách sạn không xác định"
+        b.tvRoomName.text = "Phòng: ${room?.roomNumber ?: "?"}"
+        b.price.text = "Giá: ${room?.price?.toInt()?.let { formatCurrencyVND(it) } ?: "0"} VND"
+        b.tvRoomCapacity.text = "Sức chứa: ${room?.capacity ?: "?"} người"
+        b.tvRoomDescription.text = room?.description ?: "Chưa có mô tả"
+        b.tvCustomerId.text = "Khách hàng: ${customer?.fullName ?: "Không xác định"}"
+        b.tvCheckInDate.text = "Check-in: ${booking.checkinDate ?: "?"}"
+        b.tvCheckOutDate.text = "Check-out: ${booking.checkoutDate ?: "?"}"
+        b.tvStatus.text = "Trạng thái: ${booking.status ?: "?"}"
 
-        
         Glide.with(b.imgRoom.context)
-            .load("${context.getString(R.string.localUpload)}${room.image}")
+            .load(room?.image?.let { "${context.getString(R.string.localUpload)}$it" } ?: R.drawable.ic_launcher_background)
             .placeholder(R.drawable.ic_launcher_background)
             .into(b.imgRoom)
 
-
+        b.btnHuy.setOnClickListener {
+            onCancelClick?.invoke(booking, position)
+        }
     }
 
+
     override fun getItemCount(): Int = bookingList.size
+
+    fun formatCurrencyVND(amount: Int): String {
+        val formatter = DecimalFormat("#,###")
+        return formatter.format(amount).replace(',', '.')
+    }
+
+    fun updateItem(position: Int, newBooking: Booking) {
+        bookingList[position] = newBooking
+        notifyItemChanged(position)
+    }
+
+
 }

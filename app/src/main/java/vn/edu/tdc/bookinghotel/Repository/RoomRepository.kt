@@ -8,8 +8,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 import vn.edu.tdc.bookinghotel.CallAPI.RoomAPI
 import vn.edu.tdc.bookinghotel.Model.Room
+import vn.edu.tdc.bookinghotel.Model.RoomType
 import vn.edu.tdc.bookinghotel.Response.RoomResponse
 import vn.edu.tdc.bookinghotel.Response.RoomSingleResponse
+
 
 class RoomRepository {
     private val retrofit = Retrofit.Builder()
@@ -87,6 +89,30 @@ class RoomRepository {
             }
         })
     }
+
+    fun fetchRoomTypes(
+        onSuccess: (List<RoomType>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        val call = roomAPI.getRoomTypes()
+        call.enqueue(object : Callback<List<RoomType>> {
+            override fun onResponse(call: Call<List<RoomType>>, response: Response<List<RoomType>>) {
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        onSuccess(it)
+                    } ?: onError(Exception("Response null"))
+                } else {
+                    onError(Exception("Error code: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<List<RoomType>>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
+
+
 
 
 

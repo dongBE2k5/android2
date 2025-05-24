@@ -81,7 +81,7 @@
                 android:id="@+id/soPhong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Còn phòng"
+                android:text="5"
                 android:textSize="12sp"
                 android:textColor="#4CAF50"
                 android:layout_marginTop="4dp"

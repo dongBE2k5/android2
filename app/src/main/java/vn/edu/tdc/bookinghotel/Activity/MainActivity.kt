@@ -24,6 +24,7 @@ import vn.edu.tdc.bookinghotel.Repository.LocationRepository
 import vn.edu.tdc.bookinghotel.Model.Voucher
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.HotelRepository
+import vn.edu.tdc.bookinghotel.Repository.RoomRepository
 import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
@@ -32,18 +33,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: HomePageLayoutBinding
     private lateinit var adapter: MyHotelRecyclerViewAdapter
     private lateinit var adapterVoucher: MyVoucherRecyclerViewAdapter
-    private lateinit var locationAPI: LocationAPI
-    private lateinit var locationName: ArrayList<String>
-
-
-
-//    private val originalHotels = arrayListOf(
-//        Hotel("TP HCM", "22Land Residence Hotel 71 Hang Bong", "⭐⭐⭐⭐⭐", "8.6/10", "864.000 VND", R.drawable.khachsan),
-//        Hotel("Đà Lạt", "22Land Residence Hotel 71 Hang Bong", "⭐⭐⭐⭐⭐", "8.6/10", "864.000 VND", R.drawable.khachsan),
-//        Hotel("Vũng Tàu", "22Land Residence Hotel 71 Hang Bong", "⭐⭐⭐⭐⭐", "8.6/10", "864.000 VND", R.drawable.khachsan),
-//        Hotel("TP HCM", "22Land Residence Hotel 71 Hang Bong", "⭐⭐⭐⭐⭐", "8.6/10", "864.000 VND", R.drawable.khachsan),
-//        Hotel("TP HCM", "22Land Residence Hotel 71 Hang Bong", "⭐⭐⭐⭐⭐", "8.6/10", "864.000 VND", R.drawable.khachsan)
-//    )
 
     private val vouchers = arrayListOf(
         Voucher("Giảm đến 1 triệu tất cả Khách Sạn", "Đặt khách sạn từ 2.5 triệu", "VNEPICTHANKYOU"),
@@ -56,16 +45,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = HomePageLayoutBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         val session = SessionManager(this)
-        Log.d("IDMain" , "${session.getIdUser()}")
-        // full màn hình
+        Log.d("IDMain", "${session.getIdUser()}")
+
+        // Ẩn status bar và navigation bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             WindowCompat.setDecorFitsSystemWindows(window, false)
-
-            // Ẩn thanh điều hướng + status bar
             window.insetsController?.apply {
                 hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
                 systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -82,27 +69,22 @@ class MainActivity : AppCompatActivity() {
                     )
         }
 
+        // Khởi tạo Spinner location
         val repositoryLocation = LocationRepository()
-        // Spinner: thành phố
-        var locations = ArrayList<Location>()
-        locationName = ArrayList<String>()
-//        locations.add("Đang tải...")
-//        locations.add("Đang tải1...")
-        val adapterSpinner = ArrayAdapter(this, android.R.layout.simple_spinner_item, locationName)
+        val locations = ArrayList<Location>()
+        val locationNames = ArrayList<String>()
+        val adapterSpinner = ArrayAdapter(this, android.R.layout.simple_spinner_item, locationNames)
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        val citySpinner = binding.citySpinner
-        citySpinner.adapter = adapterSpinner
-        //vị tri dau tien cua danh sach spinner
-        citySpinner.setSelection(0)
+        binding.citySpinner.adapter = adapterSpinner
+        binding.citySpinner.setSelection(0)
 
-// Gọi API
         repositoryLocation.fetchLocations(
             onSuccess = { locationList ->
                 locations.clear()
                 locations.addAll(locationList)
 
-                locationName.clear()
-                locationName.addAll(locationList.map { it.name })
+                locationNames.clear()
+                locationNames.addAll(locationList.map { it.name })
                 adapterSpinner.notifyDataSetChanged()
             },
             onError = { error ->
@@ -110,77 +92,60 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
-        // Gọi hàm lấy dữ lệu location va thay doi spinner
-//        getLocations(locations, adapterSpinner)
-
-
-        // Khởi tạo danh sách hotels hiện tại
-        // val hotels = ArrayList(originalHotels)
-
-
-
-//        getHotelByLocation(locations, hotels)
-
-
-
-
-
-        // RecyclerView: Vouchers
-        val recyclerViewVoucher = findViewById<RecyclerView>(R.id.recycleListVoucher)
+        // Khởi tạo RecyclerView Voucher
+        val recyclerViewVoucher = binding.recycleListVoucher
         recyclerViewVoucher.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         adapterVoucher = MyVoucherRecyclerViewAdapter(this, vouchers)
         recyclerViewVoucher.adapter = adapterVoucher
 
+        val repositoryHotel = HotelRepository()
 
-
-        val repositoryHotel= HotelRepository()
-        var hotels = ArrayList<Hotel>()
-
-        // Spinner selection handling
-        citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        // Xử lý Spinner chọn location
+        binding.citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (locations.isEmpty()) return
                 val selectedLocation = locations[position]
-                hotels.clear()
 
                 repositoryHotel.fetchHotelByLocation(
-                    locationId = selectedLocation.id,  // <-- truyền ID vào
+                    locationId = selectedLocation.id,
                     onSuccess = { hotelsList ->
-                        hotels.addAll(hotelsList)
-                        Log.d("hotels",hotels.toString() )
-                        Log.d("hotelsImg",hotels.toString() )
-                        // Cập nhật RecyclerView sau khi có dữ liệu
-                        binding.recycleListHotel.layoutManager = LinearLayoutManager(
-                            this@MainActivity,
-                            LinearLayoutManager.HORIZONTAL,
-                            false
-                        )
-                        adapter = MyHotelRecyclerViewAdapter(this@MainActivity, hotels, selectedLocation.name)
-                        binding.recycleListHotel.adapter = adapter
-                        adapter.setOnItemClick(object : MyHotelRecyclerViewAdapter.OnRecyclerViewItemClickListener {
-                            override fun onImageClickListener(item: View?, position: Int) {
-                                val hotel = adapter.getItem(position)
-                                // Tạo Intent mới rồi mới startActivity
-                                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
-                                intent.putExtra("hotel_name", hotel.name) // nếu cần truyền dữ liệu
-                                intent.putExtra("hotel_id", hotel.id)
-                                Log.d("Check image",hotel.image )
-                                intent.putExtra("hotel_image", hotel.image)
-                                startActivity(intent)
-                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                        // Gọi hàm lấy số phòng từng khách sạn rồi sắp xếp
+                        fetchHotelsSortedByRoomCount(hotelsList) { sortedHotels ->
+                            runOnUiThread {
+                                // Lấy map số phòng để truyền cho adapter
+                                val roomCountMap = mutableMapOf<Long, Int>()
+                                sortedHotels.forEach { hotel ->
+                                    roomCountMap[hotel.id] = hotel.roomCount ?: 0
+                                }
+
+                                // Tạo adapter với danh sách đã sắp xếp và map số phòng
+                                adapter = MyHotelRecyclerViewAdapter(this@MainActivity, sortedHotels, selectedLocation.name, roomCountMap)
+                                binding.recycleListHotel.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+                                binding.recycleListHotel.adapter = adapter
+
+                                adapter.setOnItemClick(object : MyHotelRecyclerViewAdapter.OnRecyclerViewItemClickListener {
+                                    override fun onImageClickListener(item: View?, position: Int) {
+                                        val hotel = adapter.getItem(position)
+                                        val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
+                                        intent.putExtra("hotel_name", hotel.name)
+                                        intent.putExtra("hotel_id", hotel.id)
+                                        intent.putExtra("hotel_image", hotel.image)
+                                        startActivity(intent)
+                                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                                    }
+
+                                    override fun onMyItemClickListener(item: View?, position: Int) {
+                                        val hotel = adapter.getItem(position)
+                                        val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
+                                        intent.putExtra("hotel_name", hotel.name)
+                                        intent.putExtra("hotel_id", hotel.id)
+                                        intent.putExtra("hotel_image", hotel.image)
+                                        startActivity(intent)
+                                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                                    }
+                                })
                             }
-
-                            override fun onMyItemClickListener(item: View?, position: Int) {
-                                val hotel = adapter.getItem(position)
-
-                                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
-                                intent.putExtra("hotel_name", hotel.name)
-                                intent.putExtra("hotel_id", hotel.id)
-                                intent.putExtra("hotel_image", hotel.image)
-                                startActivity(intent)
-                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                            }
-                        })
-
+                        }
                     },
                     onError = { error ->
                         Log.e("API Hotel error", "Error: ${error.message}")
@@ -188,42 +153,14 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-
-
-        override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // Bottom Navigation xử lý chuyển activity
+        // Bottom Navigation setup
         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
         BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
-        // Click vào item Hotel
-//
-//        adapter.setOnItemClick(object : MyHotelRecyclerViewAdapter.OnRecyclerViewItemClickListener {
-//            override fun onImageClickListener(item: View?, position: Int) {
-//                val hotel = adapter.getItem(position)
-////                Toast.makeText(this@MainActivity, "Ảnh: ${hotel.name}", Toast.LENGTH_SHORT).show()
-//                // Chuyển đến ChiTietKhachSan
-//                Intent(this@MainActivity, ChiTietKhachSan::class.java)
-//                startActivity(intent)
-//            }
-//
-//            override fun onMyItemClickListener(item: View?, position: Int) {
-//                val hotel = adapter.getItem(position)
-//
-//                // Chuyển đến ChiTietKhachSan
-//                val intent = Intent(this@MainActivity, ChiTietKhachSan::class.java)
-//
-//                // Optional: Nếu cần truyền thêm dữ liệu (ví dụ: thông tin hotel)
-//                intent.putExtra("hotel_name", hotel.name)  // Bạn có thể thay "hotel_name" bằng bất kỳ key nào bạn muốn
-//                startActivity(intent)
-//
-////                Toast.makeText(this@MainActivity, "Item: ${hotel.name}", Toast.LENGTH_SHORT).show()
-//            }
-//        })
-
-
-        // Click Voucher Item
+        // Click Voucher
         adapterVoucher.setOnItemClick(object : MyVoucherRecyclerViewAdapter.OnRecyclerViewItemClickListener {
             override fun onImageClickListener(item: View?, position: Int) {
                 Toast.makeText(this@MainActivity, "Ảnh: ${vouchers[position].title}", Toast.LENGTH_SHORT).show()
@@ -235,79 +172,51 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onResume() {
+    // Hàm fetch phòng và sắp xếp khách sạn theo số phòng
+    fun fetchHotelsSortedByRoomCount(
+        hotels: List<Hotel>,
+        onComplete: (List<Hotel>) -> Unit
+    ) {
+        val roomRepository = RoomRepository()
+        val hotelRoomCountMap = mutableMapOf<Long, Int>()
+        var completedCount = 0
 
-        super.onResume()
+        if (hotels.isEmpty()) {
+            onComplete(emptyList())
+            return
+        }
+
+        for (hotel in hotels) {
+            roomRepository.fetchRoomByHotel(
+                hotelId = hotel.id,
+                onSuccess = { roomList ->
+                    hotelRoomCountMap[hotel.id] = roomList.size
+                    completedCount++
+                    if (completedCount == hotels.size) {
+                        // Gán số phòng vào thuộc tính hotel (bạn cần thêm thuộc tính này)
+                        val updatedHotels = hotels.map { h ->
+                            h.apply { roomCount = hotelRoomCountMap[h.id] ?: 0 }
+                        }
+                        // Sắp xếp
+                        val sortedHotels = updatedHotels.sortedBy { it.roomCount }
+                        onComplete(sortedHotels)
+                    }
+                },
+                onError = {
+                    hotelRoomCountMap[hotel.id] = 0
+                    completedCount++
+                    if (completedCount == hotels.size) {
+                        val updatedHotels = hotels.map { h ->
+                            h.apply { roomCount = hotelRoomCountMap[h.id] ?: 0 }
+                        }
+                        val sortedHotels = updatedHotels.sortedBy { it.roomCount }
+                        onComplete(sortedHotels)
+                    }
+                }
+            )
+        }
     }
-//    private fun getLocations(locations:ArrayList<Location>, adapter: ArrayAdapter<String> ) {
-//        locations.clear()
-//        //B2. Dinh nghia doi tuong Retrofit
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl(LocationAPI.BASE_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//        //B3. Dinh nghia doi tuong weatherAPI
-//            locationAPI = retrofit.create(LocationAPI::class.java)
-//        //B4. Goi ham doc du lieu tu Webservice
-//        val call = locationAPI.getLocations()
-//
-//        //B5. Xu li bat dong bo va doc du lieu ve ListView
-//        call.enqueue(object : Callback<List<Location>> {
-//            override fun onResponse(call: Call<List<Location>>, result: Response<List<Location>>) {
-//                // Xu li du lieu doc ve tu Webservice
-//                // Neu co du lieu moi xu li
-//                if(result.isSuccessful) {
-//                    val locationList = result.body()
-//                    Log.d("LocationList", locationList.toString())
-//                    // Xu li nullable
-//                    locationList?.let {
-//                        locations.addAll(it.map { location -> location })
-//                        locationName.addAll(it.map { location -> location.name })
-//                        adapter.notifyDataSetChanged()
-//                    }
-//                }
-//            }
-//
-//            override fun onFailure(p0: Call<List<Location>>, p1: Throwable) {
-//                Log.e("LocationError", "Lỗi: ${p1.message}")
-//            }
-//
-//        })
-//    }
-//
-//    private fun getHotelByLocation(locations:ArrayList<String>, hotels:ArrayList<Hotel>) {
-//        locations.clear()
-//        //B2. Dinh nghia doi tuong Retrofit
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl(LocationAPI.BASE_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//        //B3. Dinh nghia doi tuong weatherAPI
-//            locationAPI = retrofit.create(LocationAPI::class.java)
-//        //B4. Goi ham doc du lieu tu Webservice
-//        val call = locationAPI.getLocations()
-//
-//        //B5. Xu li bat dong bo va doc du lieu ve ListView
-//        call.enqueue(object : Callback<List<Location>> {
-//            override fun onResponse(call: Call<List<Location>>, result: Response<List<Location>>) {
-//                // Xu li du lieu doc ve tu Webservice
-//                // Neu co du lieu moi xu li
-//                if(result.isSuccessful) {
-//                    val locationList = result.body()
-//                    Log.d("LocationList", locationList.toString())
-//                    // Xu li nullable
-//                    locationList?.let { locations.addAll(it.map { location -> location.name })
-//                        adapter.notifyDataSetChanged()
-//                    }
-//                }
-//            }
-//
-//            override fun onFailure(p0: Call<List<Location>>, p1: Throwable) {
-//                Log.e("LocationError", "Lỗi: ${p1.message}")
-//            }
-//
-//        })
-//    }
 }
+
 
 

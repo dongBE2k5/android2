@@ -6,12 +6,12 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.edu.tdc.bookinghotel.Adapters.HotelDaDatAdapter
 import vn.edu.tdc.bookinghotel.Model.Booking
-import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.BookingRepository
 import vn.edu.tdc.bookinghotel.Session.SessionManager
@@ -27,7 +27,8 @@ class StoreActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = StoreBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        //full màn hiình
+
+        // Full màn hình
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.navigationBarColor = Color.TRANSPARENT
             window.statusBarColor = Color.TRANSPARENT
@@ -38,60 +39,67 @@ class StoreActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 )
         setContentView(binding.root)
-
         window.setDecorFitsSystemWindows(false)
 
         window.insetsController?.let { controller ->
             controller.hide(
                 android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars()
             )
-            controller.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller.systemBarsBehavior =
+                android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+
         // Bottom Navigation xử lý chuyển activity
         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
         BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
         val session = SessionManager(this)
-        Log.d("IDMain" , "${session.getIdCustomer()}")
+        Log.d("IDMain", "${session.getIdCustomer()}")
 
         recyclerView = binding.recycleKsDaDat
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val BookedHotel = ArrayList<Booking>()
+
+        val bookedHotel = ArrayList<Booking>()
         val bookingRepository = BookingRepository()
+
         bookingRepository.getBookingByCustomerId(session.getIdCustomer()!!.toLong(), { bookings ->
-            BookedHotel.addAll(bookings)
-            Log.d("List", "${BookedHotel.toString()}")
-            adapter = HotelDaDatAdapter(this, BookedHotel)
+            bookedHotel.addAll(bookings)
+            Log.d("List", "$bookedHotel")
+
+            adapter = HotelDaDatAdapter(this, bookedHotel)
             recyclerView.adapter = adapter
+
+            // Chỉ gán onCancelClick sau khi adapter đã được khởi tạo
+            adapter.onCancelClick = { booking, position ->
+                val dialog = AlertDialog.Builder(this)
+                    .setTitle("Xác nhận hủy")
+                    .setMessage("Bạn có chắc chắn muốn hủy phòng này?")
+                    .setPositiveButton("Có") { _, _ ->
+                        // Gọi API cập nhật trạng thái hủy
+                        bookingRepository.cancelBooking(booking.id, {
+                            // Cập nhật trạng thái local sau khi huỷ
+                            val updatedBooking = Booking(
+                                id = booking.id,
+                                customer = booking.customer,
+                                room = booking.room,
+                                checkinDate = booking.checkinDate,
+                                checkoutDate = booking.checkoutDate,
+                                status = "Đã hủy"
+                            )
+                            adapter.updateItem(position, updatedBooking)
+                        }, { error ->
+                            Log.e("StoreActivity", "Lỗi huỷ phòng: ${error.message}")
+                        })
+
+                    }
+                    .setNegativeButton("Không", null)
+                    .create()
+                dialog.show()
+            }
+
             adapter.notifyDataSetChanged()
         }, { error ->
             Log.e("StoreActivity", "Error fetching bookings: $error")
         })
-
-//        val dummyData = generateDummyBookings()
-
-//
     }
-
-//    private fun generateDummyBookings(): List<Hotel_Booking> {
-//        return listOf(
-//            Hotel_Booking(
-//                bookingId = 1,
-//                customerId = 1001,
-//                roomId = 201,
-//                checkInDate = "2025-05-01",
-//                checkOutDate = "2025-05-05",
-//                status = "Đã đặt",
-//                roomName = "Phòng Deluxe Hướng Biển",
-//                imageUrl = R.drawable.khachsan,
-//                contactInfo = "user1@example.com",
-//                voucherCode = "SUMMER2025",
-//                paymentMethods = "Tiền mặt,Chuyển khoản",
-//                totalAmount = "5,000,000 VNĐ",
-//                isInsuranceSelected = true,
-//                insurancePrice = "43,500 VNĐ"
-//            )
-//        )
-//    }
 }
-

@@ -11,6 +11,7 @@ import vn.edu.tdc.bookinghotel.CallAPI.CustomerAPI
 import vn.edu.tdc.bookinghotel.CallAPI.LocationAPI
 import vn.edu.tdc.bookinghotel.Model.Booking
 import vn.edu.tdc.bookinghotel.Model.BookingRequest
+import vn.edu.tdc.bookinghotel.Model.BookingStatusUpdateRequest
 import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.Model.Customer
 import vn.edu.tdc.bookinghotel.Response.BookingListResponse
@@ -80,7 +81,28 @@ class BookingRepository {
         })
     }
 
-    
+    fun cancelBooking(
+        bookingId: Long,
+        onSuccess: () -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        val call = bookingAPI.updateBookingStatus(bookingId, "cancel") // Gửi ?action=cancel
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    onSuccess()
+                } else {
+                    onError(Exception("Lỗi server: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
+
+
 
 
 }
