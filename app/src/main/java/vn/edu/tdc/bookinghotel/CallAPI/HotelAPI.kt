@@ -28,4 +28,7 @@ interface HotelAPI {
 
     @GET("hotels/location/{locationId}")
     fun getHotelsByLocation(@Path("locationId") locationId: Long): Call<HotelResponse>
+
+//    @GET("hotels/hotelier")
+//    fun getHotelsByHotelier(@Header("Authorization") token: String): Call<HotelResponse>
 }

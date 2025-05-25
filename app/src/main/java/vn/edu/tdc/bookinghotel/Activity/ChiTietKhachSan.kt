@@ -24,6 +24,7 @@ import vn.edu.tdc.bookinghotel.Model.Room
 import vn.edu.tdc.bookinghotel.Model.ListDetail
 import vn.edu.tdc.bookinghotel.Repository.HotelRepository
 import vn.edu.tdc.bookinghotel.Repository.RoomRepository
+import vn.edu.tdc.bookinghotel.Session.SessionManager
 
 class ChiTietKhachSan : AppCompatActivity() {
 
@@ -69,7 +70,7 @@ class ChiTietKhachSan : AppCompatActivity() {
         Log.d("Requet image hotels",getString(R.string.localUpload))
 
         binding.tvTenKhachSan.text = hotelName ?: "Tên khách sạn không có"
-
+        val session=SessionManager(this);
         Glide.with(this)
             .load("${getString(R.string.localUpload)}${hotelImage}")
             .placeholder(R.drawable.khachsan)
@@ -102,7 +103,15 @@ class ChiTietKhachSan : AppCompatActivity() {
                         Log.d("IdRoom" , "${roomSelected.id}")
 
 
-                        val intent = Intent(this@ChiTietKhachSan, ChiTietPhongActivity::class.java)
+                        val intent = Intent(this@ChiTietKhachSan,
+                            if (session.getRoleUserNamer().equals("ROLE_ADMIN")){
+                                EditRoomActivity::class.java
+                            }
+                            else{
+                                ChiTietPhongActivity::class.java
+                            }
+
+                        )
 
                         intent.putExtra("roomId", roomSelected.id)
                         Log.d("roomIdgui",roomSelected.id.toString())

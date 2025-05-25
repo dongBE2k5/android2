@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E0E0E0">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#4285F4"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:tint="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quản lý phòng"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingStart="10dp" />
+
+    </LinearLayout>
+
+    <!-- Main Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_margin="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <!-- Spinner chọn khách sạn -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Khách sạn"
+                    android:textColor="#212121"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:padding="5dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerHotel"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bogocprofile" />
+
+                <!-- Spinner loại phòng -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loại phòng"
+                    android:textColor="#212121"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerRoomType"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bogocprofile" />
+
+                <!-- Số phòng -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số phòng"
+                    android:textColor="#212121"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp" />
+
+                <EditText
+                    android:id="@+id/edtRoomNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bogocprofile"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textSize="12sp"
+                    android:inputType="text" />
+
+                <!-- ID loại phòng -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mã loại phòng"
+                    android:textColor="#212121"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp" />
+
+                <EditText
+                    android:id="@+id/edtRoomTypeId"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bogocprofile"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textSize="12sp"
+                    android:inputType="number" />
+
+                <!-- Giá -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giá (VNĐ)"
+                    android:textColor="#212121"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp" />
+
+                <EditText
+                    android:id="@+id/edtPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bogocprofile"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textSize="12sp"
+                    android:inputType="numberDecimal" />
+
+                <!-- Sức chứa -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sức chứa"
+                    android:textColor="#212121"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp" />
+
+                <EditText
+                    android:id="@+id/edtCapacity"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bogocprofile"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textSize="12sp"
+                    android:inputType="number" />
+
+                <!-- Mô tả -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mô tả"
+                    android:textColor="#212121"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp" />
+
+                <EditText
+                    android:id="@+id/edtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bogocprofile"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textSize="12sp"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:gravity="top" />
+
+                <!-- URI hình ảnh -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Image URI"
+                    android:textColor="#212121"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp" />
+
+                <EditText
+                    android:id="@+id/edtImageUri"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bogocprofile"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textSize="12sp"
+                    android:inputType="textUri" />
+
+                <!-- Spinner trạng thái -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trạng thái"
+                    android:textColor="#212121"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bogocprofile" />
+
+                <!-- Nút lưu -->
+                <Button
+                    android:id="@+id/btnSaveRoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Lưu thông tin phòng"
+                    android:textColor="#FFFFFF"
+                    android:backgroundTint="#4285F4"
+                    android:textSize="12sp"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+</LinearLayout>
