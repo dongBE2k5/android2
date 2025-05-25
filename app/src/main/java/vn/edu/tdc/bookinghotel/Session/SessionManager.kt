@@ -13,6 +13,9 @@ class SessionManager(private val context: Context) {
     fun saveUserName(username: String) {
         prefs.edit().putString("username", username).apply()
     }
+    fun saveRoleUserName(role: String) {
+        prefs.edit().putString("role", role).apply()
+    }
     fun saveToken(token: String) {
         prefs.edit().putString("token", token).apply()
     }
@@ -21,6 +24,7 @@ class SessionManager(private val context: Context) {
     fun getIdUser(): String? = prefs.getString("idUser", null)
     fun getIdCustomer(): String? = prefs.getString("idCustomer", null)
     fun getUserName(): String? = prefs.getString("username", null)
+    fun getRoleUserNamer(): String? = prefs.getString("role", null)
 
     fun isLoggedIn(): Boolean = getToken() != null
 

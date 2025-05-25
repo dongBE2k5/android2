@@ -4,36 +4,33 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import vn.edu.tdc.bookinghotel.Adapters.AdminRecycleViewAdapter
+import vn.edu.tdc.bookinghotel.Model.Booking
 import vn.edu.tdc.bookinghotel.Model.UserDatHang
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.BookingRepository
+import vn.edu.tdc.bookinghotel.Repository.RoomRepository
+import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.AdminLayoutBinding
 
-class AdminActivity: AppCompatActivity() {
+class AdminActivity : AppCompatActivity() {
 
     private lateinit var binding: AdminLayoutBinding
     private lateinit var adapter: AdminRecycleViewAdapter
-
-    private val datHangKhachSan = arrayListOf(
-        UserDatHang("Nguyễn Văn A", "Khách sạn Grand Riverside", 4000000),
-        UserDatHang("Trần Thị B", "Khách sạn Biển Xanh", 2500000),
-        UserDatHang("Lê Văn C", "Khách sạn Sài Gòn Center", 3700000),
-        UserDatHang("Phạm Thị D", "Khách sạn The Light", 5200000),
-        UserDatHang("Hoàng Văn E", "Khách sạn Royal View", 3100000)
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = AdminLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Full màn hình và ẩn thanh status/navigation bar
+        // Fullscreen setup
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.navigationBarColor = Color.TRANSPARENT
             window.statusBarColor = Color.TRANSPARENT
@@ -52,53 +49,91 @@ class AdminActivity: AppCompatActivity() {
         }
 
         binding.btnThemPhong.setOnClickListener {
-            val intent= Intent(this,AddRoomActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, AddRoomActivity::class.java))
         }
 
+        val session = SessionManager(this)
+        val datHangKhachSan = ArrayList<UserDatHang>()
+        val bookingRepository = BookingRepository()
+        val roomRepository = RoomRepository()
+        val idBooking=ArrayList<Long>()
+        bookingRepository.getBookingByHotelier(
+            token = session.getToken().toString(),
+            onSuccess = { bookingList ->
+                if (bookingList.isEmpty()){
 
-        // Khởi tạo Spinner lọc theo tên khách sạn
-        val hotelNames = datHangKhachSan.map { it.nameKS }.distinct()
+                }
+                idBooking.addAll(bookingList.map { e->e.id })
+                var loadedCount: Int = 0
+
+                for (booking in bookingList) {
+                    roomRepository.fetchRoomById(
+                        roomId = booking.room.id,
+                        onSuccess = { room ->
+
+                            val user = UserDatHang(
+                                booking.customer.fullName,
+                                room.hotel?.name ?: "Không rõ",
+                                0,
+                                booking.id
+
+                            )
+                            datHangKhachSan.add(user)
+                            loadedCount++
+                            if (loadedCount == bookingList.size) {
+                                setupUI(datHangKhachSan)
+                            }
+                        },
+                        onError = {
+                            loadedCount++
+                            if (loadedCount == bookingList.size) {
+                                setupUI(datHangKhachSan)
+                            }
+                        }
+                    )
+                }
+            },
+            onError = { error ->
+                Log.e("BookingError", error.message ?: "Lỗi gọi booking")
+            }
+        )
+
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
+    }
+
+    private fun setupUI(data: ArrayList<UserDatHang>) {
+
         val spinnerItems = arrayListOf("Tất cả")
-        spinnerItems.addAll(hotelNames)
+        spinnerItems.addAll(data.map { it.nameKS }.distinct())
 
         val adapterSpinner = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinnerItems)
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.citySpinner.adapter = adapterSpinner
         binding.citySpinner.setSelection(0)
 
-        // Khởi tạo RecyclerView
+        adapter = AdminRecycleViewAdapter(this, data)
         binding.recycleKsDaDat.layoutManager = LinearLayoutManager(this)
-        adapter = AdminRecycleViewAdapter(this, datHangKhachSan)
         binding.recycleKsDaDat.adapter = adapter
 
-        // Lắng nghe sự kiện chọn Spinner để lọc dữ liệu
         binding.citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedHotel = spinnerItems[position]
-                val filteredList = if (selectedHotel == "Tất cả") {
-                    datHangKhachSan
-                } else {
-                    datHangKhachSan.filter { it.nameKS == selectedHotel }
-                }
-                adapter.updateData(filteredList)
+                val selected = spinnerItems[position]
+                val filtered = if (selected == "Tất cả") data else data.filter { it.nameKS == selected }
+                adapter.updateData(filtered)
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
         adapter.setOnItemClick(object : AdminRecycleViewAdapter.OnRecyclerViewItemClickListener {
-            override fun onImageClickListener(item: View?, position: Int) {
-                // Không cần thiết ở đây
-            }
-
+            override fun onImageClickListener(item: View?, position: Int) {}
             override fun onMyItemClickListener(item: View?, position: Int) {
+                val selected = data[position]
                 val intent = Intent(this@AdminActivity, AdminQLDatKS::class.java)
+                intent.putExtra("idBooking",selected.bookingId)
                 startActivity(intent)
             }
         })
-
-        // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
-        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
     }
 }

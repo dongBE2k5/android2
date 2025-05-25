@@ -77,16 +77,24 @@ class StoreActivity : AppCompatActivity() {
                     .setPositiveButton("Có") { _, _ ->
                         // Gọi API cập nhật trạng thái hủy
                         bookingRepository.cancelBooking(booking.id, {
-                            // Cập nhật trạng thái local sau khi huỷ
-                            val updatedBooking = Booking(
-                                id = booking.id,
-                                customer = booking.customer,
-                                room = booking.room,
-                                checkinDate = booking.checkinDate,
-                                checkoutDate = booking.checkoutDate,
-                                status = "Đã hủy"
-                            )
-                            adapter.updateItem(position, updatedBooking)
+                            if (booking.status.equals("ĐÃ HỦY") || booking.status.equals("ĐÃ TRẢ PHÒNG") ){
+                                showErrorDialog("Phòng đã ${booking.status} nên không thể thực hiện")
+                            }
+                            else{
+                                // Cập nhật trạng thái local sau khi huỷ
+                                val updatedBooking = Booking(
+                                    id = booking.id,
+                                    customer = booking.customer,
+                                    room = booking.room,
+                                    checkinDate = booking.checkinDate,
+                                    checkoutDate = booking.checkoutDate,
+
+                                    status = "Đã hủy"
+                                )
+
+                                adapter.updateItem(position, updatedBooking)
+                            }
+
                         }, { error ->
                             Log.e("StoreActivity", "Lỗi huỷ phòng: ${error.message}")
                         })
@@ -101,5 +109,12 @@ class StoreActivity : AppCompatActivity() {
         }, { error ->
             Log.e("StoreActivity", "Error fetching bookings: $error")
         })
+    }
+    fun showErrorDialog(message: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Thông báo")
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 }

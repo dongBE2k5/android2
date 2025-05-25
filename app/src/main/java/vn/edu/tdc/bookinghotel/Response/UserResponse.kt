@@ -6,5 +6,6 @@ import vn.edu.tdc.bookinghotel.Model.User
 class UserResponse (
     val token: String,
     val username:String,
-    val id:String
+    val id:String,
+    val role:String,
     )

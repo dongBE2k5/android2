@@ -2,9 +2,11 @@ package vn.edu.tdc.bookinghotel.CallAPI
 
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Response.BookingListResponse
 import vn.edu.tdc.bookinghotel.Response.HotelResponse
 import vn.edu.tdc.bookinghotel.Response.LocationResponse
 
@@ -19,6 +21,10 @@ interface HotelAPI {
 
     @GET("hotels")
     fun getHotels(): Call<HotelResponse>
+
+    @GET("hotels/hotelier")
+    fun getHotelByHotlier(@Header("Authorization") token: String): Call<HotelResponse>
+
 
     @GET("hotels/location/{locationId}")
     fun getHotelsByLocation(@Path("locationId") locationId: Long): Call<HotelResponse>

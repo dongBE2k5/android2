@@ -1,5 +1,6 @@
 package vn.edu.tdc.bookinghotel.Repository
 
+import android.content.Context
 import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,9 +19,10 @@ import vn.edu.tdc.bookinghotel.Response.BookingListResponse
 import vn.edu.tdc.bookinghotel.Response.BookingResponse
 import vn.edu.tdc.bookinghotel.Response.CustomerResponse
 import vn.edu.tdc.bookinghotel.Response.HotelResponse
+import vn.edu.tdc.bookinghotel.Session.SessionManager
 
 
-class BookingRepository {
+class BookingRepository (){
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BookingAPI.BASE_URL)
@@ -56,6 +58,31 @@ class BookingRepository {
             }
         })
     }
+
+    fun getBookingById(
+        bookingId: Long,
+        onSuccess: (Booking) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        val call = bookingAPI.getBookingById(bookingId)
+        call.enqueue(object : Callback<BookingResponse> {
+            override fun onResponse(call: Call<BookingResponse>, response: Response<BookingResponse>) {
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        Log.d("booking", "${it.body}")
+                        onSuccess(it.body)
+                    } ?: onError(Exception("Response null"))
+                } else {
+                    onError(Exception("Error code: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<BookingResponse>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
+
 
     fun getBookingByCustomerId(
         customerId: Long,
@@ -101,7 +128,29 @@ class BookingRepository {
             }
         })
     }
+    fun getBookingByHotelier(
+        token: String,
+        onSuccess: (List<Booking>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        val call = bookingAPI.getBookingByRoom("Bearer $token")
+        call.enqueue(object : Callback<BookingListResponse> {
+            override fun onResponse(call: Call<BookingListResponse>, response: Response<BookingListResponse>) {
+                Log.d("List", "${response}")
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        onSuccess(it.body)
+                    } ?: onError(Exception("Response null"))
+                } else {
+                    onError(Exception("Error code: ${response.code()}"))
+                }
+            }
 
+            override fun onFailure(call: Call<BookingListResponse>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
 
 
 

@@ -57,13 +57,17 @@ class ChiTietPhongActivity : AppCompatActivity() {
         val roomImage = intent.getStringExtra("roomImage")
         Log.d("roomId",roomId.toString())
 
-
+        Log.d("roomImage Nhan", roomImage.toString())
 
 
         val repositoryRoom = RoomRepository()
         repositoryRoom.fetchRoomById(
             roomId = roomId,
             onSuccess = { fetchedRoom ->
+                Glide.with(this)
+                    .load("${getString(R.string.localUpload)}${roomImage}")
+                    .placeholder(R.drawable.khachsan)
+                    .into(binding.roomImage)
 
                 binding.nameDichVu.text = fetchedRoom.roomType?.name ?: "Phòng không rõ"
                 binding.thongTin1.text = fetchedRoom.description ?: "Không có mô tả"
@@ -80,10 +84,7 @@ class ChiTietPhongActivity : AppCompatActivity() {
                 binding.tongGiaTien.text = "Tổng: ${formatCurrency(fetchedRoom.price)} VND"
                 binding.phongConLai.text = "Phòng cho ${fetchedRoom.capacity} người"
 
-                Glide.with(this)
-                    .load("${getString(R.string.localUpload)}${fetchedRoom.image}")
-                    .placeholder(R.drawable.khachsan)
-                    .into(binding.roomImage)
+
 
                 binding.btnDat.setOnClickListener {
                     when (fetchedRoom.status) {

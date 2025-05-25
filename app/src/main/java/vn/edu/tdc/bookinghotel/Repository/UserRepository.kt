@@ -47,7 +47,9 @@ class UserRepository(private val context: Context) {
                         Log.d("Id", "${it.id}")
                         session.saveToken(it.token)
                         session.saveIdUser(it.id)
-
+                        Log.d("id",it.id.toString())
+                        Log.d("token",it.token.toString())
+                        session.saveRoleUserName(it.role)
                         session.saveUserName(it.username)
                         val responseCustomer=CustomerRepository()
                         responseCustomer.fetchCustomerByUser(

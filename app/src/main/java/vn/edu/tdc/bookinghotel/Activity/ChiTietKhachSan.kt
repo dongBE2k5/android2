@@ -107,7 +107,7 @@ class ChiTietKhachSan : AppCompatActivity() {
                         intent.putExtra("roomId", roomSelected.id)
                         Log.d("roomIdgui",roomSelected.id.toString())
                         intent.putExtra("roomImage", roomSelected.image)
-
+                        Log.d("roomImage", roomSelected.image)
 
                         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
                         startActivity(intent)
@@ -125,7 +125,7 @@ class ChiTietKhachSan : AppCompatActivity() {
                         intent.putExtra("selected_nav", R.id.nav_store)
                         intent.putExtra("roomId", "${roomSelected.id}")
                         intent.putExtra("roomImage", roomSelected.image)
-
+                        Log.d("roomImage", roomSelected.image)
 
 
                         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)

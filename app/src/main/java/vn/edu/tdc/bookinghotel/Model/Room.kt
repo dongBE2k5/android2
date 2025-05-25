@@ -26,7 +26,7 @@ data class  Room (
     val status: String,
 
     @SerializedName("hotel")
-    val hotel: Hotel? = null,
+    val hotel: Hotel? = Hotel(),
 
     @SerializedName("roomType")
     val roomType: RoomType? = null,

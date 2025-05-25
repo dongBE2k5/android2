@@ -16,6 +16,7 @@ import vn.edu.tdc.bookinghotel.Model.Booking
 
 import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
 import vn.edu.tdc.bookinghotel.R
+import vn.edu.tdc.bookinghotel.Repository.RoomRepository
 import vn.edu.tdc.bookinghotel.databinding.ChiTietPhongBinding
 import vn.edu.tdc.bookinghotel.databinding.KhachSanDaDatRecyleviewBinding
 import java.text.DecimalFormat
@@ -46,10 +47,27 @@ class HotelDaDatAdapter(
         val room = booking.room
         val customer = booking.customer
         val hotel = room?.hotel  // Lấy hotel từ room
-
         val b = holder.binding
 
-        b.tenKS.text = hotel?.name ?: "Khách sạn không xác định"
+        val respositoryRoom=RoomRepository()
+        respositoryRoom.fetchRoomById(
+            room.id,
+            onSuccess = {roomList->
+                b.tenKS.text = roomList.hotel?.name ?: "Khách sạn không xác định"
+                Glide.with(b.imgRoom.context)
+                    .load( "${context.getString(R.string.localUpload)}${roomList.hotel?.image}")
+                    .placeholder(R.drawable.khachsan)
+                    .error(R.drawable.ic_launcher_background)
+                    .into(b.imgRoom)
+                b.tvHotelDescription.text= roomList.hotel?.address
+            },
+            onError = {
+
+            }
+        )
+
+
+
         b.tvRoomName.text = "Phòng: ${room?.roomNumber ?: "?"}"
         b.price.text = "Giá: ${room?.price?.toInt()?.let { formatCurrencyVND(it) } ?: "0"} VND"
         b.tvRoomCapacity.text = "Sức chứa: ${room?.capacity ?: "?"} người"
@@ -59,10 +77,6 @@ class HotelDaDatAdapter(
         b.tvCheckOutDate.text = "Check-out: ${booking.checkoutDate ?: "?"}"
         b.tvStatus.text = "Trạng thái: ${booking.status ?: "?"}"
 
-        Glide.with(b.imgRoom.context)
-            .load(room?.image?.let { "${context.getString(R.string.localUpload)}$it" } ?: R.drawable.ic_launcher_background)
-            .placeholder(R.drawable.ic_launcher_background)
-            .into(b.imgRoom)
 
         b.btnHuy.setOnClickListener {
             onCancelClick?.invoke(booking, position)

@@ -3,6 +3,7 @@ package vn.edu.tdc.bookinghotel.CallAPI
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -32,6 +33,9 @@ interface BookingAPI {
 
     @GET("bookings/customerId/{customerId}")
     fun getBookingByCustomerId(@Path("customerId") customerId: Long): Call<BookingListResponse>
+
+    @GET("bookings/hotelier")
+    fun getBookingByRoom(@Header("Authorization") token: String): Call<BookingListResponse>
 
     @PUT("bookings/{id}/status")
     fun updateBookingStatus(
