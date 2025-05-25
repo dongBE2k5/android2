@@ -18,7 +18,7 @@ import vn.edu.tdc.bookinghotel.databinding.CardRecyclerListHotelBinding
 import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
 
 
-private const val s = "192.168.1.4:8080/upload/"
+
 
 class MyHotelRecyclerViewAdapter(
     private val context: Context,

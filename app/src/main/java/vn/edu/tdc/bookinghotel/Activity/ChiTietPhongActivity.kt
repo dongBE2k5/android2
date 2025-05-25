@@ -64,9 +64,10 @@ class ChiTietPhongActivity : AppCompatActivity() {
         repositoryRoom.fetchRoomById(
             roomId = roomId,
             onSuccess = { fetchedRoom ->
-                Glide.with(this)
+                Glide.with(this@ChiTietPhongActivity)
                     .load("${getString(R.string.localUpload)}${roomImage}")
                     .placeholder(R.drawable.khachsan)
+                    .error(R.drawable.ic_launcher_background)
                     .into(binding.roomImage)
 
                 binding.nameDichVu.text = fetchedRoom.roomType?.name ?: "Phòng không rõ"

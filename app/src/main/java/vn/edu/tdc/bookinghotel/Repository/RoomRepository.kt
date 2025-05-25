@@ -167,6 +167,65 @@ class RoomRepository {
             }
         })
     }
+    fun updateRoom(
+        context: Context,
+        roomId:Long,
+        roomNumber: String,
+        roomTypeId: Long,
+        price: String,
+        capacity: String,
+        description: String,
+        status:String,
+        hotelId: Long,
+        token: String,
+        imageUri: Uri?,
+        onSuccess: () -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        val roomNumberBody = roomNumber.toRequestBody("text/plain".toMediaTypeOrNull())
+        val roomTypeIdBody = roomTypeId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val priceBody = price.toRequestBody("text/plain".toMediaTypeOrNull())
+        val capacityBody = capacity.toRequestBody("text/plain".toMediaTypeOrNull())
+        val descriptionBody = description.toRequestBody("text/plain".toMediaTypeOrNull())
+        val statusBody = status.toRequestBody("text/plain".toMediaTypeOrNull())
+        val hotelIdBody = hotelId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+
+        val imagePart = imageUri?.let {
+            val filePath = getRealPathFromURI(context, it)
+            val file = File(filePath)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            MultipartBody.Part.createFormData("image", file.name, requestFile)
+        }
+
+        val call = roomAPI.updateRoom(
+            roomId,
+            roomNumberBody,
+            roomTypeIdBody,
+            priceBody,
+            capacityBody,
+            descriptionBody,
+            statusBody,
+            hotelIdBody,
+            "Bearer $token",
+            imagePart
+        )
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    onSuccess()
+                } else {
+                    onError(Exception("Error code: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
+
+
+
 
     // Hàm lấy đường dẫn thực từ Uri (cần quyền đọc storage)
     fun getRealPathFromURI(context: Context, contentUri: Uri): String {

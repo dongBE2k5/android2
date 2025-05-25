@@ -1,47 +1,92 @@
 package vn.edu.tdc.bookinghotel.Activity
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.Model.RoomType
+import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.HotelRepository
 import vn.edu.tdc.bookinghotel.Repository.RoomRepository
 import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.databinding.EditRoomLayoutBinding
 
 class EditRoomActivity : AppCompatActivity() {
+
     private lateinit var binding: EditRoomLayoutBinding
     private val hotels = mutableListOf<Hotel>()
     private val roomTypes = mutableListOf<RoomType>()
     private var spinnersLoaded = 0 // Đếm spinner đã load xong
     private var roomId: Long = 0L
 
+    private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
+    private var selectedImageUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = EditRoomLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        val session = SessionManager(this)
         roomId = intent.getLongExtra("roomId", 0L)
         Log.d("roomId", roomId.toString())
 
         setupStatusSpinner()
         setupSpinners()
-
+        setupImagePicker()
+        binding.imageView.setOnClickListener {
+            pickImageFromGallery()
+        }
         binding.btnSaveRoom.setOnClickListener {
             val roomNumber = binding.edtRoomNumber.text.toString()
             val roomTypeId = binding.edtRoomTypeId.text.toString()
             val price = binding.edtPrice.text.toString()
             val capacity = binding.edtCapacity.text.toString()
             val description = binding.edtDescription.text.toString()
-            val imageUri = binding.edtImageUri.text.toString()
-            val selectedHotel = binding.spinnerHotel.selectedItem?.toString() ?: ""
-            val selectedRoomType = binding.spinnerRoomType.selectedItem?.toString() ?: ""
+            val imageUri =selectedImageUri
             val selectedStatus = binding.spinnerStatus.selectedItem?.toString() ?: ""
+            val selectedHotel = binding.spinnerHotel.selectedItemPosition.let { pos ->
+                if (pos in hotels.indices) hotels[pos] else null
+            }
+            val selectedRoomType = binding.spinnerRoomType.selectedItemPosition.let { pos ->
+                if (pos in roomTypes.indices) roomTypes[pos] else null
+            }
 
-            Toast.makeText(this, "Lưu phòng: $roomNumber, $selectedHotel", Toast.LENGTH_SHORT).show()
+            if (selectedHotel == null || selectedRoomType == null) {
+                Toast.makeText(this, "Vui lòng chọn khách sạn và loại phòng", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val repositoryRoom = RoomRepository()
+            repositoryRoom.updateRoom(
+                roomId = roomId.toLong(),
+                context = this,
+                roomNumber = roomNumber,
+                roomTypeId = selectedRoomType.id,
+                price = price,
+                capacity = capacity,
+                description = description,
+                status = selectedStatus.toString(),
+                hotelId = selectedHotel.id,
+                token = session.getToken().toString(),
+                imageUri = selectedImageUri,
+                onSuccess = {
+                    Toast.makeText(this, "Cập nhật phòng thành công", Toast.LENGTH_SHORT).show()
+                    finish()
+                },
+                onError = { error ->
+                    Toast.makeText(this, "Cập nhật phòng fall", Toast.LENGTH_SHORT).show()
+                }
+            )
+
+
         }
 
         binding.btnBack.setOnClickListener {
@@ -110,13 +155,16 @@ class EditRoomActivity : AppCompatActivity() {
         repositoryRoom.fetchRoomById(
             roomId = roomId,
             onSuccess = { fetchedRoom ->
+
+
                 runOnUiThread {
                     binding.edtRoomNumber.setText(fetchedRoom.roomNumber)
                     binding.edtRoomTypeId.setText(fetchedRoom.roomType?.id.toString())
                     binding.edtPrice.setText(fetchedRoom.price.toString())
                     binding.edtCapacity.setText(fetchedRoom.capacity.toString())
                     binding.edtDescription.setText(fetchedRoom.description)
-                    binding.edtImageUri.setText(fetchedRoom.image)
+
+//                    binding.edtImageUri.setText(fetchedRoom.image)
 
                     // Trạng thái
                     val statusMap = mapOf(
@@ -141,6 +189,13 @@ class EditRoomActivity : AppCompatActivity() {
                         binding.spinnerRoomType.setSelection(roomTypeIndex)
                     }
                 }
+                var imageURL="${getString(R.string.localUpload)}${fetchedRoom.image}"
+                Log.d("Link anh",imageURL)
+                Glide.with(this@EditRoomActivity)
+                    .load(imageURL.toString())
+                    .placeholder(R.drawable.khachsan)
+                    .error(R.drawable.ic_launcher_background)
+                    .into(binding.imageView)
             },
             onError = {
                 runOnUiThread {
@@ -148,5 +203,32 @@ class EditRoomActivity : AppCompatActivity() {
                 }
             }
         )
+    }
+    private fun setupImagePicker() {
+        pickImageLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data = result.data
+                selectedImageUri = data?.data
+                selectedImageUri?.let {
+                    binding.imageView.setImageURI(it)
+                    // Nếu có EditText lưu ảnh thì setText, nhưng bạn đang dùng ImageView nên bỏ dòng này
+                    // binding.edtImage.setText(it.toString())
+                }
+            }
+        }
+    }
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        pickImageLauncher.launch(intent)
+    }
+    fun showErrorDialog(message: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Thông báo")
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 }
