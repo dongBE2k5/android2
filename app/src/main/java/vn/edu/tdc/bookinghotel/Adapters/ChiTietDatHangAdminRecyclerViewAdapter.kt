@@ -4,19 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import vn.edu.tdc.bookinghotel.Model.ChiTietDatHangAdmin
-import vn.edu.tdc.bookinghotel.Model.UserDatHang
 import vn.edu.tdc.bookinghotel.R
 
 
-import vn.edu.tdc.bookinghotel.databinding.CardRecyclerListVoucherBinding
-import vn.edu.tdc.bookinghotel.databinding.CardRecycleviewQuanLyNguoiDungBinding
 import vn.edu.tdc.bookinghotel.databinding.ChiTietKhachSanDaDatRecyleviewBinding
+import java.math.BigDecimal
 import java.text.DecimalFormat
-import java.text.NumberFormat
-import java.util.Locale
 
 class ChiTietDatHangAdminRecyclerViewAdapter(
     private val context: Context,
@@ -69,7 +64,7 @@ class ChiTietDatHangAdminRecyclerViewAdapter(
 
         val binding = ChiTietKhachSanDaDatRecyleviewBinding.bind(holder.binding)
         binding.tvBookingId.text = "Booking ID: ${datHang.bookingId}"
-        binding.tvTongTien.text = "Price: ${formatCurrency(datHang.tongTien)} VND"
+        binding.tvTongTien.text = "Price: ${datHang.tongTien} VND"
         binding.tvCustomerId.text = "CustomerId: ${datHang.customerId}"
         binding.tvRoomId.text = "Room ID: ${datHang.roomId}"
         binding.tvCheckInDate.text = "Check-In: ${datHang.checkInDate}"
@@ -81,7 +76,7 @@ class ChiTietDatHangAdminRecyclerViewAdapter(
 
     }
 
-    fun formatCurrency(amount: Int): String {
+    fun formatCurrency(amount: BigDecimal): String {
         val format = DecimalFormat("#,###")
         return format.format(amount)
     }

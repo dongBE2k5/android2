@@ -88,7 +88,7 @@ class StoreActivity : AppCompatActivity() {
                                     room = booking.room,
                                     checkinDate = booking.checkinDate,
                                     checkoutDate = booking.checkoutDate,
-
+                                    price = booking.price,
                                     status = "Đã hủy"
                                 )
 

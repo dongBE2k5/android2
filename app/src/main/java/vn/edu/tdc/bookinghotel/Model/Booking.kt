@@ -1,6 +1,7 @@
 package vn.edu.tdc.bookinghotel.Model
 
 import com.google.gson.annotations.SerializedName
+import java.math.BigDecimal
 
 class Booking
     (  @SerializedName("bookingId")   
@@ -11,6 +12,9 @@ class Booking
 
        @SerializedName("room")
        val room: Room,
+
+       @SerializedName("price")
+       val price: BigDecimal,
 
        @SerializedName("checkInDate")
        val checkinDate: String,
@@ -29,6 +33,7 @@ class Booking
 data class BookingRequest(
     val customerId: Long,
     val roomId: Long,
+    val price: BigDecimal,
     val checkinDate: String,
     val checkoutDate: String,
 )

@@ -35,11 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapterVoucher: MyVoucherRecyclerViewAdapter
 
     private val vouchers = arrayListOf(
-        Voucher("Giảm đến 1 triệu tất cả Khách Sạn", "Đặt khách sạn từ 2.5 triệu", "VNEPICTHANKYOU"),
-        Voucher("Giảm đến 1 triệu tất cả Khách Sạn", "Đặt khách sạn từ 2.5 triệu", "VNEPICTHANKYOU"),
-        Voucher("Giảm đến 1 triệu tất cả Khách Sạn", "Đặt khách sạn từ 2.5 triệu", "VNEPICTHANKYOU"),
-        Voucher("Giảm đến 1 triệu tất cả Khách Sạn", "Đặt khách sạn từ 2.5 triệu", "VNEPICTHANKYOU"),
-        Voucher("Giảm đến 1 triệu tất cả Khách Sạn", "Đặt khách sạn từ 2.5 triệu", "VNEPICTHANKYOU")
+        Voucher(1, "CODE1", "VNEPICTHANKYOU", 5, 2),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -242,11 +238,11 @@ class MainActivity : AppCompatActivity() {
         // Click Voucher
         adapterVoucher.setOnItemClick(object : MyVoucherRecyclerViewAdapter.OnRecyclerViewItemClickListener {
             override fun onImageClickListener(item: View?, position: Int) {
-                Toast.makeText(this@MainActivity, "Ảnh: ${vouchers[position].title}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Ảnh: ${vouchers[position].code}", Toast.LENGTH_SHORT).show()
             }
 
             override fun onMyItemClickListener(item: View?, position: Int) {
-                Toast.makeText(this@MainActivity, "Item: ${vouchers[position].title}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Item: ${vouchers[position].code}", Toast.LENGTH_SHORT).show()
             }
         })
     }

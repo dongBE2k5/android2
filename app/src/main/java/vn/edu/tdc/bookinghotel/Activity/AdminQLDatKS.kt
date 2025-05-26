@@ -76,8 +76,9 @@ class AdminQLDatKS: AppCompatActivity() {
                     Log.d("Bookingi", "Booking is null")
                     return@onSuccess
                 }
+                Log.d("bookingPrice", "${booking.price}")
                 var listBooking=ChiTietDatHangAdmin(
-                    booking.id,booking.customer.fullName,booking.customer.id,booking.room.id,0,booking.checkinDate,booking.checkoutDate,booking.status,
+                    booking.id,booking.customer.fullName,booking.customer.id,booking.room.id, booking.price ,booking.checkinDate,booking.checkoutDate,booking.status,
                     booking.room.roomNumber,booking.room.image)
 
                 chiTietDatKS.add(listBooking)

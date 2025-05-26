@@ -1,17 +1,16 @@
 package vn.edu.tdc.bookinghotel.Model
 
-class Voucher {
-    var title:String=""
-    var detail :String=""
-    var code:String = ""
+import com.google.gson.annotations.SerializedName
 
-    constructor(title: String, detail: String, code: String) {
-        this.title = title
-        this.detail = detail
-        this.code = code
-
-    }
-    override fun toString(): String {
-        return "$title:$detail:$code"
-    }
-}
+data class Voucher(
+    @SerializedName("id")
+    val id: Long,
+    @SerializedName("code")
+    val code: String,
+    @SerializedName("description")
+    val description: String,
+    @SerializedName("percent")
+    val percent: Int,
+    @SerializedName("quantity")
+    val quantity: Int,
+)

@@ -55,6 +55,7 @@ class ChiTietPhongActivity : AppCompatActivity() {
         val hotelName = intent.getStringExtra("hotel_name")
         val roomId = intent.getLongExtra("roomId", 0L)
         val roomImage = intent.getStringExtra("roomImage")
+
         Log.d("roomId",roomId.toString())
 
         Log.d("roomImage Nhan", roomImage.toString())

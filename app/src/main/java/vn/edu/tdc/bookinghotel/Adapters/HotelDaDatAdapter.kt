@@ -69,7 +69,7 @@ class HotelDaDatAdapter(
 
 
         b.tvRoomName.text = "Phòng: ${room?.roomNumber ?: "?"}"
-        b.price.text = "Giá: ${room?.price?.toInt()?.let { formatCurrencyVND(it) } ?: "0"} VND"
+        b.price.text = "Giá: ${booking?.price?.toInt()?.let { formatCurrencyVND(it) } ?: "0"} VND"
         b.tvRoomCapacity.text = "Sức chứa: ${room?.capacity ?: "?"} người"
         b.tvRoomDescription.text = room?.description ?: "Chưa có mô tả"
         b.tvCustomerId.text = "Khách hàng: ${customer?.fullName ?: "Không xác định"}"

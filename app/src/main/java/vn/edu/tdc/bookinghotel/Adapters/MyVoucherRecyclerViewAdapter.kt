@@ -62,8 +62,8 @@ class MyVoucherRecyclerViewAdapter(
         holder.itemPosition = position
 
         val binding = CardRecyclerListVoucherBinding.bind(holder.binding)
-        binding.tvTitleVoucher.text = voucher.title
-        binding.tvDetailVoucher.text = voucher.detail
+        binding.tvTitleVoucher.text = voucher.code
+        binding.tvDetailVoucher.text = voucher.description
         binding.tvCodeVoucher.text = voucher.code
     }
 

@@ -1,5 +1,6 @@
 package vn.edu.tdc.bookinghotel.Activity
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
@@ -19,20 +20,34 @@ import vn.edu.tdc.bookinghotel.Model.Customer
 import vn.edu.tdc.bookinghotel.Model.CustomerUpdate
 import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
 import vn.edu.tdc.bookinghotel.Model.Room
+import vn.edu.tdc.bookinghotel.Model.Voucher
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.BookingRepository
 import vn.edu.tdc.bookinghotel.Repository.CustomerRepository
+import vn.edu.tdc.bookinghotel.Repository.RoomRepository
+import vn.edu.tdc.bookinghotel.Repository.VoucherRepository
 import vn.edu.tdc.bookinghotel.Response.BookingResponse
 import vn.edu.tdc.bookinghotel.Response.CustomerResponse
 import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.databinding.ActivityHotelBookkingBinding
 import vn.edu.tdc.bookinghotel.databinding.BookingHotelBinding
+import java.math.BigDecimal
+import java.text.NumberFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class Hotel_BookingActivity : AppCompatActivity() {
     private lateinit var binding: BookingHotelBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: Hotel_BookingViewAdapter
+    private val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private val calendar = Calendar.getInstance()
+    private lateinit var price: BigDecimal
+    private lateinit var totalPrice: BigDecimal
+    private var voucher: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +67,15 @@ class Hotel_BookingActivity : AppCompatActivity() {
         setContentView(binding.root)
         val roomID = intent.getStringExtra("roomId")
         val roomImage = intent.getStringExtra("roomImage")
+
+        val roomRepository = RoomRepository()
+        roomRepository.fetchRoomById(roomID!!.toLong(), onSuccess = { room: Room ->
+            price = room.price
+            Log.d("room", room.toString())
+        }, onError = { error: Throwable ->
+            Log.e("Room", "Error: ${error.message}")
+        })
+
         Log.d("roomID", "${roomID}")
         Log.d("roomImagenhan", "${roomImage}")
         Glide.with(this)
@@ -74,6 +98,29 @@ class Hotel_BookingActivity : AppCompatActivity() {
                 customer.cccd?.let {
                     binding.edtCCCD.setText(it)
                 }
+                binding.applyvoucher.setOnClickListener {
+                    val voucherCode = binding.voucher.text.toString()
+                    val voucherRepository = VoucherRepository()
+                    voucherRepository.findVoucherByCode(voucherCode, onSuccess = { voucher: Voucher ->
+                        if(voucher.quantity > 0) {
+                            Log.d("voucher", "${voucher}")
+                            Log.d("price", "${(voucher.percent / 100)}")
+                            Log.d("discount", "${(totalPrice * (voucher.percent.toDouble() / 100).toBigDecimal())}")
+                            totalPrice -= (totalPrice * (voucher.percent.toDouble() / 100).toBigDecimal())
+                            val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
+                            binding.price.text = formatter.format(totalPrice)
+                        }else {
+                            AlertDialog.Builder(this)
+                                .setMessage("Voucher đã hết lượt sử dụng")
+                                .setPositiveButton("OK") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                    }, onError = { error: Throwable ->
+                        Log.e("Voucher", "Error: ${error.message}")
+                    })
+                }
                 binding.btnBookRoom.setOnClickListener {
 
                     val bookingRepository = BookingRepository()
@@ -83,6 +130,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
                     val cccd = binding.edtCCCD.text.toString()
                     val checkInDate = binding.edtCheckInDate.text.toString()
                     val checkOutDate = binding.edtCheckOutDate.text.toString()
+
                     // Update Customer
                     if ((fullName != "" && fullName != customer.fullName) ||
                         (phone != "" && phone != customer.phone) ||
@@ -101,7 +149,10 @@ class Hotel_BookingActivity : AppCompatActivity() {
                         )
                     }
                     if( checkInDate != "" && checkOutDate != "") {
-                        val bookingRequest = BookingRequest(session.getIdCustomer()!!.toLong(), roomID!!.toLong(), checkInDate, checkOutDate)
+                        val bookingRequest = BookingRequest(session.getIdCustomer()!!.toLong(), roomID!!.toLong(), totalPrice ,checkInDate, checkOutDate)
+                        val days = getDaysBetween(checkInDate, checkOutDate)
+                        Log.d("date", "${days}")
+                        val priceResult = price * days.toBigDecimal()
 
                         bookingRepository.createBooking(
                             bookingRequest,
@@ -126,35 +177,12 @@ class Hotel_BookingActivity : AppCompatActivity() {
                 Log.e("Customer", "Error: ${error.message}")
             }
         )
-        val calendar = Calendar.getInstance()
-        val datePickerCheckIn = DatePickerDialog(
-            this,
-            { _, year, month, dayOfMonth ->
-                val selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
-                binding.edtCheckInDate.setText(selectedDate)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-
         binding.edtCheckInDate.setOnClickListener {
-            datePickerCheckIn.show()
+            showDatePicker(isCheckIn = true)
         }
 
-        val datePickerCheckout = DatePickerDialog(
-            this,
-            { _, year, month, dayOfMonth ->
-                val selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
-                binding.edtCheckOutDate.setText(selectedDate)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-
         binding.edtCheckOutDate.setOnClickListener {
-            datePickerCheckout.show()
+            showDatePicker(isCheckIn = false)
         }
 
         // Bottom Navigation xử lý chuyển activity
@@ -190,24 +218,89 @@ class Hotel_BookingActivity : AppCompatActivity() {
 //        recyclerView.adapter = adapter
     }
 
-//    private fun generateDummyBookings(): List<Hotel_Booking> {
-//        return listOf(
-//            Hotel_Booking(
-//                bookingId = 1,
-//                customerId = 1001,
-//                roomId = 201,
-//                checkInDate = "2025-05-01",
-//                checkOutDate = "2025-05-05",
-//                status = "Đã đặt",
-//                roomName = "Phòng Deluxe Hướng Biển",
-//                imageUrl = R.drawable.khachsan,
-//                contactInfo = "user1@example.com",
-//                voucherCode = "SUMMER2025",
-//                paymentMethods = "Tiền mặt,Chuyển khoản",
-//                totalAmount = "5,000,000 VNĐ",
-//                isInsuranceSelected = true,
-//                insurancePrice = "43,500 VNĐ"
-//            )
-//        )
-//    }
+    private fun isCheckInBeforeCheckOut(checkIn: String, checkOut: String): Boolean {
+        return try {
+            val dateCheckIn = sdf.parse(checkIn)
+            val dateCheckOut = sdf.parse(checkOut)
+            dateCheckIn != null && dateCheckOut != null && dateCheckIn.before(dateCheckOut)
+        } catch (e: ParseException) {
+            false
+        }
+    }
+
+    private fun showDatePicker(isCheckIn: Boolean) {
+        val currentDate = Calendar.getInstance()
+        val listener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            val selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
+
+            if (isCheckIn) {
+
+                val checkOutDate = binding.edtCheckOutDate.text.toString()
+                if (checkOutDate.isNotEmpty() && !isCheckInBeforeCheckOut(selectedDate, checkOutDate)) {
+                    Toast.makeText(this, "Check-in phải trước Check-out", Toast.LENGTH_SHORT).show()
+                    return@OnDateSetListener
+                }
+                val days = getDaysBetween(selectedDate, checkOutDate)
+                Log.d("date", "${days}")
+                totalPrice = price * days.toBigDecimal()
+                Log.d("totalPrice", "${totalPrice}")
+                val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
+                binding.price.text = formatter.format(totalPrice)
+                binding.edtCheckInDate.setText(selectedDate)
+            } else {
+                val checkInDate = binding.edtCheckInDate.text.toString()
+                if (checkInDate.isNotEmpty() && !isCheckInBeforeCheckOut(checkInDate, selectedDate)) {
+                    Toast.makeText(this, "Check-out phải sau Check-in", Toast.LENGTH_SHORT).show()
+                    return@OnDateSetListener
+                }
+                val days = getDaysBetween(checkInDate, selectedDate)
+            
+                totalPrice = (price * days.toBigDecimal())
+                Log.d("totalPrice", "${totalPrice}")
+                val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
+                binding.price.text = formatter.format(totalPrice)
+                binding.edtCheckOutDate.setText(selectedDate)
+            }
+        }
+
+        val datePicker = DatePickerDialog(
+            this,
+            listener,
+            currentDate.get(Calendar.YEAR),
+            currentDate.get(Calendar.MONTH),
+            currentDate.get(Calendar.DAY_OF_MONTH)
+        )
+
+        // Giới hạn không cho chọn ngày trong quá khứ
+        datePicker.datePicker.minDate = System.currentTimeMillis()
+
+        // Nếu đang chọn check-out, giới hạn minDate là ngày check-in (nếu có)
+        if (!isCheckIn) {
+            val checkInDateStr = binding.edtCheckInDate.text.toString()
+            if (checkInDateStr.isNotEmpty()) {
+                val checkInDate = sdf.parse(checkInDateStr)
+                if (checkInDate != null) {
+                    datePicker.datePicker.minDate = checkInDate.time
+                }
+            }
+        }
+
+        datePicker.show()
+    }
+
+    fun getDaysBetween(checkIn: String, checkOut: String): Long {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return try {
+            val date1 = sdf.parse(checkIn)
+            val date2 = sdf.parse(checkOut)
+            if (date1 != null && date2 != null) {
+                val diff = date2.time - date1.time
+                TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)
+            } else {
+                0L
+            }
+        } catch (e: ParseException) {
+            0L
+        }
+    }
 }
