@@ -44,4 +44,104 @@ class VoucherRepository {
         })
     }
 
+    fun fetchAllVouchers(
+        onSuccess: (List<Voucher>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        val call = voucherAPI.getAllVouchers()
+        call.enqueue(object : Callback<List<Voucher>> {
+            override fun onResponse(call: Call<List<Voucher>>, response: Response<List<Voucher>>) {
+                if (response.isSuccessful) {
+                    val vouchers = response.body() ?: emptyList()
+                    onSuccess(vouchers)
+                } else {
+                    onError(Exception("Response failed: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<List<Voucher>>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
+
+    fun deleteVoucher(voucherId: Long, onSuccess: () -> Unit, onError: (Throwable) -> Unit) {
+        val call = voucherAPI.deleteVoucher(voucherId)
+        call.enqueue(object : retrofit2.Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: retrofit2.Response<Void>) {
+                if (response.isSuccessful) {
+                    onSuccess()
+                } else {
+                    onError(Throwable("Response code: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
+    fun decrementVoucherQuantity(
+        voucherId: Long,
+        onSuccess: () -> Unit,
+        onGone: () -> Unit, // Voucher hết lượt và bị xóa
+        onError: (Throwable) -> Unit
+    ) {
+        val call = voucherAPI.decrementVoucher(voucherId)
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                when (response.code()) {
+                    200 -> onSuccess()
+                    410 -> {
+                        // Voucher hết lượt -> xóa voucher
+                        deleteVoucher(voucherId,
+                            onSuccess = {
+                                onGone()
+                            },
+                            onError = { error ->
+                                onError(error)
+                            }
+                        )
+                    }
+                    else -> {
+                        val errorBody = response.errorBody()?.string()
+                        onError(Throwable("Unexpected response: ${response.code()}, $errorBody"))
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
+
+    //sắp xếp quantity taăng dần
+    fun fetchVouchersSortedByQuantity(
+        onSuccess: (List<Voucher>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        val call = voucherAPI.getVouchersSortedByQuantity()
+        call.enqueue(object : retrofit2.Callback<List<Voucher>> {
+            override fun onResponse(
+                call: retrofit2.Call<List<Voucher>>,
+                response: retrofit2.Response<List<Voucher>>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let(onSuccess)
+                } else {
+                    onError(Throwable("Lỗi: ${response.code()}"))
+                }
+            }
+
+            override fun onFailure(call: retrofit2.Call<List<Voucher>>, t: Throwable) {
+                onError(t)
+            }
+        })
+    }
+
+
+
+
+
 }

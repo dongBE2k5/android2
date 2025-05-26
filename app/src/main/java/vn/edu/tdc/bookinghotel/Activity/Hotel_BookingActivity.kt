@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -29,6 +30,7 @@ import vn.edu.tdc.bookinghotel.Repository.VoucherRepository
 import vn.edu.tdc.bookinghotel.Response.BookingResponse
 import vn.edu.tdc.bookinghotel.Response.CustomerResponse
 import vn.edu.tdc.bookinghotel.Session.SessionManager
+import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.ActivityHotelBookkingBinding
 import vn.edu.tdc.bookinghotel.databinding.BookingHotelBinding
 import java.math.BigDecimal
@@ -44,26 +46,38 @@ class Hotel_BookingActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: Hotel_BookingViewAdapter
     private val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    private val calendar = Calendar.getInstance()
     private lateinit var price: BigDecimal
     private lateinit var totalPrice: BigDecimal
-    private var voucher: Int = 1
+    private var isVoucherApplied = false
+
+    private var discountedPrice: BigDecimal? = null
+    private var currentBookingId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = BookingHotelBinding.inflate(layoutInflater)
         val session = SessionManager(this)
         Log.d("IDMain" , "${session.getIdUser()}")
-        // full màn hình
+        // Fullscreen Immersive Mode
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                )
+
+        // Transparent bars
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.navigationBarColor = Color.TRANSPARENT
             window.statusBarColor = Color.TRANSPARENT
         }
-        window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                )
+        // Bottom Navigation setup
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
+
         setContentView(binding.root)
         val roomID = intent.getStringExtra("roomId")
         val roomImage = intent.getStringExtra("roomImage")
@@ -99,30 +113,70 @@ class Hotel_BookingActivity : AppCompatActivity() {
                     binding.edtCCCD.setText(it)
                 }
                 binding.applyvoucher.setOnClickListener {
+                    if (isVoucherApplied) {
+                        Toast.makeText(this, "Bạn đã áp dụng voucher rồi", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
                     val voucherCode = binding.voucher.text.toString()
+                    if (voucherCode.isEmpty()) {
+                        Toast.makeText(this, "Vui lòng nhập mã voucher", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
                     val voucherRepository = VoucherRepository()
                     voucherRepository.findVoucherByCode(voucherCode, onSuccess = { voucher: Voucher ->
-                        if(voucher.quantity > 0) {
-                            Log.d("voucher", "${voucher}")
-                            Log.d("price", "${(voucher.percent / 100)}")
-                            Log.d("discount", "${(totalPrice * (voucher.percent.toDouble() / 100).toBigDecimal())}")
-                            totalPrice -= (totalPrice * (voucher.percent.toDouble() / 100).toBigDecimal())
+                        if (voucher.quantity > 0) {
                             val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
-                            binding.price.text = formatter.format(totalPrice)
-                        }else {
+
+                            // Hiển thị giá gốc bị gạch
+                            binding.originalPrice.apply {
+                                text = formatter.format(totalPrice)
+                                visibility = View.VISIBLE
+                                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                            }
+
+                            // Tính giảm giá
+                            val discount = totalPrice * (voucher.percent.toDouble() / 100).toBigDecimal()
+                            discountedPrice = totalPrice - discount
+
+                            // Hiển thị giá sau giảm
+                            binding.price.text = formatter.format(discountedPrice)
+
+                            // Giảm lượt voucher
+                            voucherRepository.decrementVoucherQuantity(
+                                voucher.id,
+                                onSuccess = {
+                                    Toast.makeText(this, "Đã áp dụng voucher", Toast.LENGTH_SHORT).show()
+
+                                    // ✅ Chỉ khi thành công thì mới không cho nhập nữa
+                                    isVoucherApplied = true
+                                    binding.applyvoucher.isEnabled = false
+                                    binding.voucher.isEnabled = false
+                                },
+                                onGone = {
+                                    Toast.makeText(this, "Voucher đã hết lượt và bị xoá khỏi hệ thống", Toast.LENGTH_SHORT).show()
+                                    binding.voucher.setText("")
+                                },
+                                onError = { error ->
+                                    Toast.makeText(this, "Áp dụng voucher thành công nhưng cập nhật số lượt thất bại", Toast.LENGTH_SHORT).show()
+                                    Log.e("VoucherUpdate", "Error: ${error.message}")
+                                }
+                            )
+                        } else {
                             AlertDialog.Builder(this)
                                 .setMessage("Voucher đã hết lượt sử dụng")
-                                .setPositiveButton("OK") { dialog, _ ->
-                                    dialog.dismiss()
-                                }
+                                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                                 .show()
                         }
                     }, onError = { error: Throwable ->
-                        Log.e("Voucher", "Error: ${error.message}")
+                        Toast.makeText(this, "Không tìm thấy voucher", Toast.LENGTH_SHORT).show()
                     })
                 }
-                binding.btnBookRoom.setOnClickListener {
 
+
+
+                binding.btnBookRoom.setOnClickListener {
                     val bookingRepository = BookingRepository()
                     val customerRepository = CustomerRepository()
                     val fullName = binding.edtFullName.text.toString()
@@ -131,7 +185,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
                     val checkInDate = binding.edtCheckInDate.text.toString()
                     val checkOutDate = binding.edtCheckOutDate.text.toString()
 
-                    // Update Customer
+                    // Update Customer nếu có thay đổi
                     if ((fullName != "" && fullName != customer.fullName) ||
                         (phone != "" && phone != customer.phone) ||
                         (cccd != "" && cccd != customer.cccd)
@@ -140,36 +194,36 @@ class Hotel_BookingActivity : AppCompatActivity() {
                         customerRepository.updateCustomer(
                             session.getIdCustomer()!!.toLong(),
                             customerUpdate,
-                            onSuccess = { customer: Customer ->
-                                Log.d("customer", customer.toString())
-                            },
-                            onError = { error: Throwable ->
-                                Log.e("Customer", "Error: ${error.message}")
-                            }
+                            onSuccess = { customer: Customer -> },
+                            onError = { error: Throwable -> }
                         )
                     }
-                    if( checkInDate != "" && checkOutDate != "") {
-                        val bookingRequest = BookingRequest(session.getIdCustomer()!!.toLong(), roomID!!.toLong(), totalPrice ,checkInDate, checkOutDate)
-                        val days = getDaysBetween(checkInDate, checkOutDate)
-                        Log.d("date", "${days}")
-                        val priceResult = price * days.toBigDecimal()
+
+                    if (checkInDate != "" && checkOutDate != "") {
+                        val priceToBook = discountedPrice ?: totalPrice // ưu tiên giá giảm nếu có
+                        val bookingRequest = BookingRequest(
+                            session.getIdCustomer()!!.toLong(),
+                            roomID!!.toLong(),
+                            priceToBook,
+                            checkInDate,
+                            checkOutDate
+                        )
 
                         bookingRepository.createBooking(
                             bookingRequest,
                             onSuccess = { booking: Booking ->
-                                Log.d("booking", booking.toString())
-                                Toast.makeText(this, "Booking is success", Toast.LENGTH_SHORT).show()
+                                currentBookingId = booking.id
+                                Toast.makeText(this, "Booking thành công", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this, MainActivity::class.java)
                                 startActivity(intent)
                             },
                             onError = { error: Throwable ->
                                 Toast.makeText(this, "Ngày không hợp lệ", Toast.LENGTH_SHORT).show()
-
-                                Log.e("Booking", "Error: ${error.message}")
                             }
                         )
                     }
                 }
+
 
             },
             onError = { error: Throwable ->
@@ -185,37 +239,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
             showDatePicker(isCheckIn = false)
         }
 
-        // Bottom Navigation xử lý chuyển activity
-//        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
-//        binding.bottomNav.selectedItemId = selectedItem
-//        binding.bottomNav.setOnItemSelectedListener { item ->
-//            if (item.itemId != selectedItem) {
-//                val intent = when (item.itemId) {
-//                    R.id.nav_home -> Intent(this, MainActivity::class.java)
-//                    R.id.nav_store -> Intent(this, StoreActivity::class.java)
-//                    R.id.nav_profile -> Intent(this, AcountActivity::class.java)
-//                    R.id.nav_admin -> Intent(this, AdminActivity::class.java)
-//                    else -> null
-//                }
-//                intent?.let {
-//                    it.putExtra("selected_nav", item.itemId)
-//                    startActivity(it)
-//                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-//                    finish()
-//                }
-//                true
-//            } else {
-//                true
-//            }
-//        }
 
-
-//        recyclerView = binding.recyclerViewBookings
-//        recyclerView.layoutManager = LinearLayoutManager(this)
-
-//        val dummyData = generateDummyBookings()
-//        adapter = Hotel_BookingViewAdapter(dummyData)
-//        recyclerView.adapter = adapter
     }
 
     private fun isCheckInBeforeCheckOut(checkIn: String, checkOut: String): Boolean {
@@ -246,6 +270,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
                 Log.d("totalPrice", "${totalPrice}")
                 val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
                 binding.price.text = formatter.format(totalPrice)
+                binding.originalPrice.visibility = View.GONE  // Thêm dòng này
                 binding.edtCheckInDate.setText(selectedDate)
             } else {
                 val checkInDate = binding.edtCheckInDate.text.toString()
@@ -254,11 +279,12 @@ class Hotel_BookingActivity : AppCompatActivity() {
                     return@OnDateSetListener
                 }
                 val days = getDaysBetween(checkInDate, selectedDate)
-            
+
                 totalPrice = (price * days.toBigDecimal())
                 Log.d("totalPrice", "${totalPrice}")
                 val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
                 binding.price.text = formatter.format(totalPrice)
+                binding.originalPrice.visibility = View.GONE  // Thêm dòng này
                 binding.edtCheckOutDate.setText(selectedDate)
             }
         }

@@ -27,6 +27,8 @@ class AcountActivity :AppCompatActivity(){
                 )
         setContentView(binding.root)
 
+
+
         window.setDecorFitsSystemWindows(false)
 
         window.insetsController?.let { controller ->

@@ -57,6 +57,10 @@ class AdminQLDatKS: AppCompatActivity() {
                 )
         setContentView(binding.root)
 
+        // Bottom Navigation setup
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_admin)
+        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
+
         window.setDecorFitsSystemWindows(false)
 
         window.insetsController?.let { controller ->
@@ -91,11 +95,6 @@ class AdminQLDatKS: AppCompatActivity() {
             onError = {}
         )
 
-
-
-        // Bottom Navigation xử lý chuyển activity
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
-        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
 
     }

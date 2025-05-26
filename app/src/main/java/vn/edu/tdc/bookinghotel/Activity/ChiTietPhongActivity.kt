@@ -16,6 +16,7 @@ import vn.edu.tdc.bookinghotel.Adapters.BookingRoomDetailsAdapter
 import vn.edu.tdc.bookinghotel.Model.Room
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.RoomRepository
+import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.ActivityBookingRoomDetailsBinding
 import vn.edu.tdc.bookinghotel.databinding.DetailRoomBinding
 import java.math.BigDecimal
@@ -41,7 +42,9 @@ class ChiTietPhongActivity : AppCompatActivity() {
                         or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 )
         setContentView(binding.root)
-
+        // Bottom Navigation setup
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
         window.setDecorFitsSystemWindows(false)
 
         window.insetsController?.let { controller ->

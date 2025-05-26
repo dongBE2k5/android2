@@ -52,6 +52,8 @@ class AddRoomActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+
+
         setupSpinners()
         setupImagePicker()
 

@@ -17,6 +17,8 @@ import vn.edu.tdc.bookinghotel.Repository.BookingRepository
 import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.StoreBinding
+import android.graphics.Paint
+
 
 class StoreActivity : AppCompatActivity() {
 
@@ -54,7 +56,14 @@ class StoreActivity : AppCompatActivity() {
         BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
         val session = SessionManager(this)
+        val username = session.getUserName()
+        binding.userNameAccount.text = username ?: "Guest"
         Log.d("IDMain", "${session.getIdCustomer()}")
+
+        binding.btnXemHoSo.setOnClickListener {
+            val  intent = Intent(this,EditProfile::class.java)
+            startActivity(intent)
+        }
 
         recyclerView = binding.recycleKsDaDat
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -89,8 +98,10 @@ class StoreActivity : AppCompatActivity() {
                                     checkinDate = booking.checkinDate,
                                     checkoutDate = booking.checkoutDate,
                                     price = booking.price,
+                                    originalPrice = booking.originalPrice, // thêm dòng này
                                     status = "Đã hủy"
                                 )
+
 
                                 adapter.updateItem(position, updatedBooking)
                             }

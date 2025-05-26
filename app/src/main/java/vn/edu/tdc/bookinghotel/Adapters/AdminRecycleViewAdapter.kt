@@ -68,7 +68,7 @@ class AdminRecycleViewAdapter(
         val binding = CardRecycleviewQuanLyNguoiDungBinding.bind(holder.binding)
         binding.userDatHang.text = datHang.nameUser
         binding.nameKSDatHang.text = datHang.nameKS
-        binding.tongGiaTienDatHang.text = "Tổng: ${formatCurrency(datHang.tongTien)}"
+        binding.tongGiaTienDatHang.text = "Tổng: ${formatCurrency(datHang.tongTien)} VND đã bao gồm thuế"
 
         // 👉 Bắt sự kiện click nút Chi tiết
         binding.btnChiTietDatHang.setOnClickListener {

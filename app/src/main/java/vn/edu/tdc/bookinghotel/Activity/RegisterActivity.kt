@@ -17,6 +17,7 @@ import vn.edu.tdc.bookinghotel.Model.RegisterResponse
 import vn.edu.tdc.bookinghotel.Model.UserRegister
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.UserRepository
+import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.RegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
@@ -94,46 +95,10 @@ class RegisterActivity : AppCompatActivity() {
             //làm mo nut dang ky
             binding.btnDangKy.alpha = if (isChecked) 1f else 0.5f
         }
-
-
-        //lang nghe nguoi dung chon nav, hien tai la tai khoan
+        // Bottom Navigation setup
         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_profile)
-        binding.bottomNav.selectedItemId = selectedItem
+        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            if (item.itemId != selectedItem) {
-                when (item.itemId) {
-                    R.id.nav_home -> {
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.putExtra("selected_nav", R.id.nav_home)
-                        startActivity(intent)
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                        finish()
-                        true
-                    }
-
-                    R.id.nav_store -> {
-                        val intent = Intent(this, AcountActivity::class.java)
-                        intent.putExtra("selected_nav", R.id.nav_store)
-                        startActivity(intent)
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                        finish()
-                        true
-                    }
-                    R.id.nav_profile -> {
-                        val intent = Intent(this, AcountActivity::class.java)
-                        intent.putExtra("selected_nav", R.id.nav_profile)
-                        startActivity(intent)
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                        finish()
-                        true
-                    }
-                    else -> false
-                }
-            } else {
-                true
-            }
-        }
     }
     private fun register(registerRequest: UserRegister) {
 

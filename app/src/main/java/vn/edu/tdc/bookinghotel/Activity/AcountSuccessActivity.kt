@@ -59,6 +59,7 @@ class AcountSuccessActivity : AppCompatActivity() {
             finish()
         }
 
+
         binding.btnXemHoSo.setOnClickListener {
             startActivity(Intent(this, EditProfile::class.java))
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

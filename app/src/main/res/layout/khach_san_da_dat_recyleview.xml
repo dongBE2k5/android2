@@ -71,6 +71,15 @@
               android:textStyle="bold"></TextView>
       </LinearLayout>
   </LinearLayout>
+        <TextView
+            android:id="@+id/originalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.000.000 ₫"
+            android:textColor="#888888"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:layout_marginTop="4dp" />
 
         <TextView
             android:id="@+id/price"

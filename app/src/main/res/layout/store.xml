@@ -29,6 +29,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:gravity="center">
 
                 <TextView
@@ -62,7 +63,7 @@
         </LinearLayout>
 
         <LinearLayout
-
+            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -72,7 +73,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -84,7 +84,6 @@
                 app:layout_constraintVertical_bias="1.0">
 
                 <LinearLayout
-                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
@@ -129,7 +128,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:textSize="13sp"
                                 android:text="thuan nguyen"
                                 android:textStyle="bold">
 
@@ -141,7 +139,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:text="đã đăng nhập"
-                                android:textSize="12sp"
+                                android:textSize="10sp"
                                 android:textStyle="bold">
 
                             </TextView>
@@ -190,15 +188,32 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:padding="5dp"
-            android:text="Khách sạn đã đặt"
+            android:text="Bạn hiện không có bất kỳ yêu cầu đặt chỗ nào"
             android:textSize="15sp"
             android:textStyle="bold">
 
         </TextView>
 
+
         <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:text="Khách sạn đã đặt"
+                android:textSize="15sp"
+                android:textStyle="bold">
+
+            </TextView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycleKsDaDat"
@@ -206,13 +221,16 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:paddingBottom="8dp" />
+
+
+
+
+
+
+
+
+
         </LinearLayout>
-
-
-
-
-
-
 
 
     </LinearLayout>
@@ -227,3 +245,4 @@
         app:menu="@menu/bottom_nav_menu" />
 
 </LinearLayout>
+

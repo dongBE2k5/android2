@@ -1,6 +1,7 @@
 package vn.edu.tdc.bookinghotel.Adapters
 
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,7 +70,23 @@ class HotelDaDatAdapter(
 
 
         b.tvRoomName.text = "Phòng: ${room?.roomNumber ?: "?"}"
-        b.price.text = "Giá: ${booking?.price?.toInt()?.let { formatCurrencyVND(it) } ?: "0"} VND"
+        val originalPrice = booking.originalPrice?.toInt() ?: booking.price.toInt()
+        val discountedPrice = booking.price.toInt()
+
+// Nếu có giảm giá
+        if (originalPrice > discountedPrice) {
+            b.originalPrice.apply {
+                visibility = View.VISIBLE
+                text = "${formatCurrencyVND(originalPrice)} ₫"
+                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            }
+            b.price.text = "${formatCurrencyVND(discountedPrice)} ₫"
+        } else {
+            // Không giảm giá
+            b.originalPrice.visibility = View.GONE
+            b.price.text = "${formatCurrencyVND(originalPrice)} ₫"
+        }
+
         b.tvRoomCapacity.text = "Sức chứa: ${room?.capacity ?: "?"} người"
         b.tvRoomDescription.text = room?.description ?: "Chưa có mô tả"
         b.tvCustomerId.text = "Khách hàng: ${customer?.fullName ?: "Không xác định"}"

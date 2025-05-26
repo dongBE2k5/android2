@@ -1,21 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:elevation="4dp">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E0E0E0">
+
 
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#4285F4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+            <ImageView
+                android:layout_marginTop="25dp"
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/back"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:tint="@color/white" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="center">
+
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đặt Khách Sạn"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="16dp" />
+
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:contentDescription="Logo"
+                    android:src="@drawable/logokhachsan"
+                    android:tint="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.53"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
 
         <LinearLayout
             android:orientation="vertical"
             android:padding="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="9">
 
             <ImageView
                 android:id="@+id/imgRoom"
@@ -47,16 +113,18 @@
                         android:textStyle="bold"
                         android:layout_marginEnd="8dp"
                         android:textColor="@android:color/black" />
-
                     <EditText
                         android:id="@+id/edtFullName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:hint="Nhập họ tên"
+                        android:background="@drawable/bogocprofile"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
                         android:inputType="textPersonName"
-                        android:background="@android:drawable/edit_text"
-                        android:padding="8dp" />
+                        android:textSize="12sp"/>
                 </LinearLayout>
 
                 <!-- Phone Number -->
@@ -77,13 +145,16 @@
 
                     <EditText
                         android:id="@+id/edtPhoneNumber"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:hint="Nhập số điện thoại"
+                        android:background="@drawable/bogocprofile"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
                         android:inputType="phone"
-                        android:background="@android:drawable/edit_text"
-                        android:padding="8dp" />
+                        android:textSize="12sp"/>
                 </LinearLayout>
 
                 <!-- CCCD -->
@@ -104,13 +175,16 @@
 
                     <EditText
                         android:id="@+id/edtCCCD"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:hint="Nhập số CCCD"
+                        android:background="@drawable/bogocprofile"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
                         android:inputType="number"
-                        android:background="@android:drawable/edit_text"
-                        android:padding="8dp" />
+                        android:textSize="12sp"/>
                 </LinearLayout>
                 <!-- Check-In Date -->
                 <LinearLayout
@@ -130,15 +204,18 @@
 
                     <EditText
                         android:id="@+id/edtCheckInDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:hint="dd/MM/yyyy"
+                        android:background="@drawable/bogocprofile"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
                         android:focusable="false"
                         android:clickable="true"
                         android:inputType="none"
-                        android:background="@android:drawable/edit_text"
-                        android:padding="8dp" />
+                        android:textSize="12sp"/>
                 </LinearLayout>
 
                 <!-- Check-Out Date -->
@@ -159,15 +236,18 @@
 
                     <EditText
                         android:id="@+id/edtCheckOutDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:hint="dd/MM/yyyy"
+                        android:background="@drawable/bogocprofile"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
                         android:focusable="false"
                         android:clickable="true"
                         android:inputType="none"
-                        android:background="@android:drawable/edit_text"
-                        android:padding="8dp" />
+                        android:textSize="12sp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -187,26 +267,32 @@
 
                     <EditText
                         android:id="@+id/voucher"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@android:drawable/edit_text"
-                        android:padding="8dp" />
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/bogocprofile"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textSize="12sp"/>
 
-
+                    <TextView
+                        android:id="@+id/applyvoucher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bogochoso"
+                        android:gravity="center"
+                        android:text="Apply"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:padding="10dp" />
                 </LinearLayout>
-                <Button
-                    android:id="@+id/applyvoucher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Apply"
-                    android:background="@android:drawable/edit_text"
-                    android:padding="8dp" />
+
+
 
             </LinearLayout>
 
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/contactSection"
@@ -257,6 +343,16 @@
                 android:textSize="16sp"
                 android:layout_weight="1"
                 android:layout_marginEnd="16dp" />
+            <TextView
+                android:id="@+id/originalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.000.000 ₫"
+                android:textColor="#888888"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:layout_marginBottom="4dp" />
+
 
             <TextView
                 android:id="@+id/price"
@@ -265,6 +361,7 @@
                 android:text="0 VNĐ"
                 android:textSize="16sp"
                 android:textColor="@android:color/holo_green_dark" />
+
 
         </LinearLayout>
 
@@ -293,4 +390,13 @@
     </LinearLayout>
 
 
-</androidx.cardview.widget.CardView>
+    <!-- Bottom Navigation View nằm ngoài hệ thống weight -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:menu="@menu/bottom_nav_menu" />
+
+</LinearLayout>
+

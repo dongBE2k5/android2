@@ -28,7 +28,10 @@ data class LoginResponse(
     @SerializedName("id")
     val id: Long,
     @SerializedName("status")
-    val status: String
+    val status: String,
+    val role: String,
+    val username: String,
+    val idUser: String
 )
 
 data class RegisterResponse(

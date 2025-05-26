@@ -20,7 +20,7 @@
             android:padding="5dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -32,28 +32,53 @@
 
                 <TextView
                     android:id="@+id/tvTitleVoucher"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="Giảm đến 1 triệu tất cả Khách Sạn"
+                    android:text="Giảm đến"
                     android:textSize="11sp"
                     android:textStyle="bold" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginLeft="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/tvDetailVoucher"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Đặt khách sạn từ 2.5 triệu"
-                    android:textColor="	#BDBDBD"
-                    android:textSize="9sp"
-                    android:textStyle="bold" />
+                    android:gravity="end"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/quantityVoucher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="x5"
+                        android:textColor="#FF5722"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:background="@drawable/bg_quantity"
+                        android:gravity="center"
+                        android:minWidth="20dp"
+                        android:minHeight="15dp"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
             </LinearLayout>
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content">
+
+                   <TextView
+                       android:layout_marginTop="5dp"
+                       android:id="@+id/tvDetailVoucher"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Đặt khách sạn từ 2.5 triệu"
+                       android:textColor="	#BDBDBD"
+                       android:textSize="9sp"
+                       android:textStyle="bold" />
+
+               </LinearLayout>
+
+           </LinearLayout>
         </LinearLayout>
         <View
             android:layout_marginLeft="12dp"
@@ -99,15 +124,16 @@
                 android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
-                    android:gravity="center"
-                    android:background="@drawable/blue_bg"
+                    android:id="@+id/btnCopy"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textStyle="bold"
+                    android:background="@drawable/blue_bg"
+                    android:gravity="center"
+                    android:text="COPY"
                     android:textSize="12sp"
-                    android:text="COPY">
-                </TextView>
+                    android:textStyle="bold"></TextView>
             </LinearLayout>
         </LinearLayout>
 

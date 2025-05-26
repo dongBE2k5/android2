@@ -53,6 +53,8 @@ class AdminActivity : AppCompatActivity() {
         }
 
         val session = SessionManager(this)
+        val username = session.getUserName()
+        binding.userNameAccount.text = username ?: "Guest"
         val datHangKhachSan = ArrayList<UserDatHang>()
         val bookingRepository = BookingRepository()
         val roomRepository = RoomRepository()
@@ -72,12 +74,12 @@ class AdminActivity : AppCompatActivity() {
                         onSuccess = { room ->
 
                             val user = UserDatHang(
-                                booking.customer.fullName,
-                                room.hotel?.name ?: "Không rõ",
-                                0,
-                                booking.id
-
+                                nameUser = booking.customer.fullName,
+                                nameKS = room.hotel?.name ?: "Không rõ",
+                                tongTien = (booking.price ?: 0L).toInt(),
+                                bookingId = booking.id
                             )
+
                             datHangKhachSan.add(user)
                             loadedCount++
                             if (loadedCount == bookingList.size) {
