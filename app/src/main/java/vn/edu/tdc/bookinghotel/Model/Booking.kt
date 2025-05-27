@@ -16,6 +16,11 @@ class Booking
        @SerializedName("price")
        val price: BigDecimal,
 
+
+       @SerializedName("originalPrice")
+       val originalPrice: BigDecimal?, // <-- Thêm trường này, nullable để không b
+
+
        @SerializedName("checkInDate")
        val checkinDate: String,
 

@@ -265,10 +265,11 @@
 
                 <TextView
 
+                    android:id="@+id/ngaySinh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
 
+                    android:layout_marginTop="5dp"
                     android:text="01-10-2005"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -291,10 +292,11 @@
 
                 <TextView
 
+                    android:id="@+id/gioiTinh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
 
+                    android:layout_marginTop="5dp"
                     android:text="Nam"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -317,6 +319,7 @@
 
                 <TextView
 
+                    android:id="@+id/diaChi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"

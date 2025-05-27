@@ -4,18 +4,14 @@ import android.util.Log
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import vn.edu.tdc.bookinghotel.CallAPI.CustomerAPI
-import vn.edu.tdc.bookinghotel.CallAPI.LocationAPI
-import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.Model.Customer
-import vn.edu.tdc.bookinghotel.Model.CustomerUpdate
 import vn.edu.tdc.bookinghotel.Model.CustomerUpdateUser
+import vn.edu.tdc.bookinghotel.Model.CustomerUpdated
 import vn.edu.tdc.bookinghotel.Response.CustomerResponse
-import vn.edu.tdc.bookinghotel.Response.HotelResponse
 
 
 class CustomerRepository {
@@ -53,10 +49,10 @@ class CustomerRepository {
     }
 //qua id customer
     fun updateCustomer(
-        id: Long,
-        customer: CustomerUpdate,
-        onSuccess: (Customer) -> Unit,
-        onError: (Throwable) -> Unit
+    id: Long,
+    customer: CustomerUpdated,
+    onSuccess: (Customer) -> Unit,
+    onError: (Throwable) -> Unit
     ) {
         val call = customerAPI.updateCustomer(id, customer)
         call.enqueue(object : Callback<CustomerResponse> {

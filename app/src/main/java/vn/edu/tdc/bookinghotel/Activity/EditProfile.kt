@@ -65,6 +65,9 @@ class EditProfile: AppCompatActivity() {
                     binding.edtNumber.setText(resources.phone?:"")
                     binding.edtMail.setText(resources.email?:"")
                     binding.HoTen.setText(resources.fullName?:"")
+                    binding.tvBirthday.setText(resources.ngaySinh?:"")
+                    binding.DiaChi.setText(resources.diaChi)
+                    binding.tvGender.setText(resources.gioiTinh)
                 },
                 onError = {
 
@@ -85,10 +88,10 @@ class EditProfile: AppCompatActivity() {
 
         binding.tvEditToggle.setOnClickListener {
             if (binding.tvEditToggle.text == "Chỉnh sửa") {
-                binding.tvEditToggle.text = "Hủy"
-                binding.tvEditToggle.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
+                binding.tvEditToggle.text = "Lưu"
+                binding.tvEditToggle.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_dark))
 
-                // Hiện và cho nhập
+                // Cho phép nhập
                 binding.edtMail.isEnabled = true
                 binding.edtNumber.isEnabled = true
                 binding.tvBirthday.isEnabled = true
@@ -97,40 +100,46 @@ class EditProfile: AppCompatActivity() {
                 binding.DiaChi.isEnabled = true
                 binding.edtCCCD.isEnabled = true
 
+            } else if (binding.tvEditToggle.text == "Lưu") {
+                // Thu thập dữ liệu mới
+                val email = binding.edtMail.text.toString()
+                val phone = binding.edtNumber.text.toString()
+                val cccd = binding.edtCCCD.text.toString()
+                val diaChi = binding.DiaChi.text.toString()
+                val ngaySinh = binding.tvBirthday.text.toString()
+                val gioiTinh = binding.tvGender.text.toString()
+                val fullName = binding.HoTen.text.toString()
 
-            } else {
-                binding.tvEditToggle.text = "Chỉnh sửa"
-                binding.tvEditToggle.setTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_dark))
+                val customer = CustomerUpdateUser(
+                    fullName, cccd, phone, email, diaChi, ngaySinh, gioiTinh
+                )
 
-                // Ẩn và khoá nhập
-                binding.tvBirthday.isEnabled = false
-                binding.tvGender.isEnabled = false
-                binding.HoTen.isEnabled = false
-                binding.DiaChi.isEnabled = false
-                binding.edtMail.isEnabled = false
-                binding.edtNumber.isEnabled = false
-                binding.edtCCCD.isEnabled = false
-                val email=  binding.edtMail.text;
-                val phone=  binding.edtNumber.text;
-                val cccd=  binding.edtCCCD.text;
-                val fullName=  binding.HoTen.text;
-
-                val customer=CustomerUpdateUser(fullName.toString(),cccd.toString(),phone.toString(),email.toString())
-
-                session.getIdUser()?.let { it ->
+                session.getIdUser()?.let { idUser ->
                     repositoryCustomer.updateCustomerByIdUser(
-                        it.toLong(),
+                        idUser.toLong(),
                         customer,
-                        onSuccess = {response->
-                            Toast.makeText(this, "Login success", Toast.LENGTH_SHORT).show()
+                        onSuccess = {
+                            Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
+                            // Khóa các trường sau khi lưu
+                            binding.edtMail.isEnabled = false
+                            binding.edtNumber.isEnabled = false
+                            binding.tvBirthday.isEnabled = false
+                            binding.tvGender.isEnabled = false
+                            binding.HoTen.isEnabled = false
+                            binding.DiaChi.isEnabled = false
+                            binding.edtCCCD.isEnabled = false
+
+                            binding.tvEditToggle.text = "Chỉnh sửa"
+                            binding.tvEditToggle.setTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_dark))
                         },
-                        onError = { error->
-                            Toast.makeText(this, "Login failed: ${error.message}", Toast.LENGTH_SHORT).show()
+                        onError = { error ->
+                            Toast.makeText(this, "Cập nhật thất bại: ${error.message}", Toast.LENGTH_SHORT).show()
                         }
                     )
                 }
             }
         }
+
 
         //goi lai trang account active
         binding.btnBack.setOnClickListener {

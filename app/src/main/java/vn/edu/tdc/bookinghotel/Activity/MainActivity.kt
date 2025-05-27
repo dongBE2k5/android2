@@ -1,5 +1,6 @@
 package vn.edu.tdc.bookinghotel.Activity
 
+import MyVoucherRecyclerViewAdapter
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -16,7 +17,6 @@ import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.edu.tdc.bookinghotel.Adapters.MyHotelRecyclerViewAdapter
-import vn.edu.tdc.bookinghotel.Adapters.MyVoucherRecyclerViewAdapter
 import vn.edu.tdc.bookinghotel.CallAPI.LocationAPI
 import vn.edu.tdc.bookinghotel.Model.Hotel
 import vn.edu.tdc.bookinghotel.Model.Location
@@ -25,6 +25,7 @@ import vn.edu.tdc.bookinghotel.Model.Voucher
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.HotelRepository
 import vn.edu.tdc.bookinghotel.Repository.RoomRepository
+import vn.edu.tdc.bookinghotel.Repository.VoucherRepository
 import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.HomePageLayoutBinding
@@ -33,10 +34,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: HomePageLayoutBinding
     private lateinit var adapter: MyHotelRecyclerViewAdapter
     private lateinit var adapterVoucher: MyVoucherRecyclerViewAdapter
+    private val vouchers = ArrayList<Voucher>()
 
-    private val vouchers = arrayListOf(
-        Voucher(1, "CODE1", "VNEPICTHANKYOU", 5, 2),
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +43,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val session = SessionManager(this)
+        val username = session.getUserName()
+        binding.userNameAccount.text = username ?: "Guest"
+
         Log.d("IDMain", "${session.getIdUser()}")
 
         // Ẩn status bar và navigation bar
@@ -65,12 +67,46 @@ class MainActivity : AppCompatActivity() {
                     )
         }
 
+
+
         // Khởi tạo Spinner location
         // Khởi tạo RecyclerView Voucher
         val recyclerViewVoucher = binding.recycleListVoucher
         recyclerViewVoucher.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         adapterVoucher = MyVoucherRecyclerViewAdapter(this, vouchers)
         recyclerViewVoucher.adapter = adapterVoucher
+
+
+        val voucherRepository = VoucherRepository()
+        voucherRepository.fetchAllVouchers(
+            onSuccess = { voucherList ->
+                Log.d("VoucherAPI", "Fetched vouchers: $voucherList")
+                runOnUiThread {
+                    vouchers.clear()
+                    vouchers.addAll(voucherList)
+                    adapterVoucher.notifyDataSetChanged()
+                }
+            },
+            onError = { error ->
+                Log.e("VoucherAPI", "Error fetching vouchers: ${error.message}")
+            }
+        )
+
+        //sap xep voucher tang dang theo quantity
+//        val voucherRepository = VoucherRepository()
+//        voucherRepository.fetchVouchersSortedByQuantity(
+//            onSuccess = { sortedVoucherList ->
+//                Log.d("VoucherAPI", "Sorted vouchers: $sortedVoucherList")
+//                runOnUiThread {
+//                    vouchers.clear()
+//                    vouchers.addAll(sortedVoucherList)
+//                    adapterVoucher.notifyDataSetChanged()
+//                }
+//            },
+//            onError = { error ->
+//                Log.e("VoucherAPI", "Error fetching sorted vouchers: ${error.message}")
+//            }
+//        )
 
         val repositoryLocation = LocationRepository()
         val locations = ArrayList<Location>()
@@ -155,13 +191,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-
-
-
-
-
+            }
 
         }
         else if (session.getRoleUserNamer().equals("ROLE_ADMIN")) {
@@ -235,16 +265,6 @@ class MainActivity : AppCompatActivity() {
         val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
         BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
-        // Click Voucher
-        adapterVoucher.setOnItemClick(object : MyVoucherRecyclerViewAdapter.OnRecyclerViewItemClickListener {
-            override fun onImageClickListener(item: View?, position: Int) {
-                Toast.makeText(this@MainActivity, "Ảnh: ${vouchers[position].code}", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onMyItemClickListener(item: View?, position: Int) {
-                Toast.makeText(this@MainActivity, "Item: ${vouchers[position].code}", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 
     // Hàm fetch phòng và sắp xếp khách sạn theo số phòng
@@ -291,7 +311,38 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
+    private fun deleteVoucherAfterUse(voucherId: Long) {
+        val voucherRepository = VoucherRepository()
+        voucherRepository.deleteVoucher(
+            voucherId,
+            onSuccess = {
+                runOnUiThread {
+                    Toast.makeText(this, "Voucher đã được sử dụng và xoá.", Toast.LENGTH_SHORT).show()
+                    refreshVoucherList()
+                }
+            },
+            onError = { error ->
+                runOnUiThread {
+                    Toast.makeText(this, "Xoá voucher thất bại: ${error.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
+    }
+
+    private fun refreshVoucherList() {
+        val voucherRepository = VoucherRepository()
+        voucherRepository.fetchAllVouchers(
+            onSuccess = { voucherList ->
+                runOnUiThread {
+                    vouchers.clear()
+                    vouchers.addAll(voucherList)
+                    adapterVoucher.notifyDataSetChanged()
+                }
+            },
+            onError = { error ->
+                Log.e("VoucherAPI", "Error fetching vouchers: ${error.message}")
+            }
+        )
+    }
+
 }
-
-
-

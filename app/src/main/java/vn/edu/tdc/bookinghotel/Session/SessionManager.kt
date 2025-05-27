@@ -4,18 +4,23 @@ import android.content.Context
 
 class SessionManager(private val context: Context) {
     private val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
+
     fun saveIdUser(idUser: String) {
         prefs.edit().putString("idUser", idUser).apply()
     }
+
     fun saveIdCustomer(idCustomer: String) {
         prefs.edit().putString("idCustomer", idCustomer).apply()
     }
+
     fun saveUserName(username: String) {
         prefs.edit().putString("username", username).apply()
     }
+
     fun saveRoleUserName(role: String) {
-        prefs.edit().putString("role", role).apply()
+        prefs.edit().putString("roles", role).apply()
     }
+
     fun saveToken(token: String) {
         prefs.edit().putString("token", token).apply()
     }
@@ -24,11 +29,12 @@ class SessionManager(private val context: Context) {
     fun getIdUser(): String? = prefs.getString("idUser", null)
     fun getIdCustomer(): String? = prefs.getString("idCustomer", null)
     fun getUserName(): String? = prefs.getString("username", null)
-    fun getRoleUserNamer(): String? = prefs.getString("role", null)
+    fun getRoleUserNamer(): String? = prefs.getString("roles", null)
 
     fun isLoggedIn(): Boolean = getToken() != null
 
     fun logout() {
         prefs.edit().clear().apply()
     }
+
 }

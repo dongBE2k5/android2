@@ -2,19 +2,13 @@ package vn.edu.tdc.bookinghotel.CallAPI
 
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
-import retrofit2.http.Query
-import vn.edu.tdc.bookinghotel.Model.CustomerUpdate
 import vn.edu.tdc.bookinghotel.Model.CustomerUpdateUser
+import vn.edu.tdc.bookinghotel.Model.CustomerUpdated
 import vn.edu.tdc.bookinghotel.Response.CustomerResponse
-import vn.edu.tdc.bookinghotel.Response.HotelResponse
-import vn.edu.tdc.bookinghotel.Response.LocationResponse
-import vn.edu.tdc.bookinghotel.Response.UserResponse
 
 interface CustomerAPI {
     // Dinh nghia API de Retrofit lay du lieu ve tu Webservice
@@ -38,7 +32,7 @@ interface CustomerAPI {
     fun createByUser(@Path("userId") userId: Long): Call<CustomerResponse>
 
     @PUT("customers/customer-new/{customerId}")
-    fun updateCustomer(@Path("customerId") customerId: Long, @Body customer: CustomerUpdate): Call<CustomerResponse>
+    fun updateCustomer(@Path("customerId") customerId: Long, @Body customer: CustomerUpdated): Call<CustomerResponse>
 
     @PUT("customers/userNew/{userId}")
     fun updateCustomerByUser(@Path("userId") userId: Long, @Body customer: CustomerUpdateUser): Call<CustomerResponse>

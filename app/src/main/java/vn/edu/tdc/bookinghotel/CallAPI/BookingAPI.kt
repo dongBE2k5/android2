@@ -9,6 +9,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
+import vn.edu.tdc.bookinghotel.Model.BookingPriceUpdateRequest
 import vn.edu.tdc.bookinghotel.Model.BookingRequest
 import vn.edu.tdc.bookinghotel.Model.BookingStatusUpdateRequest
 import vn.edu.tdc.bookinghotel.Response.BookingListResponse
@@ -43,6 +44,11 @@ interface BookingAPI {
         @Query("action") action: String
     ): Call<Void>
 
+    @PUT("bookings/{id}/price")
+    fun updateBookingPrice(
+        @Path("id") bookingId: Long,
+        @Body priceUpdateRequest: BookingPriceUpdateRequest
+    ): Call<Void>
 
 
 }

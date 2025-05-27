@@ -25,6 +25,7 @@ import vn.edu.tdc.bookinghotel.Model.ListDetail
 import vn.edu.tdc.bookinghotel.Repository.HotelRepository
 import vn.edu.tdc.bookinghotel.Repository.RoomRepository
 import vn.edu.tdc.bookinghotel.Session.SessionManager
+import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 
 class ChiTietKhachSan : AppCompatActivity() {
 
@@ -60,6 +61,9 @@ class ChiTietKhachSan : AppCompatActivity() {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
+        // Bottom Navigation setup
+        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
+        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
 
         // Nhận dữ liệu từ Intent

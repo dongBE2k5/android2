@@ -75,7 +75,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/userNameAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -347,19 +347,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
-                android:gravity="center"
+                android:id="@+id/btnXemThem"
                 android:layout_width="match_parent"
-                android:padding="5dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_margin="5dp"
-                android:textSize="12sp"
-                android:textColor="@color/white"
                 android:background="@drawable/bg_coupon_ks"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="Xem thêm ưu đãi">
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Xem thêm ưu đãi"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold">
 
             </TextView>
         </LinearLayout>
