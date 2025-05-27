@@ -36,9 +36,18 @@ class Booking
 }
 
 data class BookingRequest(
+    @SerializedName("customerId")
     val customerId: Long,
+
+    @SerializedName("roomId")
     val roomId: Long,
+
+    @SerializedName("price")
     val price: BigDecimal,
-    val checkinDate: String,
-    val checkoutDate: String,
+
+    @SerializedName("checkinDate")
+    val checkinDate: String,  // định dạng yyyy-MM-dd
+
+    @SerializedName("checkoutDate")
+    val checkoutDate: String  // định dạng yyyy-MM-dd
 )
