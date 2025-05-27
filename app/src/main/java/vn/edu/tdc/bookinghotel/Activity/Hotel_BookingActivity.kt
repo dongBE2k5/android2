@@ -71,7 +71,6 @@ class Hotel_BookingActivity : AppCompatActivity() {
         }
 
 
-
         setContentView(binding.root)
         val roomID = intent.getStringExtra("roomId")
         val roomImage = intent.getStringExtra("roomImage")
