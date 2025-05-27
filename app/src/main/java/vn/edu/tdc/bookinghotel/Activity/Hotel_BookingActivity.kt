@@ -11,15 +11,13 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.edu.tdc.bookinghotel.Adapters.Hotel_BookingViewAdapter
 import vn.edu.tdc.bookinghotel.Model.Booking
 import vn.edu.tdc.bookinghotel.Model.BookingRequest
 import vn.edu.tdc.bookinghotel.Model.Customer
-import vn.edu.tdc.bookinghotel.Model.CustomerUpdate
-import vn.edu.tdc.bookinghotel.Model.Hotel_Booking
+import vn.edu.tdc.bookinghotel.Model.CustomerUpdated
 import vn.edu.tdc.bookinghotel.Model.Room
 import vn.edu.tdc.bookinghotel.Model.Voucher
 import vn.edu.tdc.bookinghotel.R
@@ -27,11 +25,8 @@ import vn.edu.tdc.bookinghotel.Repository.BookingRepository
 import vn.edu.tdc.bookinghotel.Repository.CustomerRepository
 import vn.edu.tdc.bookinghotel.Repository.RoomRepository
 import vn.edu.tdc.bookinghotel.Repository.VoucherRepository
-import vn.edu.tdc.bookinghotel.Response.BookingResponse
-import vn.edu.tdc.bookinghotel.Response.CustomerResponse
 import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
-import vn.edu.tdc.bookinghotel.databinding.ActivityHotelBookkingBinding
 import vn.edu.tdc.bookinghotel.databinding.BookingHotelBinding
 import java.math.BigDecimal
 import java.text.NumberFormat
@@ -182,6 +177,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
                     val fullName = binding.edtFullName.text.toString()
                     val phone = binding.edtPhoneNumber.text.toString()
                     val cccd = binding.edtCCCD.text.toString()
+
                     val checkInDate = binding.edtCheckInDate.text.toString()
                     val checkOutDate = binding.edtCheckOutDate.text.toString()
 
@@ -190,7 +186,7 @@ class Hotel_BookingActivity : AppCompatActivity() {
                         (phone != "" && phone != customer.phone) ||
                         (cccd != "" && cccd != customer.cccd)
                     ) {
-                        val customerUpdate = CustomerUpdate(fullName, cccd, phone)
+                        val customerUpdate = CustomerUpdated(fullName, cccd, phone)
                         customerRepository.updateCustomer(
                             session.getIdCustomer()!!.toLong(),
                             customerUpdate,

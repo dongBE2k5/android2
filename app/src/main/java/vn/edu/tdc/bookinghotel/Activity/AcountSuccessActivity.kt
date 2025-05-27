@@ -37,9 +37,13 @@ class AcountSuccessActivity : AppCompatActivity() {
                 session.getIdUser()!!.toLong(),
                 onSuccess = { customer ->
                     binding.userNameAccount.text = session.getUserName()
-                    binding.number.text = customer.phone ?: ""
-                    binding.email.text = customer.email ?: ""
-                    binding.hoTen.text = customer.fullName ?: ""
+                    binding.ngaySinh.text = customer.ngaySinh ?: "Chưa cập nhật"
+                    binding.gioiTinh.text = customer.gioiTinh ?: "Chưa cập nhật"
+                    binding.diaChi.text = customer.diaChi ?: "Chưa cập nhật"
+                    binding.email.text = customer.email ?: "Chưa cập nhật"
+                    binding.hoTen.text = customer.fullName ?: "Chưa cập nhật"
+                    binding.number.text = customer.phone ?: "Chưa cập nhật"
+
                 },
                 onError = {
                     // TODO: handle error if needed (e.g., show Toast)
