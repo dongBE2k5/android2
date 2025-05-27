@@ -77,7 +77,7 @@ class EditRoomActivity : AppCompatActivity() {
             val capacity = binding.edtCapacity.text.toString()
             val description = binding.edtDescription.text.toString()
             val imageUri =selectedImageUri
-            val selectedStatus = binding.spinnerStatus.selectedItem?.toString() ?: ""
+
             val selectedHotel = binding.spinnerHotel.selectedItemPosition.let { pos ->
                 if (pos in hotels.indices) hotels[pos] else null
             }
@@ -89,7 +89,14 @@ class EditRoomActivity : AppCompatActivity() {
                 Toast.makeText(this, "Vui lòng chọn khách sạn và loại phòng", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
+            val statusMap = mapOf(
+                "Trống" to "AVAILABLE",
+                "Đã đặt trước" to "RESERVED",
+                "Đã thuê" to "OCCUPIED",
+                "Đang bảo trì" to "MAINTENANCE"
+            )
+            val selectedStatus = binding.spinnerStatus.selectedItem?.toString() ?: ""
+            val statusValueToSend = statusMap[selectedStatus] ?: "AVAILABLE" // fallback nếu null
             val repositoryRoom = RoomRepository()
             repositoryRoom.updateRoom(
                 roomId = roomId.toLong(),
@@ -99,7 +106,7 @@ class EditRoomActivity : AppCompatActivity() {
                 price = price,
                 capacity = capacity,
                 description = description,
-                status = selectedStatus.toString(),
+                status = statusValueToSend,
                 hotelId = selectedHotel.id,
                 token = session.getToken().toString(),
                 imageUri = selectedImageUri,
@@ -121,7 +128,7 @@ class EditRoomActivity : AppCompatActivity() {
     }
 
     private fun setupStatusSpinner() {
-        val statuses = listOf("Trống", "Đã thuê", "Đang bảo trì")
+        val statuses = listOf("Trống", "Đã đặt trước", "Đã thuê", "Đang bảo trì")
         val statusAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, statuses)
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerStatus.adapter = statusAdapter
@@ -193,12 +200,13 @@ class EditRoomActivity : AppCompatActivity() {
 //                    binding.edtImageUri.setText(fetchedRoom.image)
 
                     // Trạng thái
-                    val statusMap = mapOf(
+                    val statusMapReverse = mapOf(
                         "AVAILABLE" to "Trống",
+                        "RESERVED" to "Đã đặt trước",
                         "OCCUPIED" to "Đã thuê",
                         "MAINTENANCE" to "Đang bảo trì"
                     )
-                    val translatedStatus = statusMap[fetchedRoom.status] ?: "Trống"
+                    val translatedStatus = statusMapReverse[fetchedRoom.status] ?: "Trống"
                     val statusIndex = (binding.spinnerStatus.adapter as ArrayAdapter<String>)
                         .getPosition(translatedStatus)
                     binding.spinnerStatus.setSelection(statusIndex)

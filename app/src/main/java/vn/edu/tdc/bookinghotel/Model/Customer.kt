@@ -18,13 +18,13 @@ class Customer(
     @SerializedName("cccd")
     val cccd: String?,
 
-    @SerializedName("diaChi")
+    @SerializedName("address")
     val diaChi: String?,
 
-    @SerializedName("gioiTinh")
+    @SerializedName("gender")
     val gioiTinh: String?,
 
-    @SerializedName("ngaySinh")
+    @SerializedName("dob")
     val ngaySinh: String?,
 
     @SerializedName("user")
@@ -61,8 +61,12 @@ data class CustomerUpdateUser(
     val cccd: String,
     val phone: String,
     val email: String,
+    @SerializedName("address")
     val diaChi: String,
+    @SerializedName("gender")
     val gioiTinh: String,
+
+    @SerializedName("dob")
     val ngaySinh: String
 )
 

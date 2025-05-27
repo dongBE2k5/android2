@@ -5,5 +5,6 @@
     <color name="available_green">#4CAF50</color> <!-- Màu lá cây -->
     <color name="maintenance_red">#F44336</color> <!-- Màu đỏ -->
     <color name="booked_yellow">#FFEB3B</color> <!-- Màu vàng -->
-
+    <color name="reserved_orange">#FFA500</color>
+    <color name="gray">#BDBDBD</color> <!-- Xám nhạt -->
 </resources>

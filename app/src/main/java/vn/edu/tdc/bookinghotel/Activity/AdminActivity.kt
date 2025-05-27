@@ -134,6 +134,7 @@ class AdminActivity : AppCompatActivity() {
                 val selected = data[position]
                 val intent = Intent(this@AdminActivity, AdminQLDatKS::class.java)
                 intent.putExtra("idBooking",selected.bookingId)
+
                 startActivity(intent)
             }
         })

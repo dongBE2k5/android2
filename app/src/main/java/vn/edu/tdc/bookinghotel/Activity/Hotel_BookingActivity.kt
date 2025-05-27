@@ -69,9 +69,8 @@ class Hotel_BookingActivity : AppCompatActivity() {
             window.navigationBarColor = Color.TRANSPARENT
             window.statusBarColor = Color.TRANSPARENT
         }
-        // Bottom Navigation setup
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
-        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
+
+
 
         setContentView(binding.root)
         val roomID = intent.getStringExtra("roomId")

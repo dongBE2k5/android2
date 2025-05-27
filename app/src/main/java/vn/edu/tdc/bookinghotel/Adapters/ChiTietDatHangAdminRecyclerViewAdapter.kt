@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import vn.edu.tdc.bookinghotel.Model.ChiTietDatHangAdmin
 import vn.edu.tdc.bookinghotel.R
 
@@ -71,7 +72,13 @@ class ChiTietDatHangAdminRecyclerViewAdapter(
         binding.tvCheckOutDate.text = "Check-Out: ${datHang.checkOutDate}"
         binding.tvStatus.text = "Status: ${datHang.status}"
         binding.tvRoomName.text = datHang.roomName
-        binding.imgRoom.setImageResource(R.drawable.khachsan)
+
+        Glide.with(context)
+            .load("${(R.string.localUpload)}${datHang.imageUrl}")
+            .placeholder(R.drawable.khachsan)
+//            .error(R.drawable.ic_launcher_background)
+            .into(binding.imgRoom)
+
         binding.tvUserDatHang.text="Username: ${datHang.userName}"
 
     }

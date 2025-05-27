@@ -10,6 +10,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -61,9 +62,6 @@ class ChiTietKhachSan : AppCompatActivity() {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
-        // Bottom Navigation setup
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
-        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
 
 
         // Nhận dữ liệu từ Intent
@@ -130,28 +128,52 @@ class ChiTietKhachSan : AppCompatActivity() {
 
                     }
                     override fun onButtonViewClick(item: View?, position: Int) {
+                        if(session.isLoggedIn()){
+
 
 
                         val roomSelected = rooms[position];
                         Log.d("IdRoom" , "${roomSelected.id}")
 
 
-                        val intent = Intent(this@ChiTietKhachSan, Hotel_BookingActivity::class.java)
-                        intent.putExtra("selected_nav", R.id.nav_store)
-                        intent.putExtra("roomId", "${roomSelected.id}")
-                        intent.putExtra("roomImage", roomSelected.image)
-                        intent.putExtra("roomPrice", roomSelected.price)
-                        Log.d("roomImage", roomSelected.image)
+                            when (roomSelected.status) {
+                                "AVAILABLE" -> {
+                                    val intent = Intent(this@ChiTietKhachSan, Hotel_BookingActivity::class.java)
+                                    intent.putExtra("selected_nav", R.id.nav_store)
+
+                                    intent.putExtra("roomId", "${roomSelected.id}")
+                                    intent.putExtra("roomImage", roomSelected.image)
+                                    intent.putExtra("roomPrice", roomSelected.price)
+                                    Log.d("roomImage", roomSelected.image)
+                                    startActivity(intent)
+                                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                                }
+                                "MAINTENANCE" -> Toast.makeText(this@ChiTietKhachSan, "Phòng đang bảo trì", Toast.LENGTH_SHORT).show()
+                                "RESERVED" -> {
+                                    Toast.makeText(this@ChiTietKhachSan, "Phòng đã đặt trước", Toast.LENGTH_SHORT).show()
+                                }
+                                else -> {
+                                    Toast.makeText(this@ChiTietKhachSan, "Phòng đang hoạt động  ", Toast.LENGTH_SHORT).show()
+                                }
 
 
-                        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_store)
-                        startActivity(intent)
+                        }
+
+
+
+
+
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 
                         // Xử lý sự kiện nút "Xem"
                         val room = adapterListDetail.list[position]
                         // Thực hiện hành động khi nhấn nút "Xem", ví dụ: mở chi tiết phòng
                     }
+                        else{
+                            showErrorDialog("Vui lòng đăng nhập")
+                        }
+                    }
+
 
                 })
             },
@@ -161,6 +183,13 @@ class ChiTietKhachSan : AppCompatActivity() {
         )
 
 
+    }
+    fun showErrorDialog(message: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Thông báo")
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 
 }

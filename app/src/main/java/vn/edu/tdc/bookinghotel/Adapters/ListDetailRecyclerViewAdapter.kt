@@ -63,19 +63,24 @@ RecyclerView.Adapter<ListDetailRecyclerViewAdapter.MyViewHolder>()  {
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        // Do du lieu vao binding
-        val room = list.get(position)
-        holder.binding.nameDichVu.text = room.roomType!!.name
-        holder.binding.thongTin1.text = room.description
-//        holder.thongTin2.text = phongs.thongTin2
-        holder.binding.hotelDeals.text = room.status
+        val room = list[position]
 
-        val formattedGiaTien = formatCurrency (room.price)
+        holder.binding.nameDichVu.text = room.roomType?.name
+        holder.binding.thongTin1.text = room.description
+        holder.binding.phongConLai.text="Phòng "+room.capacity.toString()+" người"
+        // Map mã trạng thái sang tiếng Việt
+        val statusMapReverse = mapOf(
+            "AVAILABLE" to "Trống",
+            "RESERVED" to "Đã đặt trước",
+            "OCCUPIED" to "Đã thuê",
+            "MAINTENANCE" to "Đang bảo trì"
+        )
+        val statusDisplay = statusMapReverse[room.status] ?: room.status
+        holder.binding.hotelDeals.text = statusDisplay
+
+        val formattedGiaTien = formatCurrency(room.price)
         holder.binding.giaTien.text = "$formattedGiaTien VND"
-//        holder.binding.roomNumber.text = "Phòng ${room.roomNumber}"
-//        holder.binding.capacity.text = "${room.capacity} người"
-//        holder.binding.price.text = "${room.price} VND"
-//        holder.binding.priceTotal.text = "Tổng giá ${room.price} VND bao gồm thuế và phí"
+
         holder.binding.btnDat.setOnClickListener {
             onItemClick?.onButtonBookClick(it, position)
         }
@@ -83,17 +88,23 @@ RecyclerView.Adapter<ListDetailRecyclerViewAdapter.MyViewHolder>()  {
         holder.binding.btnXem.setOnClickListener {
             onItemClick?.onButtonViewClick(it, position)
         }
+
+        // Đặt màu nền theo trạng thái
         holder.binding.hotelDeals.setBackgroundColor(
             ContextCompat.getColor(
                 context,
                 when (room.status) {
                     "AVAILABLE" -> R.color.available_green
+                    "RESERVED" -> R.color.reserved_orange     // 🔸 Màu riêng cho RESERVED
+                    "OCCUPIED" -> R.color.booked_yellow       // Vẫn dùng màu vàng
                     "MAINTENANCE" -> R.color.maintenance_red
-                    else -> R.color.booked_yellow
+                    else -> R.color.gray                      // Mặc định nếu không khớp
                 }
             )
         )
     }
+
+
     fun formatCurrency(amount: BigDecimal): String {
         val format = DecimalFormat("#,###")
         return format.format(amount)

@@ -92,7 +92,7 @@
                 android:id="@+id/tongGiaTien"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tổng giá 4.500.000 VND bao gồm thuế và phí"
+                android:text=""
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -136,7 +136,7 @@
                 android:id="@+id/phongConLai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chỉ còn 5 phòng"
+                android:text="Phòng 3 người"
                 android:textColor="#FF9800"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -183,7 +183,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bghong"
             android:padding="8dp"
-            android:text="Mã VNEPICTHANKYOU giảm đến 1 triệu"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="bold" />

@@ -92,7 +92,9 @@ class AdminQLDatKS: AppCompatActivity() {
                 adapter = ChiTietDatHangAdminRecyclerViewAdapter(this, chiTietDatKS)
                 recyclerViewChiTietKSDaDat.adapter = adapter
             },
-            onError = {}
+            onError = {
+
+            }
         )
 
 

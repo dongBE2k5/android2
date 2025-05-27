@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -18,7 +19,11 @@ import vn.edu.tdc.bookinghotel.Repository.CustomerRepository
 import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.EditProfileAccountBinding
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class EditProfile: AppCompatActivity() {
     private lateinit var binding: EditProfileAccountBinding
@@ -66,6 +71,7 @@ class EditProfile: AppCompatActivity() {
                     binding.edtMail.setText(resources.email?:"")
                     binding.HoTen.setText(resources.fullName?:"")
                     binding.tvBirthday.setText(resources.ngaySinh?:"")
+
                     binding.DiaChi.setText(resources.diaChi)
                     binding.tvGender.setText(resources.gioiTinh)
                 },
@@ -106,12 +112,13 @@ class EditProfile: AppCompatActivity() {
                 val phone = binding.edtNumber.text.toString()
                 val cccd = binding.edtCCCD.text.toString()
                 val diaChi = binding.DiaChi.text.toString()
-                val ngaySinh = binding.tvBirthday.text.toString()
+                var ngaySinh = binding.tvBirthday.text.toString()
                 val gioiTinh = binding.tvGender.text.toString()
                 val fullName = binding.HoTen.text.toString()
+                ngaySinh=convertDateFormat(ngaySinh)
 
                 val customer = CustomerUpdateUser(
-                    fullName, cccd, phone, email, diaChi, ngaySinh, gioiTinh
+                    fullName, cccd, phone, email, diaChi,  gioiTinh,ngaySinh
                 )
 
                 session.getIdUser()?.let { idUser ->
@@ -185,5 +192,29 @@ class EditProfile: AppCompatActivity() {
         }, year, month, day)
 
         datePicker.show()
+    }
+    private fun getDatePicker() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePicker = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+            binding.tvBirthday.text = selectedDate
+        }, year, month, day)
+
+        datePicker.show()
+    }
+
+    private fun convertDateFormat(inputDate: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = inputFormat.parse(inputDate)
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            ""
+        }
     }
 }

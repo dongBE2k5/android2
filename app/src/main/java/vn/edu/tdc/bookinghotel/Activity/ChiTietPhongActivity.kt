@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import vn.edu.tdc.bookinghotel.Adapters.BookingRoomDetailsAdapter
 import vn.edu.tdc.bookinghotel.Model.Room
 import vn.edu.tdc.bookinghotel.R
 import vn.edu.tdc.bookinghotel.Repository.RoomRepository
+import vn.edu.tdc.bookinghotel.Session.SessionManager
 import vn.edu.tdc.bookinghotel.View.BottomNavHelper
 import vn.edu.tdc.bookinghotel.databinding.ActivityBookingRoomDetailsBinding
 import vn.edu.tdc.bookinghotel.databinding.DetailRoomBinding
@@ -43,9 +45,7 @@ class ChiTietPhongActivity : AppCompatActivity() {
                 )
         setContentView(binding.root)
         // Bottom Navigation setup
-        val selectedItem = intent.getIntExtra("selected_nav", R.id.nav_home)
-        BottomNavHelper.setup(this, binding.bottomNav, selectedItem)
-        window.setDecorFitsSystemWindows(false)
+
 
         window.insetsController?.let { controller ->
             controller.hide(
@@ -54,7 +54,7 @@ class ChiTietPhongActivity : AppCompatActivity() {
             controller.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
-
+        val session= SessionManager(this);
         val hotelName = intent.getStringExtra("hotel_name")
         val roomId = intent.getLongExtra("roomId", 0L)
         val roomImage = intent.getStringExtra("roomImage")
@@ -92,19 +92,34 @@ class ChiTietPhongActivity : AppCompatActivity() {
 
 
                 binding.btnDat.setOnClickListener {
-                    when (fetchedRoom.status) {
-                        "AVAILABLE" -> {
-                            val intent = Intent(this, Hotel_BookingActivity::class.java)
-                            intent.putExtra("selected_nav", R.id.nav_store)
-                            intent.putExtra("roomId", "${fetchedRoom.id}")
-                            intent.putExtra("roomImage", fetchedRoom.image)
-                            intent.putExtra("roomPrice", fetchedRoom.price)
-                            startActivity(intent)
-                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    if(session.isLoggedIn()){
+                        when (fetchedRoom.status) {
+                            "AVAILABLE" -> {
+                                val intent = Intent(this, Hotel_BookingActivity::class.java)
+                                intent.putExtra("selected_nav", R.id.nav_store)
+
+                                intent.putExtra("roomId", "${fetchedRoom.id}")
+                                intent.putExtra("roomImage", fetchedRoom.image)
+                                intent.putExtra("roomPrice", fetchedRoom.price)
+                                Log.d("roomImage", fetchedRoom.image)
+                                startActivity(intent)
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                            }
+                            "MAINTENANCE" -> Toast.makeText(this, "Phòng đang bảo trì", Toast.LENGTH_SHORT).show()
+                            "RESERVED" -> {
+                                Toast.makeText(this, "Phòng đã đặt trước", Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+                                Toast.makeText(this, "Phòng đang hoạt động  ", Toast.LENGTH_SHORT).show()
+                            }
+
+
                         }
-                        "MAINTENANCE" -> Toast.makeText(this, "Phòng đang bảo trì", Toast.LENGTH_SHORT).show()
-                        else -> Toast.makeText(this, "Phòng đã được đặt", Toast.LENGTH_SHORT).show()
                     }
+                    else{
+                        showErrorDialog("Vui lòng đăng nhập")
+                    }
+
                 }
 
             },
@@ -126,5 +141,12 @@ class ChiTietPhongActivity : AppCompatActivity() {
         room.area?.let { details.add("Diện tích ${String.format("%.1f", it)}m²") }
         room.amenities?.let { details.addAll(it) }
         return if (details.isNotEmpty()) details.joinToString(", ") else "Không có thông tin chi tiết"
+    }
+    fun showErrorDialog(message: String) {
+        AlertDialog.Builder(this)
+            .setTitle("Thông báo")
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 }

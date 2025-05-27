@@ -267,7 +267,7 @@
 
                     <EditText
                         android:id="@+id/voucher"
-                        android:layout_width="200dp"
+                        android:layout_width="150dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
@@ -378,7 +378,7 @@
             android:id="@+id/btnBookRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_margin="5dp"
             android:text="Đặt phòng"
             android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
@@ -390,13 +390,7 @@
     </LinearLayout>
 
 
-    <!-- Bottom Navigation View nằm ngoài hệ thống weight -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:menu="@menu/bottom_nav_menu" />
+
 
 </LinearLayout>
 
